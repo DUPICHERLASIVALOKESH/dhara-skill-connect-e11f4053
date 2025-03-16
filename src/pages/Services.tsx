@@ -1,4 +1,3 @@
-
 import { useEffect, useState } from 'react';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
@@ -10,7 +9,8 @@ import HiringProcess from '@/components/HiringProcess';
 import AnimatedStats from '@/components/AnimatedStats';
 import { 
   Search, UserCheck, Building, Users, BriefcaseBusiness, GraduationCap, 
-  Briefcase, FileSearch, PieChart, Award, Globe, CheckCircle2, MessageCircle
+  Briefcase, FileSearch, PieChart, Award, Globe, CheckCircle2, MessageCircle,
+  FileText, List, Clock, UserPlus, BarChart, Target, Filter
 } from 'lucide-react';
 import {
   Carousel,
@@ -20,6 +20,7 @@ import {
   CarouselNext,
 } from "@/components/ui/carousel";
 import { Card, CardContent } from "@/components/ui/card";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 const Services = () => {
   const [showChat, setShowChat] = useState(false);
@@ -59,10 +60,118 @@ const Services = () => {
 
   // Animation stats for the Why Choose Us section
   const stats = [
-    { value: 1000, label: 'Successful Placements', icon: <Briefcase /> },
-    { value: 500, label: 'Partner Companies', icon: <Building /> },
-    { value: 95, label: 'Satisfaction Rate (%)', icon: <Award /> },
-    { value: 24, label: '24/7 Support', suffix: '/7', icon: <MessageCircle /> }
+    { value: 1000, label: 'Successful Placements', icon: <Briefcase className="text-dhara-blue" /> },
+    { value: 500, label: 'Partner Companies', icon: <Building className="text-dhara-blue" /> },
+    { value: 95, label: 'Satisfaction Rate (%)', icon: <Award className="text-dhara-blue" /> },
+    { value: 24, label: '24/7 Support', suffix: '/7', icon: <MessageCircle className="text-dhara-blue" /> }
+  ];
+
+  // Services data for employers
+  const employerServices = [
+    {
+      icon: <Search />,
+      title: "Talent Sourcing & Screening",
+      description: "We identify and assess the best candidates for your company using advanced screening methodologies.",
+      features: [
+        "Custom talent pipeline development",
+        "Advanced skills assessment",
+        "Cultural fit evaluation"
+      ]
+    },
+    {
+      icon: <Filter />,
+      title: "Resume Filtering & Shortlisting",
+      description: "Save time by letting us handle the candidate shortlisting process with precision and efficiency.",
+      features: [
+        "AI-powered resume screening",
+        "Qualification verification",
+        "Priority candidate identification"
+      ]
+    },
+    {
+      icon: <UserCheck />,
+      title: "Executive Search & Leadership Hiring",
+      description: "Our specialized executive search team identifies and recruits top-level executives for key leadership positions.",
+      features: [
+        "C-suite and director-level placements",
+        "Discreet recruitment campaigns",
+        "Comprehensive candidate assessment"
+      ]
+    },
+    {
+      icon: <BriefcaseBusiness />,
+      title: "Contract & Temporary Staffing",
+      description: "Flexible staffing solutions to help businesses manage workload fluctuations and special projects.",
+      features: [
+        "Short to long-term placements",
+        "Quick turnaround times",
+        "Temp-to-perm options available"
+      ]
+    },
+    {
+      icon: <Globe />,
+      title: "International Recruitment",
+      description: "Expand globally with skilled professionals sourced from international talent markets.",
+      features: [
+        "International candidate sourcing",
+        "Visa and relocation support",
+        "Cross-cultural integration"
+      ]
+    },
+    {
+      icon: <BarChart />,
+      title: "HR Consulting",
+      description: "Expert advice and strategies to optimize your human resources practices and enhance workplace culture.",
+      features: [
+        "HR policy development",
+        "Compensation structure analysis",
+        "Employee engagement strategies"
+      ]
+    }
+  ];
+
+  // Services data for job seekers
+  const jobSeekerServices = [
+    {
+      icon: <FileText />,
+      title: "Resume Building & Optimization",
+      description: "Get a professional resume designed to stand out in today's competitive job market.",
+      features: [
+        "ATS-friendly resume formatting",
+        "Keyword optimization",
+        "Professional content writing"
+      ]
+    },
+    {
+      icon: <UserPlus />,
+      title: "Interview Preparation & Coaching",
+      description: "Learn key strategies to excel in job interviews with personalized coaching sessions.",
+      features: [
+        "Mock interview practice",
+        "Industry-specific question preparation",
+        "Feedback and improvement strategies"
+      ]
+    },
+    {
+      icon: <Target />,
+      title: "Job Matching & Career Guidance",
+      description: "Find the perfect job based on your skills, experience, and career aspirations.",
+      features: [
+        "Personalized job recommendations",
+        "Career path planning",
+        "Skill gap analysis"
+      ]
+    },
+    {
+      icon: <GraduationCap />,
+      title: "Internship & Entry-Level Placement",
+      description: "Kickstart your career with opportunities at top companies, specially curated for fresh graduates.",
+      features: [
+        "Graduate programs placement",
+        "Internship opportunities",
+        "Entry-level position matching"
+      ]
+    }
   ];
 
   const toggleChat = () => {
@@ -93,10 +202,10 @@ const Services = () => {
           <div className="container mx-auto px-4 md:px-6 relative z-20">
             <div className="max-w-4xl mx-auto text-center text-white">
               <h1 className="heading-xl mb-6 animate-fade-in">
-                We Help Businesses Hire the Right Talent Faster!
+                Bridging the Gap Between Talent & Opportunity!
               </h1>
               <p className="text-xl text-white/85 animate-fade-in mb-8">
-                Your Trusted Recruitment Partner – Connect with Top Professionals Today.
+                We provide top-tier hiring solutions for companies and job seekers, ensuring the perfect match for success.
               </p>
               <div className="flex flex-col sm:flex-row justify-center gap-4">
                 <Button asChild size="lg" className="bg-white text-dhara-blue hover:bg-white/90">
@@ -116,171 +225,77 @@ const Services = () => {
           </div>
         </section>
         
-        {/* Services Overview - Enhanced with hover effects */}
+        {/* Services Overview - Enhanced with tabs and categorization */}
         <section className="py-16 md:py-24">
           <div className="container mx-auto px-4 md:px-6">
-            <div className="text-center max-w-3xl mx-auto mb-16">
+            <div className="text-center max-w-3xl mx-auto mb-12">
               <div className="mb-4">
                 <span className="px-3 py-1 bg-blue-100 text-dhara-blue rounded-full text-sm font-medium">
                   Our Offerings
                 </span>
               </div>
               <h2 className="heading-lg mb-6 text-dhara-blue">Comprehensive Recruitment Solutions</h2>
-              <p className="subheading">
+              <p className="subheading mb-6">
                 At DHARA, we offer a wide range of specialized recruitment services designed to meet the diverse needs of businesses and job seekers alike.
               </p>
-            </div>
-            
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {/* Service 1 */}
-              <div className="bg-white p-8 rounded-lg shadow-sm border border-border hover:shadow-md transition-all duration-300 hover:-translate-y-1 group">
-                <div className="p-3 bg-blue-50 rounded-full w-14 h-14 flex items-center justify-center mb-5 group-hover:bg-dhara-blue group-hover:text-white transition-colors duration-300">
-                  <Search className="text-dhara-blue group-hover:text-white transition-colors duration-300" size={24} />
-                </div>
-                <h3 className="text-xl font-semibold mb-3">Executive Search</h3>
-                <p className="text-dhara-gray mb-5">
-                  Our specialized executive search team identifies and recruits top-level executives and specialized professionals for key leadership positions.
-                </p>
-                <ul className="space-y-2 mb-6">
-                  <li className="flex items-start">
-                    <CheckCircle2 size={18} className="text-dhara-blue mr-2 mt-0.5" />
-                    <span className="text-dhara-gray text-sm">C-suite and director-level placements</span>
-                  </li>
-                  <li className="flex items-start">
-                    <CheckCircle2 size={18} className="text-dhara-blue mr-2 mt-0.5" />
-                    <span className="text-dhara-gray text-sm">Discreet recruitment campaigns</span>
-                  </li>
-                  <li className="flex items-start">
-                    <CheckCircle2 size={18} className="text-dhara-blue mr-2 mt-0.5" />
-                    <span className="text-dhara-gray text-sm">Comprehensive candidate assessment</span>
-                  </li>
-                </ul>
-              </div>
               
-              {/* Service 2 */}
-              <div className="bg-white p-8 rounded-lg shadow-sm border border-border hover:shadow-md transition-all duration-300 hover:-translate-y-1 group">
-                <div className="p-3 bg-blue-50 rounded-full w-14 h-14 flex items-center justify-center mb-5 group-hover:bg-dhara-blue group-hover:text-white transition-colors duration-300">
-                  <UserCheck className="text-dhara-blue group-hover:text-white transition-colors duration-300" size={24} />
-                </div>
-                <h3 className="text-xl font-semibold mb-3">Permanent Staffing</h3>
-                <p className="text-dhara-gray mb-5">
-                  We connect businesses with qualified professionals for permanent positions across various industries and levels of experience.
-                </p>
-                <ul className="space-y-2 mb-6">
-                  <li className="flex items-start">
-                    <CheckCircle2 size={18} className="text-dhara-blue mr-2 mt-0.5" />
-                    <span className="text-dhara-gray text-sm">Mid to senior-level professionals</span>
-                  </li>
-                  <li className="flex items-start">
-                    <CheckCircle2 size={18} className="text-dhara-blue mr-2 mt-0.5" />
-                    <span className="text-dhara-gray text-sm">Tailored recruitment strategies</span>
-                  </li>
-                  <li className="flex items-start">
-                    <CheckCircle2 size={18} className="text-dhara-blue mr-2 mt-0.5" />
-                    <span className="text-dhara-gray text-sm">Cultural and technical fit assessment</span>
-                  </li>
-                </ul>
-              </div>
-              
-              {/* Service 3 */}
-              <div className="bg-white p-8 rounded-lg shadow-sm border border-border hover:shadow-md transition-all duration-300 hover:-translate-y-1 group">
-                <div className="p-3 bg-blue-50 rounded-full w-14 h-14 flex items-center justify-center mb-5 group-hover:bg-dhara-blue group-hover:text-white transition-colors duration-300">
-                  <BriefcaseBusiness className="text-dhara-blue group-hover:text-white transition-colors duration-300" size={24} />
-                </div>
-                <h3 className="text-xl font-semibold mb-3">Contract & Temporary Staffing</h3>
-                <p className="text-dhara-gray mb-5">
-                  Flexible staffing solutions to help businesses manage workload fluctuations, special projects, or seasonal demands.
-                </p>
-                <ul className="space-y-2 mb-6">
-                  <li className="flex items-start">
-                    <CheckCircle2 size={18} className="text-dhara-blue mr-2 mt-0.5" />
-                    <span className="text-dhara-gray text-sm">Short to long-term placements</span>
-                  </li>
-                  <li className="flex items-start">
-                    <CheckCircle2 size={18} className="text-dhara-blue mr-2 mt-0.5" />
-                    <span className="text-dhara-gray text-sm">Quick turnaround times</span>
-                  </li>
-                  <li className="flex items-start">
-                    <CheckCircle2 size={18} className="text-dhara-blue mr-2 mt-0.5" />
-                    <span className="text-dhara-gray text-sm">Temp-to-perm options available</span>
-                  </li>
-                </ul>
-              </div>
-              
-              {/* Service 4 */}
-              <div className="bg-white p-8 rounded-lg shadow-sm border border-border hover:shadow-md transition-all duration-300 hover:-translate-y-1 group">
-                <div className="p-3 bg-blue-50 rounded-full w-14 h-14 flex items-center justify-center mb-5 group-hover:bg-dhara-blue group-hover:text-white transition-colors duration-300">
-                  <Users className="text-dhara-blue group-hover:text-white transition-colors duration-300" size={24} />
-                </div>
-                <h3 className="text-xl font-semibold mb-3">HR Consulting</h3>
-                <p className="text-dhara-gray mb-5">
-                  Expert advice and strategies to optimize your human resources practices, improve talent retention, and enhance workplace culture.
-                </p>
-                <ul className="space-y-2 mb-6">
-                  <li className="flex items-start">
-                    <CheckCircle2 size={18} className="text-dhara-blue mr-2 mt-0.5" />
-                    <span className="text-dhara-gray text-sm">HR policy development</span>
-                  </li>
-                  <li className="flex items-start">
-                    <CheckCircle2 size={18} className="text-dhara-blue mr-2 mt-0.5" />
-                    <span className="text-dhara-gray text-sm">Compensation structure analysis</span>
-                  </li>
-                  <li className="flex items-start">
-                    <CheckCircle2 size={18} className="text-dhara-blue mr-2 mt-0.5" />
-                    <span className="text-dhara-gray text-sm">Employee engagement strategies</span>
-                  </li>
-                </ul>
-              </div>
-              
-              {/* Service 5 */}
-              <div className="bg-white p-8 rounded-lg shadow-sm border border-border hover:shadow-md transition-all duration-300 hover:-translate-y-1 group">
-                <div className="p-3 bg-blue-50 rounded-full w-14 h-14 flex items-center justify-center mb-5 group-hover:bg-dhara-blue group-hover:text-white transition-colors duration-300">
-                  <Globe className="text-dhara-blue group-hover:text-white transition-colors duration-300" size={24} />
-                </div>
-                <h3 className="text-xl font-semibold mb-3">Global Talent Acquisition</h3>
-                <p className="text-dhara-gray mb-5">
-                  Access to international talent pools and expertise in navigating cross-border hiring regulations and cultural considerations.
-                </p>
-                <ul className="space-y-2 mb-6">
-                  <li className="flex items-start">
-                    <CheckCircle2 size={18} className="text-dhara-blue mr-2 mt-0.5" />
-                    <span className="text-dhara-gray text-sm">International candidate sourcing</span>
-                  </li>
-                  <li className="flex items-start">
-                    <CheckCircle2 size={18} className="text-dhara-blue mr-2 mt-0.5" />
-                    <span className="text-dhara-gray text-sm">Relocation support</span>
-                  </li>
-                  <li className="flex items-start">
-                    <CheckCircle2 size={18} className="text-dhara-blue mr-2 mt-0.5" />
-                    <span className="text-dhara-gray text-sm">Visa and work permit guidance</span>
-                  </li>
-                </ul>
-              </div>
-              
-              {/* Service 6 */}
-              <div className="bg-white p-8 rounded-lg shadow-sm border border-border hover:shadow-md transition-all duration-300 hover:-translate-y-1 group">
-                <div className="p-3 bg-blue-50 rounded-full w-14 h-14 flex items-center justify-center mb-5 group-hover:bg-dhara-blue group-hover:text-white transition-colors duration-300">
-                  <GraduationCap className="text-dhara-blue group-hover:text-white transition-colors duration-300" size={24} />
-                </div>
-                <h3 className="text-xl font-semibold mb-3">Career Coaching</h3>
-                <p className="text-dhara-gray mb-5">
-                  Professional guidance for job seekers at all career stages, from recent graduates to executives seeking new opportunities.
-                </p>
-                <ul className="space-y-2 mb-6">
-                  <li className="flex items-start">
-                    <CheckCircle2 size={18} className="text-dhara-blue mr-2 mt-0.5" />
-                    <span className="text-dhara-gray text-sm">Resume and LinkedIn optimization</span>
-                  </li>
-                  <li className="flex items-start">
-                    <CheckCircle2 size={18} className="text-dhara-blue mr-2 mt-0.5" />
-                    <span className="text-dhara-gray text-sm">Interview preparation</span>
-                  </li>
-                  <li className="flex items-start">
-                    <CheckCircle2 size={18} className="text-dhara-blue mr-2 mt-0.5" />
-                    <span className="text-dhara-gray text-sm">Career transition strategies</span>
-                  </li>
-                </ul>
-              </div>
+              {/* Tabbed interface for services */}
+              <Tabs defaultValue="employers" className="w-full">
+                <TabsList className="grid w-full max-w-md mx-auto grid-cols-2 mb-8">
+                  <TabsTrigger value="employers" className="text-base py-3">For Employers</TabsTrigger>
+                  <TabsTrigger value="jobseekers" className="text-base py-3">For Job Seekers</TabsTrigger>
+                </TabsList>
+                
+                {/* Employer Services Tab */}
+                <TabsContent value="employers" className="mt-0">
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    {employerServices.map((service, index) => (
+                      <div key={index} className="bg-white p-8 rounded-lg shadow-sm border border-border hover:shadow-md transition-all duration-300 hover:-translate-y-1 group">
+                        <div className="p-3 bg-blue-50 rounded-full w-14 h-14 flex items-center justify-center mb-5 group-hover:bg-dhara-blue group-hover:text-white transition-colors duration-300">
+                          <div className="text-dhara-blue group-hover:text-white transition-colors duration-300">
+                            {service.icon}
+                          </div>
+                        </div>
+                        <h3 className="text-xl font-semibold mb-3">{service.title}</h3>
+                        <p className="text-dhara-gray mb-5">{service.description}</p>
+                        <ul className="space-y-2 mb-6">
+                          {service.features.map((feature, idx) => (
+                            <li key={idx} className="flex items-start">
+                              <CheckCircle2 size={18} className="text-dhara-blue mr-2 mt-0.5" />
+                              <span className="text-dhara-gray text-sm">{feature}</span>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    ))}
+                  </div>
+                </TabsContent>
+                
+                {/* Job Seeker Services Tab */}
+                <TabsContent value="jobseekers" className="mt-0">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    {jobSeekerServices.map((service, index) => (
+                      <div key={index} className="bg-white p-8 rounded-lg shadow-sm border border-border hover:shadow-md transition-all duration-300 hover:-translate-y-1 group">
+                        <div className="p-3 bg-blue-50 rounded-full w-14 h-14 flex items-center justify-center mb-5 group-hover:bg-dhara-blue group-hover:text-white transition-colors duration-300">
+                          <div className="text-dhara-blue group-hover:text-white transition-colors duration-300">
+                            {service.icon}
+                          </div>
+                        </div>
+                        <h3 className="text-xl font-semibold mb-3">{service.title}</h3>
+                        <p className="text-dhara-gray mb-5">{service.description}</p>
+                        <ul className="space-y-2 mb-6">
+                          {service.features.map((feature, idx) => (
+                            <li key={idx} className="flex items-start">
+                              <CheckCircle2 size={18} className="text-dhara-blue mr-2 mt-0.5" />
+                              <span className="text-dhara-gray text-sm">{feature}</span>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    ))}
+                  </div>
+                </TabsContent>
+              </Tabs>
             </div>
           </div>
         </section>
