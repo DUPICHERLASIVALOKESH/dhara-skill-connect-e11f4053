@@ -10,6 +10,10 @@ type StatItemProps = {
   suffix?: string;
 };
 
+type AnimatedStatsProps = {
+  stats?: StatItemProps[];
+};
+
 const StatItem = ({ icon, value, label, duration = 2000, suffix = "" }: StatItemProps) => {
   const [count, setCount] = useState(0);
   const [hasAnimated, setHasAnimated] = useState(false);
@@ -67,32 +71,47 @@ const StatItem = ({ icon, value, label, duration = 2000, suffix = "" }: StatItem
   );
 };
 
-const AnimatedStats = () => {
+const AnimatedStats = ({ stats }: AnimatedStatsProps) => {
+  // Default stats if none provided
+  const defaultStats = [
+    {
+      icon: <Users className="text-dhara-blue" size={24} />,
+      value: 5000,
+      label: "Successful Placements",
+      suffix: "+"
+    },
+    {
+      icon: <Building className="text-dhara-blue" size={24} />,
+      value: 200,
+      label: "Partnered Companies",
+      suffix: "+"
+    },
+    {
+      icon: <Trophy className="text-dhara-blue" size={24} />,
+      value: 97,
+      label: "Client Satisfaction",
+      suffix: "%"
+    },
+    {
+      icon: <Briefcase className="text-dhara-blue" size={24} />,
+      value: 12,
+      label: "Years of Experience"
+    }
+  ];
+
+  const statsToRender = stats || defaultStats;
+
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-      <StatItem 
-        icon={<Users className="text-dhara-blue" size={24} />} 
-        value={5000} 
-        label="Successful Placements" 
-        suffix="+" 
-      />
-      <StatItem 
-        icon={<Building className="text-dhara-blue" size={24} />} 
-        value={200} 
-        label="Partnered Companies" 
-        suffix="+" 
-      />
-      <StatItem 
-        icon={<Trophy className="text-dhara-blue" size={24} />} 
-        value={97} 
-        label="Client Satisfaction" 
-        suffix="%" 
-      />
-      <StatItem 
-        icon={<Briefcase className="text-dhara-blue" size={24} />} 
-        value={12} 
-        label="Years of Experience" 
-      />
+      {statsToRender.map((stat, index) => (
+        <StatItem 
+          key={index}
+          icon={stat.icon} 
+          value={stat.value} 
+          label={stat.label} 
+          suffix={stat.suffix} 
+        />
+      ))}
     </div>
   );
 };
