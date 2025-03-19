@@ -1,7 +1,7 @@
 
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { useAuth } from '@/context/AuthContext';
-import { User, ChatMessage, QuickReply, ResumeAnalysisResult, JobAlert, MessageRole } from '@/types/chat';
+import { ChatMessage, QuickReply, ResumeAnalysisResult, JobAlert, MessageRole, User } from '@/types/chat';
 import { useToast } from '@/hooks/use-toast';
 
 // Define chat context type
