@@ -1,33 +1,25 @@
 
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { useAuth } from '@/context/AuthContext';
-
-// Define message types
-export type MessageRole = 'user' | 'assistant' | 'system';
-
-export interface ChatMessage {
-  id: string;
-  content: string;
-  role: MessageRole;
-  timestamp: Date;
-}
-
-// Define quick reply options
-export interface QuickReply {
-  id: string;
-  text: string;
-  action: string;
-}
+import { User, ChatMessage, QuickReply, ResumeAnalysisResult, JobAlert, MessageRole } from '@/types/chat';
+import { useToast } from '@/hooks/use-toast';
 
 // Define chat context type
 interface ChatContextType {
   messages: ChatMessage[];
   isTyping: boolean;
   quickReplies: QuickReply[];
+  darkMode: boolean;
+  resumeAnalysis: ResumeAnalysisResult | null;
+  jobAlerts: JobAlert[];
   addMessage: (content: string, role: MessageRole) => void;
   clearMessages: () => void;
   handleUserMessage: (content: string) => Promise<void>;
   setQuickReplies: (replies: QuickReply[]) => void;
+  toggleDarkMode: () => void;
+  analyzeResume: (file: File) => Promise<void>;
+  subscribeToJobAlerts: (email: string, query: string, location?: string, frequency?: 'daily' | 'weekly') => Promise<void>;
+  resetChat: () => void;
 }
 
 const ChatContext = createContext<ChatContextType | undefined>(undefined);
@@ -36,31 +28,40 @@ export const ChatProvider = ({ children }: { children: React.ReactNode }) => {
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [isTyping, setIsTyping] = useState(false);
   const [quickReplies, setQuickReplies] = useState<QuickReply[]>([]);
+  const [darkMode, setDarkMode] = useState(false);
+  const [resumeAnalysis, setResumeAnalysis] = useState<ResumeAnalysisResult | null>(null);
+  const [jobAlerts, setJobAlerts] = useState<JobAlert[]>([]);
   const { currentUser } = useAuth();
+  const { toast } = useToast();
 
   // Initialize chat with a welcome message
   useEffect(() => {
-    if (messages.length === 0) {
-      const welcomeMessage = currentUser 
-        ? `Welcome back, ${currentUser.displayName || 'there'}! How can I help you today?` 
-        : "Welcome to DHARA Consultant Solution! I'm your AI recruitment assistant. How can I help you today?";
-      
-      setMessages([{
-        id: 'welcome',
-        content: welcomeMessage,
-        role: 'assistant',
-        timestamp: new Date()
-      }]);
-      
-      // Set initial quick replies
-      setQuickReplies([
-        { id: 'find-jobs', text: 'Find Jobs', action: 'findJobs' },
-        { id: 'post-job', text: 'Post a Job', action: 'postJob' },
-        { id: 'services', text: 'Our Services', action: 'services' },
-        { id: 'resume-tips', text: 'Resume Tips', action: 'resumeTips' }
-      ]);
-    }
-  }, [currentUser, messages.length]);
+    resetChat();
+  }, [currentUser]);
+
+  // Reset chat to initial state
+  const resetChat = () => {
+    const welcomeMessage = currentUser 
+      ? `Welcome back, ${currentUser.displayName || 'there'}! How can I help you today with your job search?` 
+      : "Welcome! How can I help you today? I can help you find jobs, improve your resume, or prepare for interviews.";
+    
+    setMessages([{
+      id: 'welcome',
+      content: welcomeMessage,
+      role: 'assistant',
+      timestamp: new Date()
+    }]);
+    
+    // Set initial quick replies
+    setQuickReplies([
+      { id: 'find-jobs', text: 'Find Jobs', action: 'findJobs' },
+      { id: 'resume-tips', text: 'Resume Tips', action: 'resumeTips' },
+      { id: 'interview-prep', text: 'Interview Prep', action: 'interviewPrep' },
+      { id: 'talk-recruiter', text: 'Talk to a Recruiter', action: 'talkToRecruiter' }
+    ]);
+    
+    setResumeAnalysis(null);
+  };
 
   // Add a new message to the chat
   const addMessage = (content: string, role: MessageRole) => {
@@ -75,7 +76,90 @@ export const ChatProvider = ({ children }: { children: React.ReactNode }) => {
 
   // Clear all messages
   const clearMessages = () => {
-    setMessages([]);
+    resetChat();
+  };
+
+  // Toggle dark mode
+  const toggleDarkMode = () => {
+    setDarkMode(prev => !prev);
+  };
+
+  // Analyze resume (mock implementation)
+  const analyzeResume = async (file: File): Promise<void> => {
+    setIsTyping(true);
+    
+    // Mock resume analysis - in a real implementation, this would call an API
+    try {
+      // Simulate API delay
+      await new Promise(resolve => setTimeout(resolve, 2000));
+      
+      // Mock analysis result
+      const analysis: ResumeAnalysisResult = {
+        overallScore: Math.floor(Math.random() * 30) + 70, // 70-100%
+        keywordOptimization: [
+          "Add more industry-specific keywords",
+          "Include more technical skills",
+          "Quantify your achievements"
+        ],
+        formattingIssues: [
+          "Inconsistent bullet formatting",
+          "Too much text in some sections",
+          "Consider using a more ATS-friendly font"
+        ],
+        missingSuggestions: [
+          "Add certifications section",
+          "Include more quantifiable results",
+          "Add a professional summary"
+        ],
+        improvement: "Your resume needs more targeted keywords related to the jobs you're applying for. Quantify your achievements with numbers and metrics where possible."
+      };
+      
+      setResumeAnalysis(analysis);
+      
+      addMessage(`I've analyzed your resume and found some areas for improvement. Your overall ATS score is ${analysis.overallScore}%. Would you like to see the detailed analysis?`, 'assistant');
+      
+      setQuickReplies([
+        { id: 'show-details', text: 'Show Full Analysis', action: 'showResumeDetails' },
+        { id: 'improve-resume', text: 'How to Improve', action: 'improveTips' },
+        { id: 'find-jobs', text: 'Find Matching Jobs', action: 'findMatchingJobs' }
+      ]);
+      
+      toast({
+        title: "Resume Analysis Complete",
+        description: `Your resume scored ${analysis.overallScore}% on our ATS test`,
+      });
+    } catch (error) {
+      console.error('Error analyzing resume:', error);
+      addMessage("I'm sorry, I encountered an error while analyzing your resume. Please try again later.", 'assistant');
+    } finally {
+      setIsTyping(false);
+    }
+  };
+
+  // Subscribe to job alerts
+  const subscribeToJobAlerts = async (email: string, query: string, location?: string, frequency: 'daily' | 'weekly' = 'daily'): Promise<void> => {
+    try {
+      // In a real app, this would call an API
+      const newAlert: JobAlert = {
+        id: Date.now().toString(),
+        query,
+        location,
+        frequency,
+        email
+      };
+      
+      setJobAlerts(prev => [...prev, newAlert]);
+      
+      addMessage(`Great! You've been subscribed to ${frequency} job alerts for "${query}" ${location ? `in ${location}` : ''}. We'll send updates to ${email}.`, 'assistant');
+      
+      toast({
+        title: "Job Alert Created",
+        description: `You'll receive ${frequency} updates for "${query}" jobs`,
+      });
+    } catch (error) {
+      console.error('Error subscribing to job alerts:', error);
+      addMessage("I'm sorry, I encountered an error while setting up your job alert. Please try again later.", 'assistant');
+    }
   };
 
   // Process user messages and generate responses
@@ -91,17 +175,15 @@ export const ChatProvider = ({ children }: { children: React.ReactNode }) => {
       const response = await processMessage(content, currentUser);
       
       // Add a small delay to simulate typing
-      setTimeout(() => {
-        // Add AI response to chat
-        addMessage(response.message, 'assistant');
-        
-        // Update quick replies if provided
-        if (response.quickReplies) {
-          setQuickReplies(response.quickReplies);
-        }
-        
-        setIsTyping(false);
-      }, 1000);
+      await simulateTyping(response.message);
+      
+      // Add AI response to chat
+      addMessage(response.message, 'assistant');
+      
+      // Update quick replies if provided
+      if (response.quickReplies) {
+        setQuickReplies(response.quickReplies);
+      }
     } catch (error) {
       console.error('Error processing message:', error);
       
@@ -112,14 +194,32 @@ export const ChatProvider = ({ children }: { children: React.ReactNode }) => {
     }
   };
 
+  // Helper function to simulate typing effect
+  const simulateTyping = async (message: string): Promise<void> => {
+    // Calculate typing delay based on message length (faster for shorter messages)
+    const baseDelay = 500;
+    const charDelay = 10; // ms per character
+    const calculatedDelay = Math.min(baseDelay + message.length * charDelay, 3000);
+    
+    await new Promise(resolve => setTimeout(resolve, calculatedDelay));
+    setIsTyping(false);
+  };
+
   const value = {
     messages,
     isTyping,
     quickReplies,
+    darkMode,
+    resumeAnalysis,
+    jobAlerts,
     addMessage,
     clearMessages,
     handleUserMessage,
-    setQuickReplies
+    setQuickReplies,
+    toggleDarkMode,
+    analyzeResume,
+    subscribeToJobAlerts,
+    resetChat
   };
 
   return <ChatContext.Provider value={value}>{children}</ChatContext.Provider>;
@@ -143,95 +243,72 @@ async function processMessage(message: string, user: User | null): Promise<Proce
   // Convert message to lowercase for easier matching
   const lowerMessage = message.toLowerCase();
   
-  // Job seeker queries
+  // Detect job search related keywords
   if (
-    lowerMessage.includes('job') && 
-    (lowerMessage.includes('find') || lowerMessage.includes('search') || lowerMessage.includes('looking'))
+    containsAny(lowerMessage, ['job', 'career', 'position', 'vacancy', 'opening', 'work', 'employment']) &&
+    containsAny(lowerMessage, ['find', 'search', 'looking', 'seeking', 'available'])
   ) {
     return handleJobSearchQuery(message);
   }
   
-  // Resume and application queries
-  if (lowerMessage.includes('resume') || lowerMessage.includes('cv')) {
+  // Resume related queries
+  if (containsAny(lowerMessage, ['resume', 'cv', 'curriculum vitae'])) {
     return handleResumeQuery(message);
+  }
+  
+  // Interview preparation queries
+  if (containsAny(lowerMessage, ['interview', 'preparation', 'prepare'])) {
+    return handleInterviewQuery(message);
+  }
+  
+  // Salary related queries
+  if (containsAny(lowerMessage, ['salary', 'compensation', 'pay', 'package', 'offer'])) {
+    return handleSalaryQuery(message);
+  }
+  
+  // Contact or human assistance
+  if (containsAny(lowerMessage, ['contact', 'human', 'person', 'agent', 'recruiter', 'talk to', 'speak with'])) {
+    return handleContactQuery();
+  }
+  
+  // Job alerts and updates
+  if (containsAny(lowerMessage, ['alert', 'notification', 'update', 'subscribe', 'notify'])) {
+    return handleJobAlertQuery(message);
   }
   
   // Employer queries
   if (
-    lowerMessage.includes('hire') || 
-    lowerMessage.includes('recruit') || 
-    lowerMessage.includes('post job') ||
-    lowerMessage.includes('looking for candidates')
+    containsAny(lowerMessage, ['hire', 'recruit', 'employer', 'company', 'business', 'organization']) &&
+    containsAny(lowerMessage, ['post', 'list', 'publish', 'create', 'add'])
   ) {
     return handleEmployerQuery(message);
   }
   
-  // Service inquiries
-  if (
-    lowerMessage.includes('service') || 
-    lowerMessage.includes('offer') || 
-    lowerMessage.includes('provide')
-  ) {
+  // Service information
+  if (containsAny(lowerMessage, ['service', 'offer', 'provide', 'help', 'assist'])) {
     return handleServiceQuery();
   }
   
   // Application status (for logged-in users)
-  if (
-    lowerMessage.includes('application status') || 
-    lowerMessage.includes('my application') ||
-    lowerMessage.includes('job status')
-  ) {
+  if (containsAny(lowerMessage, ['status', 'application', 'applied', 'progress', 'track'])) {
     return handleApplicationStatusQuery(user);
   }
   
-  // Contact information
-  if (
-    lowerMessage.includes('contact') || 
-    lowerMessage.includes('phone') || 
-    lowerMessage.includes('email') ||
-    lowerMessage.includes('reach')
-  ) {
-    return {
-      message: "You can contact our support team at support@dharaconsultant.com or call us at +91-9876543210. Would you like me to help you with anything else?",
-      quickReplies: [
-        { id: 'call', text: 'Call Us', action: 'call' },
-        { id: 'email', text: 'Email Us', action: 'email' },
-        { id: 'contact-form', text: 'Contact Form', action: 'contactForm' }
-      ]
-    };
-  }
-  
-  // Interview tips
-  if (
-    lowerMessage.includes('interview') && 
-    (lowerMessage.includes('tip') || lowerMessage.includes('advice') || lowerMessage.includes('prepare'))
-  ) {
-    return {
-      message: "Here are some interview tips:\n\n" +
-        "1. Research the company thoroughly\n" +
-        "2. Practice common interview questions\n" +
-        "3. Prepare examples of your achievements\n" +
-        "4. Dress professionally and arrive early\n" +
-        "5. Ask insightful questions about the role\n\n" +
-        "Would you like more specific interview advice?",
-      quickReplies: [
-        { id: 'technical-interview', text: 'Technical Interviews', action: 'technicalInterviews' },
-        { id: 'behavioral-interview', text: 'Behavioral Questions', action: 'behavioralInterviews' },
-        { id: 'remote-interview', text: 'Remote Interviews', action: 'remoteInterviews' }
-      ]
-    };
-  }
-  
-  // Fallback response
+  // Fallback response with general help
   return {
-    message: "I'm here to help with your recruitment and job search needs. How can I assist you today?",
+    message: "I'm your AI recruitment assistant. I can help you with job searches, resume tips, interview preparation, or connecting with recruiters. How can I assist you today?",
     quickReplies: [
       { id: 'find-jobs', text: 'Find Jobs', action: 'findJobs' },
-      { id: 'post-job', text: 'Post a Job', action: 'postJob' },
-      { id: 'services', text: 'Our Services', action: 'services' },
-      { id: 'help', text: 'Help Options', action: 'help' }
+      { id: 'resume-tips', text: 'Resume Tips', action: 'resumeTips' },
+      { id: 'interview-prep', text: 'Interview Prep', action: 'interviewPrep' },
+      { id: 'contact', text: 'Contact Us', action: 'contactUs' }
     ]
   };
+}
+
+// Helper function to check if a string contains any of the keywords
+function containsAny(text: string, keywords: string[]): boolean {
+  return keywords.some(keyword => text.includes(keyword));
 }
 
 // Helper functions for different query types
@@ -282,7 +359,8 @@ function handleJobSearchQuery(query: string): ProcessedResponse {
     quickReplies: [
       { id: 'view-all-jobs', text: 'View All Jobs', action: 'viewAllJobs' },
       { id: 'filter-jobs', text: 'Filter Results', action: 'filterJobs' },
-      { id: 'job-alerts', text: 'Set Job Alerts', action: 'jobAlerts' }
+      { id: 'job-alerts', text: 'Set Job Alerts', action: 'jobAlerts' },
+      { id: 'upload-resume', text: 'Upload Resume', action: 'uploadResume' }
     ]
   };
 }
@@ -298,9 +376,19 @@ function handleResumeQuery(query: string): ProcessedResponse {
         "5. Include a strong professional summary at the top\n\n" +
         "Would you like me to review your resume or provide specific advice for your industry?",
       quickReplies: [
-        { id: 'resume-review', text: 'Resume Review', action: 'resumeReview' },
+        { id: 'upload-resume', text: 'Upload Resume', action: 'uploadResume' },
         { id: 'resume-templates', text: 'Resume Templates', action: 'resumeTemplates' },
-        { id: 'industry-tips', text: 'Industry-Specific Tips', action: 'industryTips' }
+        { id: 'industry-tips', text: 'Industry-Specific Tips', action: 'industryTips' },
+        { id: 'ats-test', text: 'Test ATS Score', action: 'testATS' }
+      ]
+    };
+  } else if (query.toLowerCase().includes('analyze') || query.toLowerCase().includes('review') || query.toLowerCase().includes('check')) {
+    return {
+      message: "I'd be happy to analyze your resume for ATS compatibility and provide suggestions for improvement. You can upload your resume (PDF or DOCX) using the button below.",
+      quickReplies: [
+        { id: 'upload-resume', text: 'Upload Resume', action: 'uploadResume' },
+        { id: 'ats-info', text: 'What is ATS?', action: 'atsInfo' },
+        { id: 'resume-tips', text: 'Resume Tips', action: 'resumeTips' }
       ]
     };
   } else {
@@ -313,6 +401,64 @@ function handleResumeQuery(query: string): ProcessedResponse {
       ]
     };
   }
+}
+
+function handleInterviewQuery(query: string): ProcessedResponse {
+  return {
+    message: "Here are some interview tips:\n\n" +
+      "1. Research the company thoroughly\n" +
+      "2. Practice common interview questions\n" +
+      "3. Prepare examples of your achievements\n" +
+      "4. Dress professionally and arrive early\n" +
+      "5. Ask insightful questions about the role\n\n" +
+      "Would you like more specific interview advice?",
+    quickReplies: [
+      { id: 'technical-interview', text: 'Technical Interviews', action: 'technicalInterviews' },
+      { id: 'behavioral-interview', text: 'Behavioral Questions', action: 'behavioralInterviews' },
+      { id: 'remote-interview', text: 'Remote Interviews', action: 'remoteInterviews' },
+      { id: 'mock-interview', text: 'Mock Interview', action: 'mockInterview' }
+    ]
+  };
+}
+
+function handleSalaryQuery(query: string): ProcessedResponse {
+  return {
+    message: "Salary negotiations are an important part of the job application process. Here are some tips:\n\n" +
+      "1. Research industry standards for your role and location\n" +
+      "2. Consider your experience and qualifications\n" +
+      "3. Focus on your value to the company\n" +
+      "4. Be prepared to justify your expectations\n" +
+      "5. Consider the entire compensation package, not just salary\n\n" +
+      "Would you like to see salary ranges for specific roles?",
+    quickReplies: [
+      { id: 'salary-calculator', text: 'Salary Calculator', action: 'salaryCalculator' },
+      { id: 'negotiation-tips', text: 'Negotiation Tips', action: 'negotiationTips' },
+      { id: 'benefits-info', text: 'Benefits Guide', action: 'benefitsInfo' }
+    ]
+  };
+}
+
+function handleContactQuery(): ProcessedResponse {
+  return {
+    message: "If you'd like to speak with a human recruiter, we're happy to connect you! Our team is available Monday-Friday, 9 AM to 6 PM IST. Here are your options:",
+    quickReplies: [
+      { id: 'call-us', text: '📞 Call Us', action: 'callUs' },
+      { id: 'email-us', text: '✉️ Email Us', action: 'emailUs' },
+      { id: 'schedule-call', text: '📅 Schedule Call', action: 'scheduleCall' },
+      { id: 'live-chat', text: '💬 Live Chat', action: 'liveChat' }
+    ]
+  };
+}
+
+function handleJobAlertQuery(query: string): ProcessedResponse {
+  return {
+    message: "I can help you set up job alerts so you never miss relevant opportunities. You'll receive notifications when new positions matching your criteria are posted. Would you like to set up job alerts now?",
+    quickReplies: [
+      { id: 'daily-alerts', text: 'Daily Alerts', action: 'dailyAlerts' },
+      { id: 'weekly-alerts', text: 'Weekly Digest', action: 'weeklyAlerts' },
+      { id: 'custom-alerts', text: 'Custom Alerts', action: 'customAlerts' }
+    ]
+  };
 }
 
 function handleEmployerQuery(query: string): ProcessedResponse {
@@ -367,7 +513,7 @@ function handleApplicationStatusQuery(user: User | null): ProcessedResponse {
     };
   }
   
-  // Mock data for demonstration - in real implementation, this would come from a database
+  // Mock data for demonstration - in a real implementation, this would come from a database
   return {
     message: "Here's the status of your recent applications:\n\n" +
       "1. Senior Software Engineer at TechGlobe Solutions - Under Review\n" +
