@@ -32,9 +32,18 @@ export function useChatToggle({ onOpen, onClose }: UseChatToggleOptions = {}) {
     return () => window.removeEventListener('keydown', handleEscape);
   }, [isOpen, onClose]);
 
+  // Method to explicitly close the chat
+  const closeChat = () => {
+    if (isOpen) {
+      setIsOpen(false);
+      onClose?.();
+    }
+  };
+
   return {
     isOpen,
     setIsOpen,
-    toggle
+    toggle,
+    closeChat
   };
 }

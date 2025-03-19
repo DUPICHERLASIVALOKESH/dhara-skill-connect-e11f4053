@@ -1,4 +1,3 @@
-
 import React, { useState, useRef, useEffect } from 'react';
 import { useChat } from '@/context/ChatContext';
 import { QuickReply } from '@/types/chat';
@@ -29,9 +28,13 @@ const ChatBot: React.FC = () => {
   } = useChat();
   
   const { isOpen, toggle } = useChatToggle({
+    onOpen: () => {
+      resetChat();
+    },
     onClose: () => {
       resetChat();
       setShowUploader(false);
+      setUserInput('');
     }
   });
   
@@ -39,7 +42,6 @@ const ChatBot: React.FC = () => {
   const messageContainerRef = useRef<HTMLDivElement>(null);
   const [showScrollButton, setShowScrollButton] = useState(false);
   
-  // Resume analyzer
   const {
     analyzeResume,
     resetAnalysis,
@@ -48,14 +50,12 @@ const ChatBot: React.FC = () => {
     error: resumeError
   } = useResumeAnalyzer();
 
-  // Scroll to the bottom when messages change or when typing starts/stops
   useEffect(() => {
     if (isOpen) {
       scrollToBottom();
     }
   }, [messages, isTyping, isOpen]);
 
-  // Detect scroll position to show/hide scroll button
   useEffect(() => {
     const handleScroll = () => {
       if (!messageContainerRef.current) return;
@@ -85,7 +85,6 @@ const ChatBot: React.FC = () => {
   };
   
   const handleQuickReplyClick = (reply: QuickReply) => {
-    // Handle predefined actions
     switch (reply.action) {
       case 'findJobs':
         handleUserMessage("I'm looking for job opportunities");
@@ -118,13 +117,11 @@ const ChatBot: React.FC = () => {
     setShowUploader(false);
     handleUserMessage(`I'd like to analyze my resume: ${file.name}`);
     analyzeResume(file).then(() => {
-      // Resume analysis complete
     });
   };
 
   return (
     <div className="fixed bottom-6 right-6 z-50">
-      {/* Chat Button */}
       <Button 
         onClick={toggle}
         className={cn(
@@ -135,7 +132,6 @@ const ChatBot: React.FC = () => {
         {isOpen ? <X size={24} /> : <MessageCircle size={24} />}
       </Button>
       
-      {/* Chat Window */}
       {isOpen && (
         <div 
           className={cn(
@@ -143,7 +139,6 @@ const ChatBot: React.FC = () => {
             "animate-fade-in"
           )}
         >
-          {/* Chat Header */}
           <div className="bg-dhara-blue text-white p-4 flex items-center justify-between">
             <div className="flex items-center">
               <Avatar className="h-8 w-8 mr-2 bg-white text-dhara-blue">
@@ -164,7 +159,6 @@ const ChatBot: React.FC = () => {
             </div>
           </div>
           
-          {/* Messages Container */}
           <div 
             ref={messageContainerRef}
             className="h-80 overflow-y-auto p-4 bg-gray-50 flex flex-col gap-4"
@@ -204,7 +198,6 @@ const ChatBot: React.FC = () => {
               </div>
             ))}
             
-            {/* Resume Analysis Results */}
             {resumeAnalysis && (
               <div className="self-start animate-fade-in-right w-full max-w-[90%]">
                 <div className="flex items-center mb-1">
@@ -259,7 +252,6 @@ const ChatBot: React.FC = () => {
               </div>
             )}
             
-            {/* Resume Error Message */}
             {resumeError && (
               <div className="self-start animate-fade-in-right max-w-[90%]">
                 <div className="flex items-center mb-1">
@@ -284,7 +276,6 @@ const ChatBot: React.FC = () => {
               </div>
             )}
             
-            {/* Resume Uploader */}
             {showUploader && (
               <div className="self-center w-full animate-fade-in p-3 bg-white border border-accent rounded-lg">
                 <h4 className="text-sm font-medium mb-2">Upload Your Resume</h4>
@@ -302,7 +293,6 @@ const ChatBot: React.FC = () => {
               </div>
             )}
             
-            {/* Typing Indicator */}
             {isTyping && (
               <div className="self-start flex items-center animate-fade-in">
                 <Avatar className="h-6 w-6 mr-1 bg-dhara-blue text-white">
@@ -321,7 +311,6 @@ const ChatBot: React.FC = () => {
             <div ref={messagesEndRef} />
           </div>
           
-          {/* Quick Reply Buttons */}
           {quickReplies.length > 0 && !showUploader && (
             <div className="p-2 bg-white border-t border-gray-200 flex flex-wrap gap-2 animate-fade-in">
               {quickReplies.map((reply) => (
@@ -338,7 +327,6 @@ const ChatBot: React.FC = () => {
             </div>
           )}
           
-          {/* Input Form */}
           <form onSubmit={handleSubmit} className="p-3 border-t border-gray-200 flex gap-2">
             <Input
               type="text"
@@ -368,7 +356,6 @@ const ChatBot: React.FC = () => {
             </Button>
           </form>
           
-          {/* Scroll to bottom button */}
           {showScrollButton && (
             <Button
               size="icon"
