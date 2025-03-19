@@ -1,6 +1,7 @@
 
 import React, { useState, useRef, useEffect } from 'react';
-import { useChat, QuickReply } from '@/context/ChatContext';
+import { useChat } from '@/context/ChatContext';
+import { QuickReply } from '@/types/chat';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Avatar } from '@/components/ui/avatar';
