@@ -1,16 +1,40 @@
 
-import { create } from 'zustand';
+import { useState, useEffect } from 'react';
 
-interface ChatToggleState {
-  isOpen: boolean;
-  setIsOpen: (isOpen: boolean) => void;
-  toggle: () => void;
+interface UseChatToggleOptions {
+  onOpen?: () => void;
+  onClose?: () => void;
 }
 
-const useChatToggle = create<ChatToggleState>()((set) => ({
-  isOpen: false,
-  setIsOpen: (isOpen) => set({ isOpen }),
-  toggle: () => set((state) => ({ isOpen: !state.isOpen })),
-}));
+export function useChatToggle({ onOpen, onClose }: UseChatToggleOptions = {}) {
+  const [isOpen, setIsOpen] = useState(false);
 
-export default useChatToggle;
+  const toggle = () => {
+    const newState = !isOpen;
+    setIsOpen(newState);
+    if (newState) {
+      onOpen?.();
+    } else {
+      onClose?.();
+    }
+  };
+
+  // Close chat on Escape key press
+  useEffect(() => {
+    const handleEscape = (event: KeyboardEvent) => {
+      if (event.key === 'Escape' && isOpen) {
+        setIsOpen(false);
+        onClose?.();
+      }
+    };
+
+    window.addEventListener('keydown', handleEscape);
+    return () => window.removeEventListener('keydown', handleEscape);
+  }, [isOpen, onClose]);
+
+  return {
+    isOpen,
+    setIsOpen,
+    toggle
+  };
+}
