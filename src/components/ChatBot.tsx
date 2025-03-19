@@ -1,4 +1,3 @@
-
 import React, { useState, useRef, useEffect } from 'react';
 import { useChat } from '@/context/ChatContext';
 import { QuickReply } from '@/types/chat';
@@ -36,6 +35,7 @@ const ChatBot: React.FC = () => {
     isOpen, 
     toggle, 
     isAnimating, 
+    animationDirection,
     isDarkMode, 
     toggleDarkMode
   } = useChatToggle({
@@ -83,7 +83,6 @@ const ChatBot: React.FC = () => {
     }
   }, []);
   
-  // Simulate notifications for new job updates
   useEffect(() => {
     const interval = setInterval(() => {
       const shouldNotify = Math.random() > 0.7;
@@ -192,10 +191,11 @@ const ChatBot: React.FC = () => {
           className={cn(
             "absolute bottom-16 right-0 w-80 sm:w-96 bg-white rounded-lg shadow-xl overflow-hidden border border-border",
             isDarkMode ? "bg-gray-900 text-white border-gray-700" : "bg-white",
-            isOpen && !isAnimating ? "animate-in fade-in slide-in-from-bottom-5 duration-300" : "",
-            !isOpen && isAnimating ? "animate-out fade-out slide-out-to-bottom-5 duration-300" : ""
+            isOpen && animationDirection === 'in' && !isAnimating ? "animate-in fade-in slide-in-from-bottom-5 duration-500" : "",
+            isOpen && animationDirection === 'in' && isAnimating ? "animate-in fade-in slide-in-from-bottom-5 duration-500" : "",
+            !isOpen && animationDirection === 'out' && isAnimating ? "animate-out fade-out slide-out-to-bottom-5 duration-500" : ""
           )}
-          style={{ display: !isOpen && !isAnimating ? 'none' : 'block' }}
+          style={{ display: !isOpen && !isAnimating ? 'none' : 'block', transformOrigin: 'bottom right' }}
         >
           <div className={cn(
             "p-4 flex items-center justify-between",

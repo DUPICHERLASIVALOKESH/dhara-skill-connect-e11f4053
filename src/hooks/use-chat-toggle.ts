@@ -9,6 +9,7 @@ interface UseChatToggleOptions {
 export function useChatToggle({ onOpen, onClose }: UseChatToggleOptions = {}) {
   const [isOpen, setIsOpen] = useState(false);
   const [isAnimating, setIsAnimating] = useState(false);
+  const [animationDirection, setAnimationDirection] = useState<'in' | 'out'>('in');
   const [isDarkMode, setIsDarkMode] = useState(() => {
     return localStorage.getItem('chatDarkMode') === 'true';
   });
@@ -18,14 +19,16 @@ export function useChatToggle({ onOpen, onClose }: UseChatToggleOptions = {}) {
     const newState = !isOpen;
     
     if (newState) {
+      setAnimationDirection('in');
       setIsOpen(true);
       onOpen?.();
     } else {
+      setAnimationDirection('out');
       // Delay actual closing to allow for exit animation
       setTimeout(() => {
         setIsOpen(false);
         onClose?.();
-      }, 300);
+      }, 500); // Increased from 300ms to 500ms for smoother animation
     }
   };
 
@@ -46,7 +49,7 @@ export function useChatToggle({ onOpen, onClose }: UseChatToggleOptions = {}) {
     if (isAnimating) {
       const timer = setTimeout(() => {
         setIsAnimating(false);
-      }, 300);
+      }, 500); // Increased from 300ms to 500ms to match animation duration
       return () => clearTimeout(timer);
     }
   }, [isAnimating]);
@@ -70,6 +73,7 @@ export function useChatToggle({ onOpen, onClose }: UseChatToggleOptions = {}) {
     toggle,
     closeChat,
     isAnimating,
+    animationDirection,
     isDarkMode,
     toggleDarkMode
   };
