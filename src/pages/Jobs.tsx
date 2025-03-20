@@ -1,12 +1,13 @@
 
 import { useEffect, useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
+import { useLocation, Link } from 'react-router-dom';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import JobCard, { JobProps } from '@/components/JobCard';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
-import { Search, Briefcase, MapPin, Filter } from 'lucide-react';
+import { Search, Briefcase, MapPin, Filter, ArrowLeft, Bookmark, SlidersHorizontal } from 'lucide-react';
 import {
   Select,
   SelectContent,
@@ -15,9 +16,14 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import {
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger,
+} from "@/components/ui/collapsible";
 import { toast } from '@/hooks/use-toast';
 
-// Mock data for job listings
+// Mock data for job listings - in a real application, this would be fetched from APIs
 const mockJobs: JobProps[] = [
   {
     id: "job1",
@@ -26,8 +32,10 @@ const mockJobs: JobProps[] = [
     location: "Mumbai, India",
     type: "Full-Time",
     level: "Senior",
+    salary: "₹25-35 LPA",
     postedDate: "2 days ago",
-    description: "We are looking for an experienced software engineer with expertise in React, Node.js, and cloud technologies to join our growing engineering team."
+    description: "We are looking for an experienced software engineer with expertise in React, Node.js, and cloud technologies to join our growing engineering team.",
+    source: "LinkedIn"
   },
   {
     id: "job2",
@@ -36,8 +44,10 @@ const mockJobs: JobProps[] = [
     location: "Bengaluru, India",
     type: "Full-Time",
     level: "Mid-Level",
+    salary: "₹15-20 LPA",
     postedDate: "1 week ago",
-    description: "Seeking an HR Manager with 5+ years of experience to oversee recruitment, employee relations, and HR operations for our technology division."
+    description: "Seeking an HR Manager with 5+ years of experience to oversee recruitment, employee relations, and HR operations for our technology division.",
+    source: "Naukri"
   },
   {
     id: "job3",
@@ -46,8 +56,10 @@ const mockJobs: JobProps[] = [
     location: "Delhi, India",
     type: "Contract",
     level: "Junior",
+    salary: "₹8-12 LPA",
     postedDate: "3 days ago",
-    description: "Join our creative marketing team to develop and execute digital marketing campaigns for our diverse portfolio of clients across various industries."
+    description: "Join our creative marketing team to develop and execute digital marketing campaigns for our diverse portfolio of clients across various industries.",
+    source: "Indeed"
   },
   {
     id: "job4",
@@ -56,8 +68,10 @@ const mockJobs: JobProps[] = [
     location: "Hyderabad, India",
     type: "Full-Time",
     level: "Mid-Level",
+    salary: "₹12-18 LPA",
     postedDate: "5 days ago",
-    description: "Looking for a detail-oriented Finance Analyst to assist with financial reporting, budgeting, and forecasting for our expanding operations."
+    description: "Looking for a detail-oriented Finance Analyst to assist with financial reporting, budgeting, and forecasting for our expanding operations.",
+    source: "Google Jobs"
   },
   {
     id: "job5",
@@ -66,8 +80,10 @@ const mockJobs: JobProps[] = [
     location: "Pune, India",
     type: "Full-Time",
     level: "Senior",
+    salary: "₹30-40 LPA",
     postedDate: "Just now",
-    description: "Exciting opportunity for an experienced Product Manager to lead product development efforts for our SaaS platform, working closely with engineering and design teams."
+    description: "Exciting opportunity for an experienced Product Manager to lead product development efforts for our SaaS platform, working closely with engineering and design teams.",
+    source: "LinkedIn"
   },
   {
     id: "job6",
@@ -76,26 +92,62 @@ const mockJobs: JobProps[] = [
     location: "Chennai, India",
     type: "Part-Time",
     level: "Entry-Level",
+    salary: "₹5-8 LPA",
     postedDate: "2 weeks ago",
-    description: "Seeking customer-focused professionals to provide excellent support to our clients through multiple channels including phone, email, and chat."
+    description: "Seeking customer-focused professionals to provide excellent support to our clients through multiple channels including phone, email, and chat.",
+    source: "Indeed"
+  },
+  {
+    id: "job7",
+    title: "DevOps Engineer",
+    company: "CloudScale Systems",
+    location: "Bengaluru, India",
+    type: "Full-Time",
+    level: "Senior",
+    salary: "₹28-40 LPA",
+    postedDate: "3 days ago",
+    description: "Join our DevOps team to build and maintain scalable infrastructure on AWS and implement CI/CD pipelines for our growing platform.",
+    source: "Naukri"
+  },
+  {
+    id: "job8",
+    title: "E-commerce Operations Manager",
+    company: "FastCart",
+    location: "Mumbai, India",
+    type: "Full-Time",
+    level: "Mid-Level",
+    salary: "₹18-25 LPA",
+    postedDate: "1 day ago",
+    description: "Leading e-commerce platform seeking an Operations Manager to oversee order fulfillment, inventory management, and customer delivery experience.",
+    source: "LinkedIn"
   }
 ];
 
 // Function to fetch jobs (in a real application, this would be an API call)
-const fetchJobs = async (): Promise<JobProps[]> => {
+const fetchJobs = async (category?: string, subcategory?: string): Promise<JobProps[]> => {
   // Simulate API delay
   await new Promise(resolve => setTimeout(resolve, 1000));
+  
+  // In a real implementation, we would filter based on the API
+  // For now, we'll just return all jobs
   return mockJobs;
 };
 
 const Jobs = () => {
+  const location = useLocation();
   const [searchTerm, setSearchTerm] = useState('');
   const [locationFilter, setLocationFilter] = useState('');
   const [typeFilter, setTypeFilter] = useState('');
+  const [levelFilter, setLevelFilter] = useState('');
+  const [isFilterOpen, setIsFilterOpen] = useState(false);
+  
+  // Get category and subcategory from location state if available
+  const categoryFromState = location.state?.category || '';
+  const subcategoryFromState = location.state?.subcategory || '';
   
   const { data: jobs, isLoading, error } = useQuery({
-    queryKey: ['jobs'],
-    queryFn: fetchJobs
+    queryKey: ['jobs', categoryFromState, subcategoryFromState],
+    queryFn: () => fetchJobs(categoryFromState, subcategoryFromState)
   });
 
   // Scroll to top on page load
@@ -120,9 +172,18 @@ const Jobs = () => {
     
     const matchesLocation = locationFilter ? job.location.includes(locationFilter) : true;
     const matchesType = typeFilter ? job.type === typeFilter : true;
+    const matchesLevel = levelFilter ? job.level === levelFilter : true;
     
-    return matchesSearch && matchesLocation && matchesType;
+    return matchesSearch && matchesLocation && matchesType && matchesLevel;
   });
+
+  // Format the subcategory for display
+  const formatSubcategory = (subcategory: string) => {
+    return subcategory
+      .split('-')
+      .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+      .join(' ');
+  };
 
   return (
     <>
@@ -133,7 +194,24 @@ const Jobs = () => {
         <section className="bg-dhara-blue py-16 md:py-24">
           <div className="container mx-auto px-4 md:px-6">
             <div className="max-w-4xl mx-auto text-center text-white">
-              <h1 className="heading-xl mb-6 animate-fade-in">Career Opportunities</h1>
+              {subcategoryFromState ? (
+                <>
+                  <div className="mb-4">
+                    <Link 
+                      to="/job-categories" 
+                      className="inline-flex items-center text-white/80 hover:text-white transition-colors"
+                    >
+                      <ArrowLeft size={16} className="mr-1" />
+                      Back to Categories
+                    </Link>
+                  </div>
+                  <h1 className="heading-xl mb-6 animate-fade-in">
+                    {formatSubcategory(subcategoryFromState)} Jobs
+                  </h1>
+                </>
+              ) : (
+                <h1 className="heading-xl mb-6 animate-fade-in">Career Opportunities</h1>
+              )}
               <p className="text-xl text-white/85 animate-fade-in">
                 Discover your next career move with our curated selection of opportunities from leading companies.
               </p>
@@ -176,8 +254,67 @@ const Jobs = () => {
                 </SelectContent>
               </Select>
               
+              <Button type="submit" className="bg-dhara-blue hover:bg-dhara-blue/90">
+                <Search size={18} className="mr-2" />
+                Search Jobs
+              </Button>
+              
+              <Button 
+                type="button" 
+                variant="outline" 
+                className="md:hidden"
+                onClick={() => setIsFilterOpen(!isFilterOpen)}
+              >
+                <SlidersHorizontal size={18} className="mr-2" />
+                Filters
+              </Button>
+            </form>
+            
+            {/* Mobile Filters Collapse */}
+            <Collapsible open={isFilterOpen} onOpenChange={setIsFilterOpen} className="md:hidden mt-4">
+              <CollapsibleContent className="space-y-4 pt-4">
+                <div className="grid grid-cols-2 gap-4">
+                  <Select value={typeFilter} onValueChange={setTypeFilter}>
+                    <SelectTrigger>
+                      <div className="flex items-center">
+                        <Briefcase size={18} className="mr-2 text-muted-foreground" />
+                        <SelectValue placeholder="Job Type" />
+                      </div>
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectGroup>
+                        <SelectItem value="">All Types</SelectItem>
+                        <SelectItem value="Full-Time">Full-Time</SelectItem>
+                        <SelectItem value="Part-Time">Part-Time</SelectItem>
+                        <SelectItem value="Contract">Contract</SelectItem>
+                        <SelectItem value="Internship">Internship</SelectItem>
+                      </SelectGroup>
+                    </SelectContent>
+                  </Select>
+                  
+                  <Select value={levelFilter} onValueChange={setLevelFilter}>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Experience Level" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectGroup>
+                        <SelectItem value="">All Levels</SelectItem>
+                        <SelectItem value="Entry-Level">Entry-Level</SelectItem>
+                        <SelectItem value="Junior">Junior</SelectItem>
+                        <SelectItem value="Mid-Level">Mid-Level</SelectItem>
+                        <SelectItem value="Senior">Senior</SelectItem>
+                        <SelectItem value="Executive">Executive</SelectItem>
+                      </SelectGroup>
+                    </SelectContent>
+                  </Select>
+                </div>
+              </CollapsibleContent>
+            </Collapsible>
+            
+            {/* Desktop Additional Filters */}
+            <div className="hidden md:flex mt-4 space-x-4">
               <Select value={typeFilter} onValueChange={setTypeFilter}>
-                <SelectTrigger className="w-full md:w-60">
+                <SelectTrigger className="w-60">
                   <div className="flex items-center">
                     <Briefcase size={18} className="mr-2 text-muted-foreground" />
                     <SelectValue placeholder="Job Type" />
@@ -190,15 +327,33 @@ const Jobs = () => {
                     <SelectItem value="Part-Time">Part-Time</SelectItem>
                     <SelectItem value="Contract">Contract</SelectItem>
                     <SelectItem value="Internship">Internship</SelectItem>
+                    <SelectItem value="Remote">Remote</SelectItem>
+                    <SelectItem value="Hybrid">Hybrid</SelectItem>
                   </SelectGroup>
                 </SelectContent>
               </Select>
               
-              <Button type="submit" className="bg-dhara-blue hover:bg-dhara-blue/90">
-                <Filter size={18} className="mr-2" />
-                Apply Filters
+              <Select value={levelFilter} onValueChange={setLevelFilter}>
+                <SelectTrigger className="w-60">
+                  <SelectValue placeholder="Experience Level" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectGroup>
+                    <SelectItem value="">All Levels</SelectItem>
+                    <SelectItem value="Entry-Level">Entry-Level</SelectItem>
+                    <SelectItem value="Junior">Junior</SelectItem>
+                    <SelectItem value="Mid-Level">Mid-Level</SelectItem>
+                    <SelectItem value="Senior">Senior</SelectItem>
+                    <SelectItem value="Executive">Executive</SelectItem>
+                  </SelectGroup>
+                </SelectContent>
+              </Select>
+              
+              <Button variant="outline" className="flex items-center gap-2">
+                <Bookmark size={18} />
+                Saved Jobs
               </Button>
-            </form>
+            </div>
           </div>
         </section>
         
@@ -206,7 +361,11 @@ const Jobs = () => {
         <section className="py-12 md:py-16">
           <div className="container mx-auto px-4 md:px-6">
             <div className="mb-8">
-              <h2 className="heading-md text-dhara-blue mb-4">Available Positions</h2>
+              <h2 className="heading-md text-dhara-blue mb-4">
+                {subcategoryFromState 
+                  ? `${formatSubcategory(subcategoryFromState)} Opportunities` 
+                  : "Available Positions"}
+              </h2>
               {filteredJobs && (
                 <p className="text-dhara-gray">
                   Showing {filteredJobs.length} job opportunities
@@ -250,14 +409,14 @@ const Jobs = () => {
               </p>
               <div className="flex flex-col sm:flex-row justify-center gap-4">
                 <Button asChild size="lg" className="bg-white text-dhara-blue hover:bg-white/90">
-                  <a href="/contact">
+                  <Link to="/contact">
                     Submit Your Resume
-                  </a>
+                  </Link>
                 </Button>
                 <Button asChild variant="outline" size="lg" className="border-white text-white hover:bg-white/10">
-                  <a href="/contact">
+                  <Link to="/contact">
                     Contact Recruiters
-                  </a>
+                  </Link>
                 </Button>
               </div>
             </div>

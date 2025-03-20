@@ -52,7 +52,7 @@ const Navbar = () => {
             <Link to="/" className="nav-link">Home</Link>
             <Link to="/about" className="nav-link">About</Link>
             <Link to="/services" className="nav-link">Services</Link>
-            <Link to="/jobs" className="nav-link">Jobs</Link>
+            <Link to="/job-categories" className="nav-link">Jobs</Link>
             <Link to="/contact" className="nav-link">Contact</Link>
           </nav>
 
@@ -99,7 +99,7 @@ const Navbar = () => {
             <Link to="/" className="w-full text-center py-2">Home</Link>
             <Link to="/about" className="w-full text-center py-2">About</Link>
             <Link to="/services" className="w-full text-center py-2">Services</Link>
-            <Link to="/jobs" className="w-full text-center py-2">Jobs</Link>
+            <Link to="/job-categories" className="w-full text-center py-2">Jobs</Link>
             <Link to="/contact" className="w-full text-center py-2">Contact</Link>
           </nav>
           

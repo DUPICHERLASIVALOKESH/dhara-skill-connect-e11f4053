@@ -2,7 +2,7 @@
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Link } from 'react-router-dom';
-import { Calendar, MapPin, Briefcase } from 'lucide-react';
+import { Calendar, MapPin, Briefcase, DollarSign } from 'lucide-react';
 
 export interface JobProps {
   id: string;
@@ -11,8 +11,11 @@ export interface JobProps {
   location: string;
   type: string;
   level: string;
+  salary?: string;
   postedDate: string;
   description: string;
+  logo?: string;
+  source?: 'LinkedIn' | 'Indeed' | 'Naukri' | 'Google Jobs' | string;
 }
 
 const JobCard = ({ job }: { job: JobProps }) => {
@@ -20,8 +23,21 @@ const JobCard = ({ job }: { job: JobProps }) => {
     <div className="bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow p-6 border border-border">
       <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-4">
         <div className="space-y-2">
-          <h3 className="text-xl font-semibold text-dhara-blue">{job.title}</h3>
-          <p className="text-dhara-dark font-medium">{job.company}</p>
+          <div className="flex items-start gap-3">
+            {job.logo ? (
+              <div className="w-12 h-12 rounded-md overflow-hidden flex-shrink-0 bg-dhara-light-gray/50 flex items-center justify-center">
+                <img src={job.logo} alt={`${job.company} logo`} className="w-full h-full object-contain" />
+              </div>
+            ) : (
+              <div className="w-12 h-12 rounded-md flex-shrink-0 bg-dhara-blue/10 text-dhara-blue flex items-center justify-center">
+                <Briefcase size={20} />
+              </div>
+            )}
+            <div>
+              <h3 className="text-xl font-semibold text-dhara-blue">{job.title}</h3>
+              <p className="text-dhara-dark font-medium">{job.company}</p>
+            </div>
+          </div>
           
           <div className="flex flex-wrap items-center gap-3 text-sm text-dhara-gray">
             <div className="flex items-center">
@@ -32,6 +48,12 @@ const JobCard = ({ job }: { job: JobProps }) => {
               <Briefcase size={16} className="mr-1" />
               {job.type}
             </div>
+            {job.salary && (
+              <div className="flex items-center">
+                <DollarSign size={16} className="mr-1" />
+                {job.salary}
+              </div>
+            )}
             <div className="flex items-center">
               <Calendar size={16} className="mr-1" />
               {job.postedDate}
@@ -42,10 +64,15 @@ const JobCard = ({ job }: { job: JobProps }) => {
             <Badge variant="outline" className="bg-dhara-light-gray/50 hover:bg-dhara-light-gray/75 text-dhara-dark">
               {job.level}
             </Badge>
+            {job.source && (
+              <Badge variant="secondary" className="bg-dhara-blue/10 hover:bg-dhara-blue/20 text-dhara-blue border-none">
+                via {job.source}
+              </Badge>
+            )}
           </div>
         </div>
 
-        <Button asChild className="mt-4 md:mt-0 bg-dhara-blue hover:bg-dhara-blue/90 self-start">
+        <Button asChild className="mt-4 md:mt-0 bg-dhara-blue hover:bg-dhara-blue/90 self-start whitespace-nowrap">
           <Link to={`/jobs/${job.id}`}>
             Apply Now
           </Link>

@@ -9,6 +9,7 @@ import { ChatProvider } from "@/context/ChatContext";
 import Index from "./pages/Index";
 import About from "./pages/About";
 import Jobs from "./pages/Jobs";
+import JobCategories from "./pages/JobCategories";
 import Contact from "./pages/Contact";
 import NotFound from "./pages/NotFound";
 import ChatBot from "./components/ChatBot";
@@ -29,6 +30,7 @@ const App = () => (
               <Route path="/" element={<Index />} />
               <Route path="/about" element={<About />} />
               <Route path="/jobs" element={<Jobs />} />
+              <Route path="/job-categories" element={<JobCategories />} />
               <Route path="/contact" element={<Contact />} />
               <Route path="/services" element={<Services />} />
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
