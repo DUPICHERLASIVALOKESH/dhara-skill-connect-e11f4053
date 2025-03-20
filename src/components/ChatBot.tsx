@@ -174,8 +174,14 @@ const ChatBot: React.FC = () => {
         )}
       >
         {isOpen ? <X size={24} /> : (
-          <div className="relative">
-            <MessageCircle size={24} />
+          <div className="relative flex items-center justify-center">
+            <div className={cn(
+              "absolute inset-0 flex items-center justify-center",
+              "text-white transition-opacity duration-300",
+              isAnimating ? "opacity-100" : "opacity-100"
+            )}>
+              <Bot size={20} />
+            </div>
             {hasNotifications && (
               <span className="absolute -top-1 -right-1 flex h-3 w-3">
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75"></span>

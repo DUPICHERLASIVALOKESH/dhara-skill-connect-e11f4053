@@ -120,7 +120,7 @@
     @apply text-base md:text-lg text-foreground/70;
   }
 
-  /* Chatbot typing animation */
+  /* Chatbot animations */
   @keyframes typing {
     from { width: 0 }
     to { width: 100% }
@@ -176,5 +176,22 @@
       transform: scale(1);
       opacity: 1;
     }
+  }
+  
+  /* Chat button animations */
+  @keyframes float {
+    0% {
+      transform: translateY(0px);
+    }
+    50% {
+      transform: translateY(-5px);
+    }
+    100% {
+      transform: translateY(0px);
+    }
+  }
+  
+  .chat-button-float {
+    animation: float 2s ease-in-out infinite;
   }
 }
