@@ -15,6 +15,8 @@ import NotFound from "./pages/NotFound";
 import ChatBot from "./components/ChatBot";
 import Services from "./pages/Services";
 import SoftwareJobs from "./pages/SoftwareJobs";
+import Login from "./pages/Login";
+import Register from "./pages/Register";
 
 const queryClient = new QueryClient();
 
@@ -35,6 +37,8 @@ const App = () => (
               <Route path="/contact" element={<Contact />} />
               <Route path="/services" element={<Services />} />
               <Route path="/jobs/software-development" element={<SoftwareJobs />} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/register" element={<Register />} />
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />
             </Routes>
