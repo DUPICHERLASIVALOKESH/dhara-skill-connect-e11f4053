@@ -1,3 +1,4 @@
+
 import { useEffect, useState } from 'react';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
@@ -23,8 +24,6 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 const Services = () => {
-  const [showChat, setShowChat] = useState(false);
-  
   // Scroll to top on page load
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -173,10 +172,6 @@ const Services = () => {
       ]
     }
   ];
-
-  const toggleChat = () => {
-    setShowChat(prev => !prev);
-  };
 
   return (
     <>
@@ -551,4 +546,149 @@ const Services = () => {
                 </ul>
               </div>
               
-              <div
+              <div className="bg-white p-8 rounded-lg shadow-sm border border-border">
+                <h3 className="text-xl font-semibold mb-4 text-dhara-blue">Our Guarantees</h3>
+                <ul className="space-y-4">
+                  <li className="flex items-start">
+                    <div className="mr-4 p-2 bg-blue-50 rounded-full">
+                      <CheckCircle2 size={20} className="text-dhara-blue" />
+                    </div>
+                    <div>
+                      <h4 className="font-medium mb-1">Quality Candidates</h4>
+                      <p className="text-dhara-gray text-sm">We provide a replacement guarantee if a placed candidate doesn't meet expectations within a set time period.</p>
+                    </div>
+                  </li>
+                  <li className="flex items-start">
+                    <div className="mr-4 p-2 bg-blue-50 rounded-full">
+                      <CheckCircle2 size={20} className="text-dhara-blue" />
+                    </div>
+                    <div>
+                      <h4 className="font-medium mb-1">Transparent Process</h4>
+                      <p className="text-dhara-gray text-sm">Clear and open communication throughout the recruitment journey with regular status updates.</p>
+                    </div>
+                  </li>
+                  <li className="flex items-start">
+                    <div className="mr-4 p-2 bg-blue-50 rounded-full">
+                      <CheckCircle2 size={20} className="text-dhara-blue" />
+                    </div>
+                    <div>
+                      <h4 className="font-medium mb-1">Fast Turnaround</h4>
+                      <p className="text-dhara-gray text-sm">Commitment to filling positions quickly without compromising on candidate quality.</p>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </section>
+        
+        {/* FAQ Section */}
+        <section className="py-16 md:py-24 bg-gray-50">
+          <div className="container mx-auto px-4 md:px-6">
+            <div className="text-center max-w-3xl mx-auto mb-16">
+              <div className="mb-4">
+                <span className="px-3 py-1 bg-blue-100 text-dhara-blue rounded-full text-sm font-medium">
+                  FAQ
+                </span>
+              </div>
+              <h2 className="heading-lg mb-6 text-dhara-blue">Frequently Asked Questions</h2>
+              <p className="subheading">
+                Find answers to common questions about our recruitment services and how we can help you.
+              </p>
+            </div>
+            
+            <div className="max-w-3xl mx-auto">
+              <AboutFAQ />
+            </div>
+          </div>
+        </section>
+
+        {/* Contact CTA Section */}
+        <section className="py-16 md:py-24 bg-dhara-blue text-white">
+          <div className="container mx-auto px-4 md:px-6">
+            <div className="max-w-4xl mx-auto text-center">
+              <h2 className="heading-lg mb-6">Ready to Transform Your Hiring Process?</h2>
+              <p className="text-lg text-white/85 mb-10 max-w-2xl mx-auto">
+                Connect with our team to discover how our recruitment solutions can help you find the right talent or take your career to the next level.
+              </p>
+              <div className="flex flex-col sm:flex-row justify-center gap-4">
+                <Button asChild size="lg" className="bg-white text-dhara-blue hover:bg-white/90">
+                  <Link to="/contact">
+                    <MessageCircle className="mr-2" size={20} />
+                    Contact Us
+                  </Link>
+                </Button>
+                <Button asChild variant="outline" size="lg" className="border-white text-white hover:bg-white/10">
+                  <Link to="/jobs">
+                    <Briefcase className="mr-2" size={20} />
+                    View Job Openings
+                  </Link>
+                </Button>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Testimonials */}
+        <section className="py-16 md:py-24">
+          <div className="container mx-auto px-4 md:px-6">
+            <div className="text-center max-w-3xl mx-auto mb-16">
+              <div className="mb-4">
+                <span className="px-3 py-1 bg-blue-100 text-dhara-blue rounded-full text-sm font-medium">
+                  Testimonials
+                </span>
+              </div>
+              <h2 className="heading-lg mb-6 text-dhara-blue">What Our Clients Say</h2>
+              <p className="subheading">
+                Don't just take our word for it – hear what our clients and placed candidates have to say about their experience with DHARA.
+              </p>
+            </div>
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6">
+              {testimonials.map((testimonial, index) => (
+                <div key={index} className="bg-white p-6 rounded-lg shadow-sm border border-border hover:shadow-md transition-shadow">
+                  <div className="flex items-center mb-4">
+                    <div className="w-12 h-12 rounded-full overflow-hidden mr-4">
+                      <img src={testimonial.avatar} alt={testimonial.name} className="w-full h-full object-cover" />
+                    </div>
+                    <div>
+                      <h4 className="font-semibold">{testimonial.name}</h4>
+                      <p className="text-dhara-gray text-sm">{testimonial.position}</p>
+                    </div>
+                  </div>
+                  <p className="text-dhara-gray italic">"{testimonial.quote}"</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+        
+        {/* Hiring Process Overview */}
+        <section className="py-16 md:py-24 bg-gray-50">
+          <div className="container mx-auto px-4 md:px-6">
+            <div className="text-center max-w-3xl mx-auto mb-16">
+              <div className="mb-4">
+                <span className="px-3 py-1 bg-blue-100 text-dhara-blue rounded-full text-sm font-medium">
+                  Our Process
+                </span>
+              </div>
+              <h2 className="heading-lg mb-6 text-dhara-blue">How We Work</h2>
+              <p className="subheading">
+                Our streamlined recruitment process ensures we find the right candidates efficiently and effectively.
+              </p>
+            </div>
+            
+            <HiringProcess />
+          </div>
+        </section>
+        
+        {/* Sticky CTA */}
+        <StickyCTA />
+      </main>
+      
+      <Footer />
+    </>
+  );
+};
+
+export default Services;
