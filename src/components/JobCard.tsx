@@ -2,7 +2,7 @@
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Link } from 'react-router-dom';
-import { Calendar, MapPin, Briefcase, DollarSign } from 'lucide-react';
+import { Calendar, MapPin, Briefcase, DollarSign, GraduationCap } from 'lucide-react';
 
 export interface JobProps {
   id: string;
@@ -15,7 +15,8 @@ export interface JobProps {
   postedDate: string;
   description: string;
   logo?: string;
-  source?: 'LinkedIn' | 'Indeed' | 'Naukri' | 'Google Jobs' | string;
+  source?: 'LinkedIn' | 'Indeed' | 'Naukri' | 'Google Jobs' | 'Glassdoor' | string;
+  education?: string;
 }
 
 const JobCard = ({ job }: { job: JobProps }) => {
@@ -58,6 +59,12 @@ const JobCard = ({ job }: { job: JobProps }) => {
               <Calendar size={16} className="mr-1" />
               {job.postedDate}
             </div>
+            {job.education && (
+              <div className="flex items-center">
+                <GraduationCap size={16} className="mr-1" />
+                {job.education}
+              </div>
+            )}
           </div>
 
           <div className="flex flex-wrap gap-2 pt-2">
