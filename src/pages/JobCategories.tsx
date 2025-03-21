@@ -1,3 +1,4 @@
+
 import { useEffect, useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import Navbar from '@/components/Navbar';
@@ -181,6 +182,11 @@ const JobCategories = () => {
   const handleSubcategoryClick = (subcategory: string) => {
     if (subcategory === 'Software Development') {
       navigate('/jobs/software-development');
+      return;
+    }
+    
+    if (subcategory === 'Hardware & Networking') {
+      navigate('/jobs/hardware-networking');
       return;
     }
     

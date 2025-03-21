@@ -15,6 +15,7 @@ import NotFound from "./pages/NotFound";
 import ChatBot from "./components/ChatBot";
 import Services from "./pages/Services";
 import SoftwareJobs from "./pages/SoftwareJobs";
+import HardwareNetworkingJobs from "./pages/HardwareNetworkingJobs";
 import SoftwareJobDetails from "./pages/SoftwareJobDetails";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
@@ -41,6 +42,7 @@ function App() {
                 <Route path="/job-categories" element={<JobCategories />} />
                 <Route path="/jobs" element={<Jobs />} />
                 <Route path="/jobs/software-development" element={<SoftwareJobs />} />
+                <Route path="/jobs/hardware-networking" element={<HardwareNetworkingJobs />} />
                 <Route path="/jobs/software-development/:id" element={<SoftwareJobDetails />} />
                 <Route path="*" element={<NotFound />} />
               </Routes>
