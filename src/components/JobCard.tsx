@@ -17,6 +17,7 @@ export interface JobProps {
   logo?: string;
   source?: 'LinkedIn' | 'Indeed' | 'Naukri' | 'Google Jobs' | 'Glassdoor' | string;
   education?: string;
+  applyLink?: string;
 }
 
 const JobCard = ({ job }: { job: JobProps }) => {
@@ -80,7 +81,7 @@ const JobCard = ({ job }: { job: JobProps }) => {
         </div>
 
         <Button asChild className="mt-4 md:mt-0 bg-dhara-blue hover:bg-dhara-blue/90 self-start whitespace-nowrap">
-          <Link to={`/jobs/${job.id}`}>
+          <Link to={`/jobs/software-development/${job.id}`}>
             Apply Now
           </Link>
         </Button>

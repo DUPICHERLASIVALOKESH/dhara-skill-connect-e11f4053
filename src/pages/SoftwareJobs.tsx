@@ -42,8 +42,10 @@ const softwareJobs: JobProps[] = [
     level: "Entry-Level",
     education: "Bachelor's degree in Computer Science",
     postedDate: "Today",
+    salary: "₹5-8 LPA",
     description: "We are looking for a talented Junior Full Stack Developer to join our team. The ideal candidate will have knowledge of React, Node.js, and basic database concepts.",
-    source: "LinkedIn"
+    source: "LinkedIn",
+    applyLink: "https://testunity.com/careers"
   },
   {
     id: "soft2",
@@ -54,8 +56,10 @@ const softwareJobs: JobProps[] = [
     level: "Entry-Level",
     education: "Bachelor's degree in Engineering",
     postedDate: "Today",
+    salary: "₹4-6 LPA",
     description: "Join our innovative team at Karnataka Power Corporation Ltd. We're seeking motivated freshers with a passion for technology and problem-solving.",
-    source: "LinkedIn"
+    source: "LinkedIn",
+    applyLink: "https://karnatakapower.org/careers"
   },
   {
     id: "soft3",
@@ -66,8 +70,10 @@ const softwareJobs: JobProps[] = [
     level: "Entry-Level",
     education: "Degree in Computer Science",
     postedDate: "Yesterday",
+    salary: "₹15-25K per month",
     description: "Exciting internship opportunity for motivated individuals. Learn from experienced developers while working on real-world projects.",
-    source: "LinkedIn"
+    source: "LinkedIn",
+    applyLink: "https://linkedin.com/jobs"
   },
   {
     id: "soft4",
@@ -78,8 +84,10 @@ const softwareJobs: JobProps[] = [
     level: "Entry-Level",
     education: "Bachelor's degree in Computer Science",
     postedDate: "Yesterday",
+    salary: "₹4.5-7 LPA",
     description: "Notetech Software is hiring fresh talent for our expanding development team. Be part of innovative projects and cutting-edge technology.",
-    source: "Glassdoor"
+    source: "Glassdoor",
+    applyLink: "https://notetech.in/careers"
   },
   {
     id: "soft5",
@@ -90,8 +98,10 @@ const softwareJobs: JobProps[] = [
     level: "Entry-Level",
     education: "Bachelor's degree in Computer Science",
     postedDate: "2 days ago",
+    salary: "₹3.5-5 LPA",
     description: "Start your career with Makinus as a Trainee Software Engineer. We provide comprehensive training programs to help you grow professionally.",
-    source: "Glassdoor"
+    source: "Glassdoor",
+    applyLink: "https://makinus.com/careers"
   },
   {
     id: "soft6",
@@ -102,8 +112,10 @@ const softwareJobs: JobProps[] = [
     level: "Entry-Level",
     education: "Bachelor's degree in Computer Science",
     postedDate: "3 days ago",
+    salary: "₹3-5 LPA",
     description: "Genora Infotech is looking for talented software engineer trainees to join our dynamic team in Goa.",
-    source: "Glassdoor"
+    source: "Glassdoor",
+    applyLink: "https://genorainfotech.com/careers"
   },
   {
     id: "soft7",
@@ -114,8 +126,10 @@ const softwareJobs: JobProps[] = [
     level: "Entry-Level",
     education: "Bachelor's degree in Computer Science",
     postedDate: "1 week ago",
+    salary: "₹5-8 LPA",
     description: "Virtusa is hiring Junior Software Engineers with Java experience. Join our global team of technology professionals.",
-    source: "Glassdoor"
+    source: "Glassdoor",
+    applyLink: "https://virtusa.com/careers"
   }
 ];
 

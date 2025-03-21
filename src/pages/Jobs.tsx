@@ -1,3 +1,4 @@
+
 import { useEffect, useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { useLocation, Link } from 'react-router-dom';
@@ -20,6 +21,14 @@ import {
   CollapsibleContent,
   CollapsibleTrigger,
 } from "@/components/ui/collapsible";
+import {
+  Pagination,
+  PaginationContent,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from "@/components/ui/pagination";
 import { toast } from '@/hooks/use-toast';
 
 // Mock data for job listings - in a real application, this would be fetched from APIs
@@ -34,7 +43,8 @@ const mockJobs: JobProps[] = [
     salary: "₹25-35 LPA",
     postedDate: "2 days ago",
     description: "We are looking for an experienced software engineer with expertise in React, Node.js, and cloud technologies to join our growing engineering team.",
-    source: "LinkedIn"
+    source: "LinkedIn",
+    applyLink: "https://techglobe.com/careers"
   },
   {
     id: "job2",
@@ -46,7 +56,8 @@ const mockJobs: JobProps[] = [
     salary: "₹15-20 LPA",
     postedDate: "1 week ago",
     description: "Seeking an HR Manager with 5+ years of experience to oversee recruitment, employee relations, and HR operations for our technology division.",
-    source: "Naukri"
+    source: "Naukri",
+    applyLink: "https://infinityenterprises.com/careers"
   },
   {
     id: "job3",
@@ -58,7 +69,8 @@ const mockJobs: JobProps[] = [
     salary: "₹8-12 LPA",
     postedDate: "3 days ago",
     description: "Join our creative marketing team to develop and execute digital marketing campaigns for our diverse portfolio of clients across various industries.",
-    source: "Indeed"
+    source: "Indeed",
+    applyLink: "https://brandwave.com/careers"
   },
   {
     id: "job4",
@@ -70,7 +82,8 @@ const mockJobs: JobProps[] = [
     salary: "₹12-18 LPA",
     postedDate: "5 days ago",
     description: "Looking for a detail-oriented Finance Analyst to assist with financial reporting, budgeting, and forecasting for our expanding operations.",
-    source: "Google Jobs"
+    source: "Google Jobs",
+    applyLink: "https://globalfinance.com/careers"
   },
   {
     id: "job5",
@@ -82,7 +95,8 @@ const mockJobs: JobProps[] = [
     salary: "₹30-40 LPA",
     postedDate: "Just now",
     description: "Exciting opportunity for an experienced Product Manager to lead product development efforts for our SaaS platform, working closely with engineering and design teams.",
-    source: "LinkedIn"
+    source: "LinkedIn",
+    applyLink: "https://innovatetech.com/careers"
   },
   {
     id: "job6",
@@ -94,7 +108,8 @@ const mockJobs: JobProps[] = [
     salary: "₹5-8 LPA",
     postedDate: "2 weeks ago",
     description: "Seeking customer-focused professionals to provide excellent support to our clients through multiple channels including phone, email, and chat.",
-    source: "Indeed"
+    source: "Indeed",
+    applyLink: "https://serveright.com/careers"
   },
   {
     id: "job7",
@@ -106,7 +121,8 @@ const mockJobs: JobProps[] = [
     salary: "₹28-40 LPA",
     postedDate: "3 days ago",
     description: "Join our DevOps team to build and maintain scalable infrastructure on AWS and implement CI/CD pipelines for our growing platform.",
-    source: "Naukri"
+    source: "Naukri",
+    applyLink: "https://cloudscale.com/careers"
   },
   {
     id: "job8",
@@ -118,7 +134,8 @@ const mockJobs: JobProps[] = [
     salary: "₹18-25 LPA",
     postedDate: "1 day ago",
     description: "Leading e-commerce platform seeking an Operations Manager to oversee order fulfillment, inventory management, and customer delivery experience.",
-    source: "LinkedIn"
+    source: "LinkedIn",
+    applyLink: "https://fastcart.com/careers"
   }
 ];
 
