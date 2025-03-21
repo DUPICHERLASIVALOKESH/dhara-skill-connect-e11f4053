@@ -366,7 +366,19 @@ const SoftwareJobs = () => {
                 </div>
               ) : (
                 currentJobs?.map((job) => (
-                  <JobCard key={job.id} job={job} />
+                  <div key={job.id}>
+                    <JobCard job={job} />
+                    <div className="mt-4 text-right">
+                      <Button 
+                        asChild 
+                        className="bg-dhara-blue hover:bg-dhara-blue/90"
+                      >
+                        <Link to={`/jobs/software-development/${job.id}`}>
+                          View Details & Apply
+                        </Link>
+                      </Button>
+                    </div>
+                  </div>
                 ))
               )}
               
