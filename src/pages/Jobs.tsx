@@ -1,4 +1,3 @@
-
 import { useEffect, useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { useLocation, Link } from 'react-router-dom';
@@ -243,7 +242,7 @@ const Jobs = () => {
                 </SelectTrigger>
                 <SelectContent>
                   <SelectGroup>
-                    <SelectItem value="">All Locations</SelectItem>
+                    <SelectItem value="all">All Locations</SelectItem>
                     <SelectItem value="Mumbai">Mumbai</SelectItem>
                     <SelectItem value="Delhi">Delhi</SelectItem>
                     <SelectItem value="Bengaluru">Bengaluru</SelectItem>
@@ -283,7 +282,7 @@ const Jobs = () => {
                     </SelectTrigger>
                     <SelectContent>
                       <SelectGroup>
-                        <SelectItem value="">All Types</SelectItem>
+                        <SelectItem value="all">All Types</SelectItem>
                         <SelectItem value="Full-Time">Full-Time</SelectItem>
                         <SelectItem value="Part-Time">Part-Time</SelectItem>
                         <SelectItem value="Contract">Contract</SelectItem>
@@ -298,7 +297,7 @@ const Jobs = () => {
                     </SelectTrigger>
                     <SelectContent>
                       <SelectGroup>
-                        <SelectItem value="">All Levels</SelectItem>
+                        <SelectItem value="all">All Levels</SelectItem>
                         <SelectItem value="Entry-Level">Entry-Level</SelectItem>
                         <SelectItem value="Junior">Junior</SelectItem>
                         <SelectItem value="Mid-Level">Mid-Level</SelectItem>
@@ -322,7 +321,7 @@ const Jobs = () => {
                 </SelectTrigger>
                 <SelectContent>
                   <SelectGroup>
-                    <SelectItem value="">All Types</SelectItem>
+                    <SelectItem value="all">All Types</SelectItem>
                     <SelectItem value="Full-Time">Full-Time</SelectItem>
                     <SelectItem value="Part-Time">Part-Time</SelectItem>
                     <SelectItem value="Contract">Contract</SelectItem>
@@ -339,7 +338,7 @@ const Jobs = () => {
                 </SelectTrigger>
                 <SelectContent>
                   <SelectGroup>
-                    <SelectItem value="">All Levels</SelectItem>
+                    <SelectItem value="all">All Levels</SelectItem>
                     <SelectItem value="Entry-Level">Entry-Level</SelectItem>
                     <SelectItem value="Junior">Junior</SelectItem>
                     <SelectItem value="Mid-Level">Mid-Level</SelectItem>

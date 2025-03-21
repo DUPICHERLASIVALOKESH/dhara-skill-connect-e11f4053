@@ -1,3 +1,4 @@
+
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -14,6 +15,7 @@ import NotFound from "./pages/NotFound";
 import ChatBot from "./components/ChatBot";
 import Services from "./pages/Services";
 import SoftwareJobs from "./pages/SoftwareJobs";
+import SoftwareJobDetails from "./pages/SoftwareJobDetails";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 

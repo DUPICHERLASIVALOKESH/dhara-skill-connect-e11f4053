@@ -228,7 +228,7 @@ const SoftwareJobs = () => {
                 </SelectTrigger>
                 <SelectContent>
                   <SelectGroup>
-                    <SelectItem value="">All Locations</SelectItem>
+                    <SelectItem value="all">All Locations</SelectItem>
                     <SelectItem value="Bengaluru">Bengaluru</SelectItem>
                     <SelectItem value="Chennai">Chennai</SelectItem>
                     <SelectItem value="Kerala">Kerala</SelectItem>
@@ -268,7 +268,7 @@ const SoftwareJobs = () => {
                     </SelectTrigger>
                     <SelectContent>
                       <SelectGroup>
-                        <SelectItem value="">All Types</SelectItem>
+                        <SelectItem value="all">All Types</SelectItem>
                         <SelectItem value="Full-Time">Full-Time</SelectItem>
                         <SelectItem value="Part-Time">Part-Time</SelectItem>
                         <SelectItem value="Internship">Internship</SelectItem>
@@ -283,7 +283,7 @@ const SoftwareJobs = () => {
                     </SelectTrigger>
                     <SelectContent>
                       <SelectGroup>
-                        <SelectItem value="">All Levels</SelectItem>
+                        <SelectItem value="all">All Levels</SelectItem>
                         <SelectItem value="Entry-Level">Entry-Level</SelectItem>
                         <SelectItem value="Junior">Junior</SelectItem>
                         <SelectItem value="Mid-Level">Mid-Level</SelectItem>
@@ -306,7 +306,7 @@ const SoftwareJobs = () => {
                 </SelectTrigger>
                 <SelectContent>
                   <SelectGroup>
-                    <SelectItem value="">All Types</SelectItem>
+                    <SelectItem value="all">All Types</SelectItem>
                     <SelectItem value="Full-Time">Full-Time</SelectItem>
                     <SelectItem value="Part-Time">Part-Time</SelectItem>
                     <SelectItem value="Internship">Internship</SelectItem>
@@ -321,7 +321,7 @@ const SoftwareJobs = () => {
                 </SelectTrigger>
                 <SelectContent>
                   <SelectGroup>
-                    <SelectItem value="">All Levels</SelectItem>
+                    <SelectItem value="all">All Levels</SelectItem>
                     <SelectItem value="Entry-Level">Entry-Level</SelectItem>
                     <SelectItem value="Junior">Junior</SelectItem>
                     <SelectItem value="Mid-Level">Mid-Level</SelectItem>
