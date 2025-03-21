@@ -81,9 +81,15 @@ const JobCard = ({ job }: { job: JobProps }) => {
         </div>
 
         <Button asChild className="mt-4 md:mt-0 bg-dhara-blue hover:bg-dhara-blue/90 self-start whitespace-nowrap">
-          <Link to={`/jobs/software-development/${job.id}`}>
-            Apply Now
-          </Link>
+          {job.applyLink ? (
+            <a href={job.applyLink} target="_blank" rel="noopener noreferrer">
+              Apply Now
+            </a>
+          ) : (
+            <Link to={`/jobs/software-development/${job.id}`}>
+              View Details
+            </Link>
+          )}
         </Button>
       </div>
 
