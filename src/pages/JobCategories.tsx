@@ -1,6 +1,5 @@
-
 import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import { 
@@ -36,7 +35,6 @@ import {
   ArrowRight,
   MapPin,
 } from 'lucide-react';
-import { Link } from 'react-router-dom';
 
 interface CategoryData {
   title: string;
@@ -53,7 +51,6 @@ const JobCategories = () => {
   const [activeTab, setActiveTab] = useState('it');
   const navigate = useNavigate();
 
-  // Scroll to top on page load
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
@@ -182,7 +179,11 @@ const JobCategories = () => {
   };
 
   const handleSubcategoryClick = (subcategory: string) => {
-    // Convert the subcategory to a URL-friendly format and navigate to jobs page
+    if (subcategory === 'Software Development') {
+      navigate('/jobs/software-development');
+      return;
+    }
+    
     const formattedSubcategory = subcategory.toLowerCase().replace(/[&()]/g, '').replace(/\s+/g, '-');
     navigate('/jobs', { state: { category: activeTab, subcategory: formattedSubcategory } });
   };
@@ -192,7 +193,6 @@ const JobCategories = () => {
       <Navbar />
       
       <main className="pt-16 md:pt-20">
-        {/* Hero Section */}
         <section className="bg-dhara-blue py-16 md:py-24">
           <div className="container mx-auto px-4 md:px-6">
             <div className="max-w-4xl mx-auto text-center text-white">
@@ -217,7 +217,6 @@ const JobCategories = () => {
           </div>
         </section>
         
-        {/* Categories Section */}
         <section className="py-16">
           <div className="container mx-auto px-4 md:px-6">
             <div className="max-w-5xl mx-auto">
@@ -285,7 +284,6 @@ const JobCategories = () => {
           </div>
         </section>
         
-        {/* CTA Section */}
         <section className="py-16 bg-dhara-blue">
           <div className="container mx-auto px-4 md:px-6">
             <div className="max-w-3xl mx-auto text-center text-white">
