@@ -1,22 +1,84 @@
 
+import { useEffect, useRef } from 'react';
 import { Button } from '@/components/ui/button';
 import { Link } from 'react-router-dom';
 import { ArrowRight } from 'lucide-react';
+import { 
+  Carousel,
+  CarouselContent,
+  CarouselItem
+} from "@/components/ui/carousel";
 
 const Hero = () => {
+  const carouselRef = useRef<HTMLDivElement>(null);
+
+  // Auto-scroll the carousel
+  useEffect(() => {
+    const scrollContainer = carouselRef.current;
+    if (!scrollContainer) return;
+
+    let animationId: number;
+    let position = 0;
+    const speed = 0.5; // pixels per frame
+
+    const scroll = () => {
+      position += speed;
+      const container = scrollContainer.querySelector(".embla__container");
+      if (container) {
+        // If we've scrolled through all content, reset position
+        if (position >= container.scrollWidth / 2) {
+          position = 0;
+        }
+        container.scrollLeft = position;
+      }
+      animationId = requestAnimationFrame(scroll);
+    };
+
+    animationId = requestAnimationFrame(scroll);
+
+    return () => {
+      cancelAnimationFrame(animationId);
+    };
+  }, []);
+
+  const carouselImages = [
+    "https://images.unsplash.com/photo-1552664730-d307ca884978?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80",
+    "https://images.unsplash.com/photo-1516321497487-e288fb19713f?ixlib=rb-1.2.1&auto=format&fit=crop&w=2070&q=80",
+    "https://images.unsplash.com/photo-1560264280-88b68371db39?ixlib=rb-1.2.1&auto=format&fit=crop&w=2070&q=80",
+    "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?ixlib=rb-1.2.1&auto=format&fit=crop&w=2070&q=80",
+    "https://images.unsplash.com/photo-1521791136064-7986c2920216?ixlib=rb-1.2.1&auto=format&fit=crop&w=2070&q=80",
+    "https://images.unsplash.com/photo-1542744173-8e7e53415bb0?ixlib=rb-1.2.1&auto=format&fit=crop&w=2070&q=80",
+  ];
+  
+  // Double the images to create a seamless loop effect
+  const loopedImages = [...carouselImages, ...carouselImages];
+
   return (
     <div className="relative w-full h-screen overflow-hidden">
-      {/* Video Background */}
-      <video 
-        autoPlay 
-        loop 
-        muted 
-        playsInline
-        className="absolute inset-0 w-full h-full object-cover"
-      >
-        <source src="https://player.vimeo.com/external/479720766.hd.mp4?s=bf23bbba2c001b0a47a337a9c46c26f2ce89a399&profile_id=175&oauth2_token_id=57447761" type="video/mp4" />
-        Your browser does not support the video tag.
-      </video>
+      {/* Image Carousel Background */}
+      <div className="absolute inset-0 w-full h-full">
+        <Carousel
+          ref={carouselRef}
+          opts={{
+            align: "start",
+            loop: true,
+            dragFree: true,
+          }}
+          className="w-full h-full"
+        >
+          <CarouselContent className="h-full">
+            {loopedImages.map((image, index) => (
+              <CarouselItem key={index} className="h-full min-w-screen pl-0">
+                <img 
+                  src={image} 
+                  alt={`Recruitment image ${index + 1}`}
+                  className="w-full h-full object-cover" 
+                />
+              </CarouselItem>
+            ))}
+          </CarouselContent>
+        </Carousel>
+      </div>
       
       {/* Overlay */}
       <div className="absolute inset-0 bg-dhara-blue/60 backdrop-blur-xs"></div>
