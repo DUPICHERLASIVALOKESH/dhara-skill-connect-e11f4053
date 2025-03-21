@@ -1,4 +1,3 @@
-
 import { useEffect, useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { useLocation, Link } from 'react-router-dom';
@@ -31,7 +30,6 @@ import {
 } from "@/components/ui/pagination";
 import { toast } from '@/hooks/use-toast';
 
-// Mock data for job listings - in a real application, this would be fetched from APIs
 const mockJobs: JobProps[] = [
   {
     id: "job1",
@@ -139,13 +137,8 @@ const mockJobs: JobProps[] = [
   }
 ];
 
-// Function to fetch jobs (in a real application, this would be an API call)
 const fetchJobs = async (category?: string, subcategory?: string): Promise<JobProps[]> => {
-  // Simulate API delay
   await new Promise(resolve => setTimeout(resolve, 1000));
-  
-  // In a real implementation, we would filter based on the API
-  // For now, we'll just return all jobs
   return mockJobs;
 };
 
@@ -157,7 +150,6 @@ const Jobs = () => {
   const [levelFilter, setLevelFilter] = useState('');
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   
-  // Get category and subcategory from location state if available
   const categoryFromState = location.state?.category || '';
   const subcategoryFromState = location.state?.subcategory || '';
   
@@ -166,7 +158,6 @@ const Jobs = () => {
     queryFn: () => fetchJobs(categoryFromState, subcategoryFromState)
   });
 
-  // Scroll to top on page load
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
@@ -179,7 +170,6 @@ const Jobs = () => {
     });
   };
 
-  // Filter jobs based on search term and filters
   const filteredJobs = jobs?.filter(job => {
     const matchesSearch = 
       job.title.toLowerCase().includes(searchTerm.toLowerCase()) || 
@@ -193,7 +183,6 @@ const Jobs = () => {
     return matchesSearch && matchesLocation && matchesType && matchesLevel;
   });
 
-  // Format the subcategory for display
   const formatSubcategory = (subcategory: string) => {
     return subcategory
       .split('-')
@@ -206,7 +195,6 @@ const Jobs = () => {
       <Navbar />
       
       <main className="pt-16 md:pt-20">
-        {/* Hero Section */}
         <section className="bg-dhara-blue py-16 md:py-24">
           <div className="container mx-auto px-4 md:px-6">
             <div className="max-w-4xl mx-auto text-center text-white">
@@ -235,7 +223,6 @@ const Jobs = () => {
           </div>
         </section>
         
-        {/* Search and Filter Section */}
         <section className="py-8 bg-gray-50 border-b border-border">
           <div className="container mx-auto px-4 md:px-6">
             <form onSubmit={handleSearch} className="flex flex-col md:flex-row gap-4">
@@ -286,7 +273,6 @@ const Jobs = () => {
               </Button>
             </form>
             
-            {/* Mobile Filters Collapse */}
             <Collapsible open={isFilterOpen} onOpenChange={setIsFilterOpen} className="md:hidden mt-4">
               <CollapsibleContent className="space-y-4 pt-4">
                 <div className="grid grid-cols-2 gap-4">
@@ -299,7 +285,7 @@ const Jobs = () => {
                     </SelectTrigger>
                     <SelectContent>
                       <SelectGroup>
-                        <SelectItem value="all">All Types</SelectItem>
+                        <SelectItem value="all-types">All Types</SelectItem>
                         <SelectItem value="Full-Time">Full-Time</SelectItem>
                         <SelectItem value="Part-Time">Part-Time</SelectItem>
                         <SelectItem value="Contract">Contract</SelectItem>
@@ -314,7 +300,7 @@ const Jobs = () => {
                     </SelectTrigger>
                     <SelectContent>
                       <SelectGroup>
-                        <SelectItem value="all">All Levels</SelectItem>
+                        <SelectItem value="all-levels">All Levels</SelectItem>
                         <SelectItem value="Entry-Level">Entry-Level</SelectItem>
                         <SelectItem value="Junior">Junior</SelectItem>
                         <SelectItem value="Mid-Level">Mid-Level</SelectItem>
@@ -327,7 +313,6 @@ const Jobs = () => {
               </CollapsibleContent>
             </Collapsible>
             
-            {/* Desktop Additional Filters */}
             <div className="hidden md:flex mt-4 space-x-4">
               <Select value={typeFilter} onValueChange={setTypeFilter}>
                 <SelectTrigger className="w-60">
@@ -338,7 +323,7 @@ const Jobs = () => {
                 </SelectTrigger>
                 <SelectContent>
                   <SelectGroup>
-                    <SelectItem value="all">All Types</SelectItem>
+                    <SelectItem value="all-types">All Types</SelectItem>
                     <SelectItem value="Full-Time">Full-Time</SelectItem>
                     <SelectItem value="Part-Time">Part-Time</SelectItem>
                     <SelectItem value="Contract">Contract</SelectItem>
@@ -355,7 +340,7 @@ const Jobs = () => {
                 </SelectTrigger>
                 <SelectContent>
                   <SelectGroup>
-                    <SelectItem value="all">All Levels</SelectItem>
+                    <SelectItem value="all-levels">All Levels</SelectItem>
                     <SelectItem value="Entry-Level">Entry-Level</SelectItem>
                     <SelectItem value="Junior">Junior</SelectItem>
                     <SelectItem value="Mid-Level">Mid-Level</SelectItem>
@@ -373,7 +358,6 @@ const Jobs = () => {
           </div>
         </section>
         
-        {/* Job Listings Section */}
         <section className="py-12 md:py-16">
           <div className="container mx-auto px-4 md:px-6">
             <div className="mb-8">
@@ -415,7 +399,6 @@ const Jobs = () => {
           </div>
         </section>
         
-        {/* CTA Section */}
         <section className="py-16 md:py-24 bg-dhara-blue">
           <div className="container mx-auto px-4 md:px-6 text-center">
             <div className="max-w-3xl mx-auto">

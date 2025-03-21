@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { Link } from 'react-router-dom';
@@ -31,7 +30,6 @@ import {
 } from "@/components/ui/pagination";
 import { toast } from '@/hooks/use-toast';
 
-// Mock data specific to software jobs
 const softwareJobs: JobProps[] = [
   {
     id: "soft1",
@@ -133,12 +131,8 @@ const softwareJobs: JobProps[] = [
   }
 ];
 
-// Function to fetch software jobs
 const fetchSoftwareJobs = async (): Promise<JobProps[]> => {
-  // Simulate API delay
   await new Promise(resolve => setTimeout(resolve, 800));
-  
-  // In a real implementation, we would call an actual API
   return softwareJobs;
 };
 
@@ -156,7 +150,6 @@ const SoftwareJobs = () => {
     queryFn: fetchSoftwareJobs
   });
 
-  // Scroll to top on page load
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
@@ -170,7 +163,6 @@ const SoftwareJobs = () => {
     });
   };
 
-  // Filter jobs based on search term and filters
   const filteredJobs = jobs?.filter(job => {
     const matchesSearch = 
       job.title.toLowerCase().includes(searchTerm.toLowerCase()) || 
@@ -184,7 +176,6 @@ const SoftwareJobs = () => {
     return matchesSearch && matchesLocation && matchesType && matchesLevel;
   });
 
-  // Pagination logic
   const indexOfLastJob = currentPage * jobsPerPage;
   const indexOfFirstJob = indexOfLastJob - jobsPerPage;
   const currentJobs = filteredJobs?.slice(indexOfFirstJob, indexOfLastJob);
@@ -195,7 +186,6 @@ const SoftwareJobs = () => {
       <Navbar />
       
       <main className="pt-16 md:pt-20">
-        {/* Hero Section */}
         <section className="bg-dhara-blue py-16 md:py-24">
           <div className="container mx-auto px-4 md:px-6">
             <div className="max-w-4xl mx-auto text-center text-white">
@@ -218,7 +208,6 @@ const SoftwareJobs = () => {
           </div>
         </section>
         
-        {/* Search and Filter Section */}
         <section className="py-8 bg-gray-50 border-b border-border">
           <div className="container mx-auto px-4 md:px-6">
             <form onSubmit={handleSearch} className="flex flex-col md:flex-row gap-4">
@@ -242,7 +231,7 @@ const SoftwareJobs = () => {
                 </SelectTrigger>
                 <SelectContent>
                   <SelectGroup>
-                    <SelectItem value="all">All Locations</SelectItem>
+                    <SelectItem value="all-locations">All Locations</SelectItem>
                     <SelectItem value="Bengaluru">Bengaluru</SelectItem>
                     <SelectItem value="Chennai">Chennai</SelectItem>
                     <SelectItem value="Kerala">Kerala</SelectItem>
@@ -269,7 +258,6 @@ const SoftwareJobs = () => {
               </Button>
             </form>
             
-            {/* Mobile Filters Collapse */}
             <Collapsible open={isFilterOpen} onOpenChange={setIsFilterOpen} className="md:hidden mt-4">
               <CollapsibleContent className="space-y-4 pt-4">
                 <div className="grid grid-cols-2 gap-4">
@@ -282,7 +270,7 @@ const SoftwareJobs = () => {
                     </SelectTrigger>
                     <SelectContent>
                       <SelectGroup>
-                        <SelectItem value="all">All Types</SelectItem>
+                        <SelectItem value="all-types">All Types</SelectItem>
                         <SelectItem value="Full-Time">Full-Time</SelectItem>
                         <SelectItem value="Part-Time">Part-Time</SelectItem>
                         <SelectItem value="Internship">Internship</SelectItem>
@@ -297,7 +285,7 @@ const SoftwareJobs = () => {
                     </SelectTrigger>
                     <SelectContent>
                       <SelectGroup>
-                        <SelectItem value="all">All Levels</SelectItem>
+                        <SelectItem value="all-levels">All Levels</SelectItem>
                         <SelectItem value="Entry-Level">Entry-Level</SelectItem>
                         <SelectItem value="Junior">Junior</SelectItem>
                         <SelectItem value="Mid-Level">Mid-Level</SelectItem>
@@ -309,7 +297,6 @@ const SoftwareJobs = () => {
               </CollapsibleContent>
             </Collapsible>
             
-            {/* Desktop Additional Filters */}
             <div className="hidden md:flex mt-4 space-x-4">
               <Select value={typeFilter} onValueChange={setTypeFilter}>
                 <SelectTrigger className="w-60">
@@ -320,7 +307,7 @@ const SoftwareJobs = () => {
                 </SelectTrigger>
                 <SelectContent>
                   <SelectGroup>
-                    <SelectItem value="all">All Types</SelectItem>
+                    <SelectItem value="all-types">All Types</SelectItem>
                     <SelectItem value="Full-Time">Full-Time</SelectItem>
                     <SelectItem value="Part-Time">Part-Time</SelectItem>
                     <SelectItem value="Internship">Internship</SelectItem>
@@ -335,7 +322,7 @@ const SoftwareJobs = () => {
                 </SelectTrigger>
                 <SelectContent>
                   <SelectGroup>
-                    <SelectItem value="all">All Levels</SelectItem>
+                    <SelectItem value="all-levels">All Levels</SelectItem>
                     <SelectItem value="Entry-Level">Entry-Level</SelectItem>
                     <SelectItem value="Junior">Junior</SelectItem>
                     <SelectItem value="Mid-Level">Mid-Level</SelectItem>
@@ -347,7 +334,6 @@ const SoftwareJobs = () => {
           </div>
         </section>
         
-        {/* Job Listings Section */}
         <section className="py-12 md:py-16">
           <div className="container mx-auto px-4 md:px-6">
             <div className="mb-8">
@@ -396,7 +382,6 @@ const SoftwareJobs = () => {
                 ))
               )}
               
-              {/* Pagination */}
               {totalPages > 1 && (
                 <Pagination className="my-8">
                   <PaginationContent>
@@ -431,7 +416,6 @@ const SoftwareJobs = () => {
           </div>
         </section>
         
-        {/* CTA Section */}
         <section className="py-16 md:py-24 bg-dhara-blue">
           <div className="container mx-auto px-4 md:px-6 text-center">
             <div className="max-w-3xl mx-auto">
