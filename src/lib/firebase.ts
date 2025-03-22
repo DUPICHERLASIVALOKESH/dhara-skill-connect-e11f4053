@@ -7,7 +7,7 @@ import { toast } from '@/hooks/use-toast';
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
-  apiKey: process.env.FIREBASE_API_KEY || "AIzaSyDOCAbC123dEf456GhI789jKl01-MnO",
+  apiKey: import.meta.env.VITE_FIREBASE_API_KEY || "AIzaSyDOCAbC123dEf456GhI789jKl01-MnO",
   authDomain: "dhara-consultant.firebaseapp.com",
   projectId: "dhara-consultant",
   storageBucket: "dhara-consultant.appspot.com",
