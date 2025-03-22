@@ -6,7 +6,7 @@ import Footer from '@/components/Footer';
 import JobCard, { JobProps } from '@/components/JobCard';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
-import { Search, Briefcase, MapPin, ArrowLeft, Filter, SlidersHorizontal } from 'lucide-react';
+import { Search, Briefcase, MapPin, ArrowLeft, Filter, SlidersHorizontal, MessageSquare } from 'lucide-react';
 import {
   Select,
   SelectContent,
@@ -29,8 +29,212 @@ import {
   PaginationPrevious,
 } from "@/components/ui/pagination";
 import { toast } from '@/hooks/use-toast';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 
 const softwareJobs: JobProps[] = [
+  {
+    id: "united1",
+    title: "Associate Engineer",
+    company: "United Airlines",
+    location: "Gurugram, India",
+    type: "Full-Time",
+    level: "Entry-Level",
+    education: "BE/BTech",
+    postedDate: "Today",
+    salary: "Not Disclosed",
+    description: "United Airlines Recruitment 2025 for Associate Engineer. Fresh graduates with BE/BTech qualifications can apply. Both freshers and experienced candidates are welcome.",
+    source: "Foundit",
+    applyLink: "https://www.foundit.in/seeker/single-page-registration?from=asterix&spl=IN_paid_job_boards_acq_affiliates_asterix_Feed&gd=1&jobid=106234111&action=apply&utm_campaign=IN_paid_job_boards_acq_affiliates_asterix_Feed&utm_medium=affiliates&utm_source=asterix"
+  },
+  {
+    id: "emerson1",
+    title: "Graduate Engineer Trainee",
+    company: "Emerson",
+    location: "Pune, Maharashtra (Hybrid)",
+    type: "Full-Time",
+    level: "Entry-Level",
+    education: "BCA/BSc",
+    postedDate: "Today",
+    salary: "Not Disclosed",
+    description: "Emerson Off Campus Drive 2025 for Graduate Engineer Trainee. BCA/BSc freshers can apply for this opportunity in Pune with a hybrid work model.",
+    source: "Oracle Cloud",
+    applyLink: "https://hdjq.fa.us2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1/job/25016123/?utm_medium=jobshare&utm_source=External+Job+Share"
+  },
+  {
+    id: "infosys1",
+    title: "Internship - Multiple Sectors",
+    company: "Infosys",
+    location: "Mangalore, Chennai, Chandigarh, Bhubaneshwar",
+    type: "Internship",
+    level: "Entry-Level",
+    education: "Not Specified",
+    postedDate: "Today",
+    salary: "Not Disclosed",
+    description: "Infosys offering 12-month internships across multiple sectors in locations including Mangalore, Chennai, Chandigarh, and Bhubaneshwar. Open to freshers.",
+    source: "PM Internship Portal",
+    applyLink: "https://pminternship.mca.gov.in/"
+  },
+  {
+    id: "microland1",
+    title: "Associate Software Development Engineer - Automation & Platforms",
+    company: "Microland",
+    location: "Bengaluru, Karnataka",
+    type: "Full-Time",
+    level: "Entry-Level",
+    education: "B.E / B.Tech / MCA",
+    postedDate: "Yesterday",
+    salary: "Not Disclosed",
+    description: "Microland is hiring for Associate Software Development Engineer specializing in Automation & Platforms. Candidates with B.E / B.Tech / MCA qualifications can apply.",
+    source: "Microland Careers",
+    applyLink: "https://careers.microland.com/#!/job-view/associate-software-development-engineer-automation-platforms-india-bengaluru-2025031221310592"
+  },
+  {
+    id: "cognizant1",
+    title: "GenC Next, GenC Pro & GenC",
+    company: "Cognizant",
+    location: "Multiple Locations",
+    type: "Full-Time",
+    level: "Entry-Level",
+    education: "Engineering graduates (2024)",
+    postedDate: "Yesterday",
+    salary: "Not Disclosed",
+    description: "Cognizant Off-Campus hiring for 2024 Engineering graduates for GenC Next, GenC Pro & GenC programs across Chennai, Bangalore, Hyderabad, Kolkata, Pune, Coimbatore, Kochi, Bhubaneswar, and Indore. Apply by March 21, 2025.",
+    source: "Superset",
+    applyLink: "https://app.joinsuperset.com/join/#/signup/student/jobprofiles/80927bc8-841c-4055-a89d-e207fdb67bd9"
+  },
+  {
+    id: "turing1",
+    title: "Java Developer",
+    company: "Turing",
+    location: "Remote, India",
+    type: "Full-Time",
+    level: "Not Specified",
+    education: "Not Specified",
+    postedDate: "2 days ago",
+    salary: "Not Disclosed",
+    description: "Turing is looking for skilled Java Developers to join their team. Remote work opportunity for developers based in India.",
+    source: "Turing",
+    applyLink: "https://developers.turing.com/job/home?country=India&jobCode=yVjaf8-_Vwda&job_id=21731&job_id=21731&n=https%3A%2F%2Fdevelopers.turing.com%2Fdirect-apply%2FyVjaf8-_Vwda%3Fcountry%3DIndia&s=ads_developers_linkedinJobs"
+  },
+  {
+    id: "arabelle1",
+    title: "Graduate Apprentice Engineer",
+    company: "Arabelle Solutions (EDF Group)",
+    location: "Noida, India",
+    type: "Apprenticeship",
+    level: "Entry-Level",
+    education: "BE/BTech (Mechanical)",
+    postedDate: "2 days ago",
+    salary: "Not Disclosed",
+    description: "Arabelle Solutions (EDF Group) is hiring Graduate Apprentice Engineers. Open to 2023 or 2024 BE/BTech (Mechanical) graduates. Female candidates are preferred.",
+    source: "Arabelle Careers",
+    applyLink: "https://careers.arabellesolutions.com/2025/03/18/graduate-apprentice-engineer/?s=Graduate%20Apprentice%20Engineer&metierid=0&entiteid=0&language=en"
+  },
+  {
+    id: "swaransoft1",
+    title: "AI Intern",
+    company: "Swaransoft",
+    location: "Gurugram, India",
+    type: "Internship",
+    level: "Entry-Level",
+    education: "Not Specified",
+    postedDate: "3 days ago",
+    salary: "Not Disclosed",
+    description: "Swaransoft is offering AI Internship opportunities in Gurugram. Great opportunity for students interested in artificial intelligence.",
+    source: "Keka",
+    applyLink: "https://swaransoft.keka.com/careers/jobdetails/74266"
+  },
+  {
+    id: "ubs1",
+    title: "Intern",
+    company: "UBS",
+    location: "Hyderabad, India",
+    type: "Internship",
+    level: "Entry-Level",
+    education: "Not Specified",
+    postedDate: "3 days ago",
+    salary: "Not Disclosed",
+    description: "UBS is offering internship opportunities in Hyderabad. Great chance to gain experience with a global financial services firm.",
+    source: "UBS Careers",
+    applyLink: "https://jobs.ubs.com/TGnewUI/Search/home/HomeWithPreLoad?partnerid=25008&siteid=5012&PageType=JobDetails&jobid=322266&codes=IINDD#jobDetails=322266_5012"
+  },
+  {
+    id: "wipro1",
+    title: "Management Trainee",
+    company: "Wipro",
+    location: "Gurugram, India",
+    type: "Full-Time",
+    level: "Entry-Level",
+    education: "Not Specified",
+    postedDate: "4 days ago",
+    salary: "Not Disclosed",
+    description: "Wipro is hiring Management Trainees in Gurugram. This position offers great growth opportunities within a leading IT services company.",
+    source: "Indeed",
+    applyLink: "https://careers.wipro.com/job/Gurugram-Management-Trainee-122016/1151753555/?feedId=420455&utm_source=Indeed"
+  },
+  {
+    id: "geaerospace1",
+    title: "B.Tech Summer Internship: Electric Power",
+    company: "GE Aerospace",
+    location: "Bengaluru, India",
+    type: "Internship",
+    level: "Entry-Level",
+    education: "B.Tech",
+    postedDate: "4 days ago",
+    salary: "Not Disclosed",
+    description: "GE Aerospace is offering B.Tech Summer Internships in Electric Power at their Bengaluru location. Great opportunity for engineering students interested in aerospace.",
+    source: "GE Careers",
+    applyLink: "https://careers.geaerospace.com/global/en/job/R5005133/B-Tech-Summar-Internship-Electric-Power"
+  },
+  {
+    id: "valeo1",
+    title: "Intern Mechanical Design & System Integration",
+    company: "Valeo",
+    location: "Chennai, India",
+    type: "Internship",
+    level: "Entry-Level",
+    education: "Not Specified",
+    postedDate: "5 days ago",
+    salary: "Not Disclosed",
+    description: "Valeo is offering an internship opportunity for Mechanical Design & System Integration in Chennai. Great exposure to automotive technology and innovation.",
+    source: "Workday",
+    applyLink: "https://valeo.wd3.myworkdayjobs.com/en-US/valeo_jobs/details/Intern-Mechanical-Design---System-Integration_REQ2025053157?q=Intern%20Mechanical%20Design%20&%20System%20Integration"
+  },
+  {
+    id: "gehealthcare1",
+    title: "Trainee Engineer",
+    company: "GE HealthCare",
+    location: "Bengaluru, India",
+    type: "Full-Time",
+    level: "Entry-Level",
+    education: "BE in Mechanical Engineering",
+    postedDate: "5 days ago",
+    salary: "Not Disclosed",
+    description: "GE HealthCare is hiring Trainee Engineers in Bengaluru. Required qualification is BE in Mechanical Engineering. Great opportunity to start a career in healthcare technology.",
+    source: "Indeed",
+    applyLink: "https://careers.gehealthcare.com/global/en/job/GEVGHLGLOBALR4019758EXTERNALENGLOBAL/Trainee-Engineer?utm_source=indeed&utm_medium=phenom-feeds&ittk=AUJ5W0VPMR"
+  },
+  {
+    id: "ibm1",
+    title: "Application Developer - Cloud Full Stack",
+    company: "IBM",
+    location: "Hyderabad, India",
+    type: "Full-Time",
+    level: "Entry-Level",
+    education: "Not Specified",
+    postedDate: "6 days ago",
+    salary: "Not Disclosed",
+    description: "IBM is hiring Application Developers specializing in Cloud Full Stack in Hyderabad. Open to fresh graduates from 2024/25 batches.",
+    source: "IBM Careers",
+    applyLink: "https://ibmglobal.avature.net/en_US/careers/JobDetail/Application-Developer-Cloud-FullStack/9273"
+  },
   {
     id: "soft1",
     title: "Junior Full Stack Developer",
@@ -39,7 +243,7 @@ const softwareJobs: JobProps[] = [
     type: "Full-Time",
     level: "Entry-Level",
     education: "Bachelor's degree in Computer Science",
-    postedDate: "Today",
+    postedDate: "1 week ago",
     salary: "₹5-8 LPA",
     description: "We are looking for a talented Junior Full Stack Developer to join our team. The ideal candidate will have knowledge of React, Node.js, and basic database concepts.",
     source: "LinkedIn",
@@ -53,7 +257,7 @@ const softwareJobs: JobProps[] = [
     type: "Full-Time",
     level: "Entry-Level",
     education: "Bachelor's degree in Engineering",
-    postedDate: "Today",
+    postedDate: "1 week ago",
     salary: "₹4-6 LPA",
     description: "Join our innovative team at Karnataka Power Corporation Ltd. We're seeking motivated freshers with a passion for technology and problem-solving.",
     source: "LinkedIn",
@@ -67,7 +271,7 @@ const softwareJobs: JobProps[] = [
     type: "Internship",
     level: "Entry-Level",
     education: "Degree in Computer Science",
-    postedDate: "Yesterday",
+    postedDate: "1 week ago",
     salary: "₹15-25K per month",
     description: "Exciting internship opportunity for motivated individuals. Learn from experienced developers while working on real-world projects.",
     source: "LinkedIn",
@@ -81,7 +285,7 @@ const softwareJobs: JobProps[] = [
     type: "Full-Time",
     level: "Entry-Level",
     education: "Bachelor's degree in Computer Science",
-    postedDate: "Yesterday",
+    postedDate: "1 week ago",
     salary: "₹4.5-7 LPA",
     description: "Notetech Software is hiring fresh talent for our expanding development team. Be part of innovative projects and cutting-edge technology.",
     source: "Glassdoor",
@@ -95,7 +299,7 @@ const softwareJobs: JobProps[] = [
     type: "Full-Time",
     level: "Entry-Level",
     education: "Bachelor's degree in Computer Science",
-    postedDate: "2 days ago",
+    postedDate: "2 weeks ago",
     salary: "₹3.5-5 LPA",
     description: "Start your career with Makinus as a Trainee Software Engineer. We provide comprehensive training programs to help you grow professionally.",
     source: "Glassdoor",
@@ -109,7 +313,7 @@ const softwareJobs: JobProps[] = [
     type: "Full-Time",
     level: "Entry-Level",
     education: "Bachelor's degree in Computer Science",
-    postedDate: "3 days ago",
+    postedDate: "2 weeks ago",
     salary: "₹3-5 LPA",
     description: "Genora Infotech is looking for talented software engineer trainees to join our dynamic team in Goa.",
     source: "Glassdoor",
@@ -123,7 +327,7 @@ const softwareJobs: JobProps[] = [
     type: "Full-Time",
     level: "Entry-Level",
     education: "Bachelor's degree in Computer Science",
-    postedDate: "1 week ago",
+    postedDate: "2 weeks ago",
     salary: "₹5-8 LPA",
     description: "Virtusa is hiring Junior Software Engineers with Java experience. Join our global team of technology professionals.",
     source: "Glassdoor",
@@ -204,6 +408,18 @@ const SoftwareJobs = () => {
               <p className="text-xl text-white/85 animate-fade-in">
                 Find the latest opportunities in software development from leading companies across India.
               </p>
+              
+              <div className="mt-6">
+                <a 
+                  href="https://chat.whatsapp.com/CGguruZu2nEJfjNPT0trdm" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 bg-green-500 hover:bg-green-600 text-white py-2 px-4 rounded-full transition-colors"
+                >
+                  <MessageSquare size={20} />
+                  Join Our WhatsApp Community for Job Updates
+                </a>
+              </div>
             </div>
           </div>
         </section>
@@ -347,6 +563,31 @@ const SoftwareJobs = () => {
               )}
             </div>
             
+            <Card className="mb-8 bg-green-50 border-green-200">
+              <CardHeader>
+                <CardTitle className="text-green-800">Join Our Job Community</CardTitle>
+                <CardDescription className="text-green-700">
+                  Get regular updates on latest job opportunities across India
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <p className="text-green-700 mb-4">
+                  Stay updated with the latest job openings, recruitment drives, and career opportunities by joining our WhatsApp community group.
+                </p>
+              </CardContent>
+              <CardFooter>
+                <a 
+                  href="https://chat.whatsapp.com/CGguruZu2nEJfjNPT0trdm" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 bg-green-600 hover:bg-green-700 text-white py-2 px-4 rounded-md transition-colors"
+                >
+                  <MessageSquare size={16} />
+                  Join WhatsApp Group
+                </a>
+              </CardFooter>
+            </Card>
+            
             <div className="space-y-6">
               {isLoading ? (
                 <div className="text-center py-12">
@@ -433,6 +674,18 @@ const SoftwareJobs = () => {
                   <Link to="/jobs">
                     Browse All Jobs
                   </Link>
+                </Button>
+                
+                <Button asChild size="lg" className="bg-green-500 text-white hover:bg-green-600 border-none">
+                  <a 
+                    href="https://chat.whatsapp.com/CGguruZu2nEJfjNPT0trdm" 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2"
+                  >
+                    <MessageSquare size={16} />
+                    Join WhatsApp Community
+                  </a>
                 </Button>
               </div>
             </div>
