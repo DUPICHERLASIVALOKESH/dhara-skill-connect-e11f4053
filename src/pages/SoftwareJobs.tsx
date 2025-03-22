@@ -234,104 +234,6 @@ const softwareJobs: JobProps[] = [
     description: "IBM is hiring Application Developers specializing in Cloud Full Stack in Hyderabad. Open to fresh graduates from 2024/25 batches.",
     source: "IBM Careers",
     applyLink: "https://ibmglobal.avature.net/en_US/careers/JobDetail/Application-Developer-Cloud-FullStack/9273"
-  },
-  {
-    id: "soft1",
-    title: "Junior Full Stack Developer",
-    company: "TestUnity",
-    location: "Bengaluru, Karnataka, India",
-    type: "Full-Time",
-    level: "Entry-Level",
-    education: "Bachelor's degree in Computer Science",
-    postedDate: "1 week ago",
-    salary: "₹5-8 LPA",
-    description: "We are looking for a talented Junior Full Stack Developer to join our team. The ideal candidate will have knowledge of React, Node.js, and basic database concepts.",
-    source: "LinkedIn",
-    applyLink: "https://testunity.com/careers"
-  },
-  {
-    id: "soft2",
-    title: "Software Engineer Fresher",
-    company: "Karnataka Power Corporation Ltd",
-    location: "Chennai, Tamil Nadu, India",
-    type: "Full-Time",
-    level: "Entry-Level",
-    education: "Bachelor's degree in Engineering",
-    postedDate: "1 week ago",
-    salary: "₹4-6 LPA",
-    description: "Join our innovative team at Karnataka Power Corporation Ltd. We're seeking motivated freshers with a passion for technology and problem-solving.",
-    source: "LinkedIn",
-    applyLink: "https://karnatakapower.org/careers"
-  },
-  {
-    id: "soft3",
-    title: "Junior Software Developer Internship",
-    company: "Confidential",
-    location: "Remote, India",
-    type: "Internship",
-    level: "Entry-Level",
-    education: "Degree in Computer Science",
-    postedDate: "1 week ago",
-    salary: "₹15-25K per month",
-    description: "Exciting internship opportunity for motivated individuals. Learn from experienced developers while working on real-world projects.",
-    source: "LinkedIn",
-    applyLink: "https://linkedin.com/jobs"
-  },
-  {
-    id: "soft4",
-    title: "Associate Software Engineer",
-    company: "Notetech Software",
-    location: "Kerala, India",
-    type: "Full-Time",
-    level: "Entry-Level",
-    education: "Bachelor's degree in Computer Science",
-    postedDate: "1 week ago",
-    salary: "₹4.5-7 LPA",
-    description: "Notetech Software is hiring fresh talent for our expanding development team. Be part of innovative projects and cutting-edge technology.",
-    source: "Glassdoor",
-    applyLink: "https://notetech.in/careers"
-  },
-  {
-    id: "soft5",
-    title: "Trainee Software Engineer",
-    company: "Makinus",
-    location: "Tirunelveli, India",
-    type: "Full-Time",
-    level: "Entry-Level",
-    education: "Bachelor's degree in Computer Science",
-    postedDate: "2 weeks ago",
-    salary: "₹3.5-5 LPA",
-    description: "Start your career with Makinus as a Trainee Software Engineer. We provide comprehensive training programs to help you grow professionally.",
-    source: "Glassdoor",
-    applyLink: "https://makinus.com/careers"
-  },
-  {
-    id: "soft6",
-    title: "Software Engineer Trainee",
-    company: "Genora Infotech",
-    location: "Goa, India",
-    type: "Full-Time",
-    level: "Entry-Level",
-    education: "Bachelor's degree in Computer Science",
-    postedDate: "2 weeks ago",
-    salary: "₹3-5 LPA",
-    description: "Genora Infotech is looking for talented software engineer trainees to join our dynamic team in Goa.",
-    source: "Glassdoor",
-    applyLink: "https://genorainfotech.com/careers"
-  },
-  {
-    id: "soft7",
-    title: "Junior Software Engineer - Java",
-    company: "Virtusa",
-    location: "Bengaluru, Karnataka, India",
-    type: "Full-Time",
-    level: "Entry-Level",
-    education: "Bachelor's degree in Computer Science",
-    postedDate: "2 weeks ago",
-    salary: "₹5-8 LPA",
-    description: "Virtusa is hiring Junior Software Engineers with Java experience. Join our global team of technology professionals.",
-    source: "Glassdoor",
-    applyLink: "https://virtusa.com/careers"
   }
 ];
 
@@ -607,17 +509,70 @@ const SoftwareJobs = () => {
                 </div>
               ) : (
                 currentJobs?.map((job) => (
-                  <div key={job.id}>
-                    <JobCard job={job} />
-                    <div className="mt-4 text-right">
-                      <Button 
-                        asChild 
-                        className="bg-dhara-blue hover:bg-dhara-blue/90"
-                      >
-                        <Link to={`/jobs/software-development/${job.id}`}>
-                          View Details & Apply
-                        </Link>
-                      </Button>
+                  <div key={job.id} className="bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow p-6 border border-border">
+                    <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-4">
+                      <div className="space-y-2">
+                        <div className="flex items-start gap-3">
+                          <div className="w-12 h-12 rounded-md flex-shrink-0 bg-dhara-blue/10 text-dhara-blue flex items-center justify-center">
+                            <Briefcase size={20} />
+                          </div>
+                          <div>
+                            <h3 className="text-xl font-semibold text-dhara-blue">{job.title}</h3>
+                            <p className="text-dhara-dark font-medium">{job.company}</p>
+                          </div>
+                        </div>
+                        
+                        <div className="flex flex-wrap items-center gap-3 text-sm text-dhara-gray">
+                          <div className="flex items-center">
+                            <MapPin size={16} className="mr-1" />
+                            {job.location}
+                          </div>
+                          <div className="flex items-center">
+                            <Briefcase size={16} className="mr-1" />
+                            {job.type}
+                          </div>
+                          {job.education && (
+                            <div className="flex items-center">
+                              <MapPin size={16} className="mr-1" />
+                              {job.education}
+                            </div>
+                          )}
+                        </div>
+
+                        <div className="flex flex-wrap gap-2 pt-2">
+                          <Badge variant="outline" className="bg-dhara-light-gray/50 hover:bg-dhara-light-gray/75 text-dhara-dark">
+                            {job.level}
+                          </Badge>
+                          {job.source && (
+                            <Badge variant="secondary" className="bg-dhara-blue/10 hover:bg-dhara-blue/20 text-dhara-blue border-none">
+                              via {job.source}
+                            </Badge>
+                          )}
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="mt-4 pt-4 border-t border-border">
+                      <p className="text-dhara-gray mb-4">{job.description}</p>
+                      <div className="flex flex-col sm:flex-row gap-3 mt-4">
+                        <Button 
+                          asChild 
+                          className="bg-dhara-blue hover:bg-dhara-blue/90"
+                        >
+                          <a href={job.applyLink} target="_blank" rel="noopener noreferrer">
+                            Apply Now
+                          </a>
+                        </Button>
+                        <Button 
+                          asChild 
+                          className="bg-green-500 hover:bg-green-600"
+                        >
+                          <a href="https://chat.whatsapp.com/CGguruZu2nEJfjNPT0trdm" target="_blank" rel="noopener noreferrer">
+                            <MessageSquare size={16} className="mr-2" />
+                            Join WhatsApp Group
+                          </a>
+                        </Button>
+                      </div>
                     </div>
                   </div>
                 ))

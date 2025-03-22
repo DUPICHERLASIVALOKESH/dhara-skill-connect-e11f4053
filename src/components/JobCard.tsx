@@ -2,7 +2,7 @@
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Link } from 'react-router-dom';
-import { Calendar, MapPin, Briefcase, DollarSign, GraduationCap } from 'lucide-react';
+import { Calendar, MapPin, Briefcase, DollarSign, GraduationCap, MessageSquare } from 'lucide-react';
 
 export interface JobProps {
   id: string;
@@ -80,17 +80,28 @@ const JobCard = ({ job }: { job: JobProps }) => {
           </div>
         </div>
 
-        <Button asChild className="mt-4 md:mt-0 bg-dhara-blue hover:bg-dhara-blue/90 self-start whitespace-nowrap">
+        <div className="flex flex-col gap-2">
           {job.applyLink ? (
-            <a href={job.applyLink} target="_blank" rel="noopener noreferrer">
-              Apply Now
-            </a>
+            <Button asChild className="bg-dhara-blue hover:bg-dhara-blue/90 self-start whitespace-nowrap">
+              <a href={job.applyLink} target="_blank" rel="noopener noreferrer">
+                Apply Now
+              </a>
+            </Button>
           ) : (
-            <Link to={`/jobs/software-development/${job.id}`}>
-              View Details
-            </Link>
+            <Button asChild className="bg-dhara-blue hover:bg-dhara-blue/90 self-start whitespace-nowrap">
+              <Link to={`/jobs/software-development/${job.id}`}>
+                View Details
+              </Link>
+            </Button>
           )}
-        </Button>
+          
+          <Button asChild variant="outline" className="bg-green-500 hover:bg-green-600 text-white border-none self-start whitespace-nowrap">
+            <a href="https://chat.whatsapp.com/CGguruZu2nEJfjNPT0trdm" target="_blank" rel="noopener noreferrer">
+              <MessageSquare size={16} className="mr-2" />
+              Join WhatsApp
+            </a>
+          </Button>
+        </div>
       </div>
 
       <div className="mt-4 pt-4 border-t border-border">
