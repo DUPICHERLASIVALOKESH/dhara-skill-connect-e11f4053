@@ -7,7 +7,7 @@ import { toast } from '@/hooks/use-toast';
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
-  apiKey: "AIzaSyA_L7nv6yNwwYGm6qHJQvnTlhbh4PSdOTs",
+  apiKey: process.env.FIREBASE_API_KEY || "AIzaSyDOCAbC123dEf456GhI789jKl01-MnO",
   authDomain: "dhara-consultant.firebaseapp.com",
   projectId: "dhara-consultant",
   storageBucket: "dhara-consultant.appspot.com",
@@ -21,5 +21,10 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
 const googleProvider = new GoogleAuthProvider();
+
+// Add custom parameters to the Google provider
+googleProvider.setCustomParameters({
+  prompt: 'select_account'
+});
 
 export { app, auth, db, googleProvider };

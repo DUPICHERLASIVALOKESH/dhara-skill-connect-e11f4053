@@ -4,7 +4,9 @@ import {
   User, 
   signInWithPopup, 
   signOut as firebaseSignOut, 
-  onAuthStateChanged 
+  onAuthStateChanged,
+  GoogleAuthProvider,
+  AuthError
 } from 'firebase/auth';
 import { auth, googleProvider } from '@/lib/firebase';
 import { toast } from '@/hooks/use-toast';
@@ -33,16 +35,32 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
   const signInWithGoogle = async () => {
     try {
-      await signInWithPopup(auth, googleProvider);
+      const result = await signInWithPopup(auth, googleProvider);
+      const user = result.user;
+      console.log("Successfully signed in:", user.displayName);
+      
       toast({
         title: "Welcome!",
-        description: "You've successfully signed in.",
+        description: `You've successfully signed in${user.displayName ? `, ${user.displayName}` : ''}!`,
       });
     } catch (error) {
       console.error("Error signing in with Google:", error);
+      
+      // Get more specific error message
+      const authError = error as AuthError;
+      let errorMessage = "There was a problem signing in. Please try again.";
+      
+      if (authError.code === 'auth/popup-closed-by-user') {
+        errorMessage = "Sign-in was cancelled. Please try again.";
+      } else if (authError.code === 'auth/popup-blocked') {
+        errorMessage = "Sign-in popup was blocked. Please enable popups for this site.";
+      } else if (authError.code === 'auth/api-key-not-valid') {
+        errorMessage = "Authentication configuration error. Please contact support.";
+      }
+      
       toast({
         title: "Sign In Failed",
-        description: "There was a problem signing in. Please try again.",
+        description: errorMessage,
         variant: "destructive",
       });
     }
