@@ -19,7 +19,7 @@ const Hero = () => {
 
     let animationId: number;
     let position = 0;
-    const speed = 0.5; // pixels per frame
+    const speed = 0.5; // pixels per frame - lower is slower, higher is faster
 
     const scroll = () => {
       position += speed;
@@ -29,6 +29,7 @@ const Hero = () => {
         if (position >= container.scrollWidth / 2) {
           position = 0;
         }
+        // Set scrollLeft to create right-to-left movement
         container.scrollLeft = position;
       }
       animationId = requestAnimationFrame(scroll);
@@ -42,12 +43,19 @@ const Hero = () => {
   }, []);
 
   const carouselImages = [
+    // Professional recruiting and office images
     "https://images.unsplash.com/photo-1552664730-d307ca884978?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80",
     "https://images.unsplash.com/photo-1516321497487-e288fb19713f?ixlib=rb-1.2.1&auto=format&fit=crop&w=2070&q=80",
     "https://images.unsplash.com/photo-1560264280-88b68371db39?ixlib=rb-1.2.1&auto=format&fit=crop&w=2070&q=80",
     "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?ixlib=rb-1.2.1&auto=format&fit=crop&w=2070&q=80",
     "https://images.unsplash.com/photo-1521791136064-7986c2920216?ixlib=rb-1.2.1&auto=format&fit=crop&w=2070&q=80",
     "https://images.unsplash.com/photo-1542744173-8e7e53415bb0?ixlib=rb-1.2.1&auto=format&fit=crop&w=2070&q=80",
+    // Additional business and recruitment-themed images
+    "https://images.unsplash.com/photo-1557804506-669a67965ba0?ixlib=rb-1.2.1&auto=format&fit=crop&w=2070&q=80", // Business meeting
+    "https://images.unsplash.com/photo-1600880292203-757bb62b4baf?ixlib=rb-1.2.1&auto=format&fit=crop&w=2070&q=80", // Office workers
+    "https://images.unsplash.com/photo-1551836022-d5d88e9218df?ixlib=rb-1.2.1&auto=format&fit=crop&w=2070&q=80", // Team collaboration
+    "https://images.unsplash.com/photo-1607748862156-7c548e7e98f4?ixlib=rb-1.2.1&auto=format&fit=crop&w=2070&q=80", // Interview
+    "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?ixlib=rb-1.2.1&auto=format&fit=crop&w=2070&q=80", // Modern office
   ];
   
   // Double the images to create a seamless loop effect
