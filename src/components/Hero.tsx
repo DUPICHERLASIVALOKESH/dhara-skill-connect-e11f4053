@@ -19,7 +19,7 @@ const Hero = () => {
 
     let animationId: number;
     let position = 0;
-    const speed = 0.5; // pixels per frame - lower is slower, higher is faster
+    const speed = 1.5; // Increased speed for more noticeable movement
 
     const scroll = () => {
       position += speed;
@@ -35,6 +35,7 @@ const Hero = () => {
       animationId = requestAnimationFrame(scroll);
     };
 
+    // Start the animation
     animationId = requestAnimationFrame(scroll);
 
     return () => {
@@ -88,8 +89,8 @@ const Hero = () => {
         </Carousel>
       </div>
       
-      {/* Overlay */}
-      <div className="absolute inset-0 bg-dhara-blue/60 backdrop-blur-xs"></div>
+      {/* Overlay - reduced opacity to make scrolling more visible */}
+      <div className="absolute inset-0 bg-dhara-blue/50 backdrop-blur-sm"></div>
       
       {/* Content */}
       <div className="relative h-full flex flex-col items-center justify-center text-white container mx-auto px-4 md:px-6">
