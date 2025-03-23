@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import JobCard, { JobProps } from '@/components/JobCard';
+import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Search, Briefcase, MapPin, ArrowLeft, Filter, SlidersHorizontal, MessageSquare } from 'lucide-react';
@@ -654,3 +655,4 @@ const SoftwareJobs = () => {
 };
 
 export default SoftwareJobs;
+
