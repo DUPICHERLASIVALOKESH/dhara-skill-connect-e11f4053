@@ -1,4 +1,3 @@
-
 import { useEffect, useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import Navbar from '@/components/Navbar';
@@ -35,6 +34,7 @@ import {
   Search,
   ArrowRight,
   MapPin,
+  MessageSquare,
 } from 'lucide-react';
 
 interface CategoryData {
@@ -194,6 +194,11 @@ const JobCategories = () => {
     navigate('/jobs', { state: { category: activeTab, subcategory: formattedSubcategory } });
   };
 
+  const handleJoinWhatsApp = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    window.open('https://chat.whatsapp.com/CGguruZu2nEJfjNPT0trdm', '_blank');
+  };
+
   return (
     <>
       <Navbar />
@@ -218,6 +223,17 @@ const JobCategories = () => {
                     Search
                   </Button>
                 </div>
+              </div>
+              
+              <div className="mt-6">
+                <Button 
+                  size="lg" 
+                  className="bg-green-500 hover:bg-green-600 text-white"
+                  onClick={handleJoinWhatsApp}
+                >
+                  <MessageSquare size={18} className="mr-2" />
+                  Join Our WhatsApp Community
+                </Button>
               </div>
             </div>
           </div>
@@ -244,11 +260,21 @@ const JobCategories = () => {
                 
                 {Object.entries(categories).map(([key, category]) => (
                   <TabsContent key={key} value={key} className="space-y-6">
-                    <div className="flex items-center mb-6">
-                      <div className="p-2 rounded-full bg-dhara-blue/10 text-dhara-blue mr-3">
-                        {category.icon}
+                    <div className="flex items-center justify-between mb-6">
+                      <div className="flex items-center">
+                        <div className="p-2 rounded-full bg-dhara-blue/10 text-dhara-blue mr-3">
+                          {category.icon}
+                        </div>
+                        <h2 className="text-2xl font-bold">{category.title}</h2>
                       </div>
-                      <h2 className="text-2xl font-bold">{category.title}</h2>
+                      
+                      <Button 
+                        className="bg-green-500 hover:bg-green-600 text-white"
+                        onClick={handleJoinWhatsApp}
+                      >
+                        <MessageSquare size={16} className="mr-2" />
+                        Join WhatsApp
+                      </Button>
                     </div>
                     
                     <Accordion type="multiple" className="w-full">
@@ -272,12 +298,21 @@ const JobCategories = () => {
                                 <MapPin size={16} className="mr-1" />
                                 <span>Multiple locations available</span>
                               </div>
-                              <Button 
-                                onClick={() => handleSubcategoryClick(subcategory.name)}
-                                className="bg-dhara-blue hover:bg-dhara-blue/90"
-                              >
-                                View Jobs <ArrowRight size={16} className="ml-2" />
-                              </Button>
+                              <div className="flex space-x-2">
+                                <Button 
+                                  onClick={() => handleSubcategoryClick(subcategory.name)}
+                                  className="bg-dhara-blue hover:bg-dhara-blue/90"
+                                >
+                                  View Jobs <ArrowRight size={16} className="ml-2" />
+                                </Button>
+                                <Button 
+                                  onClick={handleJoinWhatsApp}
+                                  className="bg-green-500 hover:bg-green-600 text-white"
+                                >
+                                  <MessageSquare size={16} className="mr-2" />
+                                  Join WhatsApp
+                                </Button>
+                              </div>
                             </div>
                           </AccordionContent>
                         </AccordionItem>
@@ -307,6 +342,14 @@ const JobCategories = () => {
                   <Link to="/contact">
                     Contact Recruiters
                   </Link>
+                </Button>
+                <Button 
+                  size="lg" 
+                  className="bg-green-500 hover:bg-green-600 text-white border-none"
+                  onClick={handleJoinWhatsApp}
+                >
+                  <MessageSquare size={18} className="mr-2" />
+                  Join WhatsApp Group
                 </Button>
               </div>
             </div>
