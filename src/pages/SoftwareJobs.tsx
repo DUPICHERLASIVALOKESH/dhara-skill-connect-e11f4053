@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { Link } from 'react-router-dom';
@@ -7,7 +8,7 @@ import JobCard, { JobProps } from '@/components/JobCard';
 import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
-import { Search, Briefcase, MapPin, ArrowLeft, Filter, SlidersHorizontal, MessageSquare } from 'lucide-react';
+import { Search, Briefcase, MapPin, ArrowLeft, Filter, SlidersHorizontal, MessageSquare, Send } from 'lucide-react';
 import {
   Select,
   SelectContent,
@@ -40,6 +41,134 @@ import {
 } from "@/components/ui/card";
 
 const softwareJobs: JobProps[] = [
+  // New jobs added at the top
+  {
+    id: "goldmansachs1",
+    title: "Analyst",
+    company: "Goldman Sachs",
+    location: "India (Multiple Locations)",
+    type: "Full-Time",
+    level: "Entry-Level",
+    education: "2025 passouts",
+    postedDate: "Today",
+    salary: "23 LPA",
+    description: "Goldman Sachs Engineering Analyst Hiring Program for 2025 passouts with a CTC of 23 LPA.",
+    source: "Goldman Sachs Careers",
+    applyLink: "https://www.goldmansachs.com/careers/students/programs-and-internships/india/engineering-analyst-campus-hiring-program"
+  },
+  {
+    id: "latentforce1",
+    title: "ML Internship (6 months)",
+    company: "Latentforce.ai",
+    location: "Remote",
+    type: "Internship",
+    level: "Entry-Level",
+    education: "2025 passouts",
+    postedDate: "Today",
+    salary: "Not Disclosed",
+    description: "ML Internship opportunity at Latentforce.ai for 6 months duration, open for 2025 passouts.",
+    source: "Google Forms",
+    applyLink: "https://docs.google.com/forms/d/e/1FAIpQLSdBEd2oz9TNb6ZVyZ8rpB4xTq7zRvZ7WOQKy_dOeFpR7gD3xQ/viewform"
+  },
+  {
+    id: "browserstack_fullstack",
+    title: "Software Engineer - Fullstack",
+    company: "Browserstack",
+    location: "Mumbai, Remote",
+    type: "Full-Time",
+    level: "Entry-Level",
+    education: "2022/23/24 Graduates",
+    postedDate: "Today",
+    salary: "Not Disclosed",
+    description: "Browserstack is hiring for SDE1 Fullstack role. Open for 2022, 2023, and 2024 graduates.",
+    source: "Browserstack Careers",
+    applyLink: "https://browserstack.wd3.myworkdayjobs.com/External/job/Mumbai-Remote/Software-Engineer---Fullstack--Mumbai---Remote-_JR101976"
+  },
+  {
+    id: "browserstack_backend",
+    title: "Software Engineer - Backend",
+    company: "Browserstack",
+    location: "Mumbai",
+    type: "Full-Time",
+    level: "Entry-Level",
+    education: "2022/23/24 Graduates",
+    postedDate: "Today",
+    salary: "Not Disclosed",
+    description: "Browserstack is hiring for SDE1 Backend role. Open for 2022, 2023, and 2024 graduates.",
+    source: "Browserstack Careers",
+    applyLink: "https://browserstack.wd3.myworkdayjobs.com/External/job/Mumbai-Remote/Software-Engineer---Backend--Mumbai-_JR101974"
+  },
+  {
+    id: "amazon_sde1",
+    title: "SDE1 - Contractual",
+    company: "Amazon",
+    location: "India",
+    type: "Contract",
+    level: "Entry-Level",
+    education: "2022/23/24 Graduates",
+    postedDate: "Yesterday",
+    salary: "Not Disclosed",
+    description: "Amazon is hiring for SDE1 contractual positions. Open for 2022, 2023, and 2024 graduates.",
+    source: "Amazon Jobs",
+    applyLink: "https://www.amazon.jobs/en/jobs/2932723/sde-1-ftc"
+  },
+  {
+    id: "kaar_infotech",
+    title: "Software Engineer",
+    company: "KAAR Infotech",
+    location: "India",
+    type: "Full-Time",
+    level: "Entry-Level",
+    education: "2024 Graduates",
+    postedDate: "Yesterday",
+    salary: "Not Disclosed",
+    description: "KAAR Infotech Mega Freshers Drive for 2024 passed out graduates. Multiple positions available.",
+    source: "Google Forms",
+    applyLink: "https://docs.google.com/forms/d/e/1FAIpQLSdrfrTEtj2z-SwvS4pxTA0iPsNvBl5cN0G26jEVoOxyTI-AwQ/viewform"
+  },
+  {
+    id: "newrelic1",
+    title: "Associate Software Engineer - Backend",
+    company: "New Relic",
+    location: "Hyderabad, India",
+    type: "Full-Time",
+    level: "Entry-Level",
+    education: "Not Specified",
+    postedDate: "2 days ago",
+    salary: "Not Disclosed",
+    description: "New Relic is hiring Associate Software Engineers for backend development at their Hyderabad location.",
+    source: "Greenhouse",
+    applyLink: "https://job-boards.greenhouse.io/newrelic/jobs/4588035008?gh_jid=4588035008"
+  },
+  {
+    id: "fintech_global",
+    title: "Junior Software Developer",
+    company: "Fintech Global Center",
+    location: "Ahmedabad, Gandhinagar",
+    type: "Full-Time",
+    level: "Entry-Level",
+    education: "Not Specified",
+    postedDate: "2 days ago",
+    salary: "Not Disclosed",
+    description: "Fintech Global Center is hiring Junior Software Developers for their Ahmedabad and Gandhinagar locations.",
+    source: "Internshala",
+    applyLink: "https://internshala.com/job/detail/fresher-junior-software-developer-job-in-multiple-locations-at-fintech-global-center1742476676"
+  },
+  {
+    id: "citi1",
+    title: "Technology Infrastructure - Summer Analyst",
+    company: "Citi",
+    location: "Pune, India",
+    type: "Internship",
+    level: "Entry-Level",
+    education: "Not Specified",
+    postedDate: "3 days ago",
+    salary: "Not Disclosed",
+    description: "Citi is hiring Technology Infrastructure Summer Analysts for their Pune location. Great opportunity for students interested in financial technology.",
+    source: "Citi Careers",
+    applyLink: "https://jobs.citi.com/job/-/-/287/79037940272?source=APPLICANT_SOURCE-3-354&utm_source=linkedin.com&utm_medium=job_posting&utm_campaign=apac_experienced&utm_content=social_media&utm_term=393693070&ss=paid"
+  },
+  // Original jobs
   {
     id: "united1",
     title: "Associate Engineer",
@@ -48,7 +177,7 @@ const softwareJobs: JobProps[] = [
     type: "Full-Time",
     level: "Entry-Level",
     education: "BE/BTech",
-    postedDate: "Today",
+    postedDate: "3 days ago",
     salary: "Not Disclosed",
     description: "United Airlines Recruitment 2025 for Associate Engineer. Fresh graduates with BE/BTech qualifications can apply. Both freshers and experienced candidates are welcome.",
     source: "Foundit",
@@ -312,15 +441,33 @@ const SoftwareJobs = () => {
                 Find the latest opportunities in software development from leading companies across India.
               </p>
               
+              <div className="mt-8 flex justify-center">
+                <div className="relative max-w-md w-full">
+                  <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-dhara-blue/70" size={20} />
+                  <input
+                    type="text"
+                    placeholder="Search for jobs, skills, or companies"
+                    className="w-full py-3 px-10 rounded-full bg-white text-gray-800 focus:outline-none focus:ring-2 focus:ring-dhara-light-blue"
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                  />
+                  <Button className="absolute right-1 top-1/2 -translate-y-1/2 rounded-full py-1.5 px-4 bg-dhara-blue hover:bg-dhara-blue/90">
+                    Search
+                  </Button>
+                </div>
+              </div>
+              
               <div className="mt-6">
                 <a 
                   href="https://chat.whatsapp.com/CGguruZu2nEJfjNPT0trdm" 
                   target="_blank" 
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 bg-green-500 hover:bg-green-600 text-white py-2 px-4 rounded-full transition-colors"
+                  className="inline-flex items-center gap-2 bg-green-500 hover:bg-green-600 text-white group transition-all duration-300 transform hover:scale-105 hover:shadow-lg px-6 py-3 rounded-full relative overflow-hidden"
                 >
-                  <MessageSquare size={20} />
-                  Join Our WhatsApp Community for Job Updates
+                  <div className="absolute inset-0 bg-white/20 transform -skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-700 ease-in-out"></div>
+                  <MessageSquare size={20} className="group-hover:animate-pulse" />
+                  <span className="relative z-10">Join Our WhatsApp Community</span>
+                  <Send size={18} className="ml-2 opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all duration-300" />
                 </a>
               </div>
             </div>
@@ -353,9 +500,9 @@ const SoftwareJobs = () => {
                     <SelectItem value="all-locations">All Locations</SelectItem>
                     <SelectItem value="Bengaluru">Bengaluru</SelectItem>
                     <SelectItem value="Chennai">Chennai</SelectItem>
-                    <SelectItem value="Kerala">Kerala</SelectItem>
-                    <SelectItem value="Goa">Goa</SelectItem>
-                    <SelectItem value="Tirunelveli">Tirunelveli</SelectItem>
+                    <SelectItem value="Hyderabad">Hyderabad</SelectItem>
+                    <SelectItem value="Mumbai">Mumbai</SelectItem>
+                    <SelectItem value="Pune">Pune</SelectItem>
                     <SelectItem value="Remote">Remote</SelectItem>
                   </SelectGroup>
                 </SelectContent>
@@ -631,18 +778,6 @@ const SoftwareJobs = () => {
                     Browse All Jobs
                   </Link>
                 </Button>
-                
-                <Button asChild size="lg" className="bg-green-500 text-white hover:bg-green-600 border-none">
-                  <a 
-                    href="https://chat.whatsapp.com/CGguruZu2nEJfjNPT0trdm" 
-                    target="_blank" 
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2"
-                  >
-                    <MessageSquare size={16} />
-                    Join WhatsApp Community
-                  </a>
-                </Button>
               </div>
             </div>
           </div>
@@ -655,4 +790,3 @@ const SoftwareJobs = () => {
 };
 
 export default SoftwareJobs;
-
