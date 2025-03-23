@@ -1,3 +1,4 @@
+
 import { useEffect, useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import Navbar from '@/components/Navbar';
@@ -35,6 +36,7 @@ import {
   ArrowRight,
   MapPin,
   MessageSquare,
+  ArrowRightCircle
 } from 'lucide-react';
 
 interface CategoryData {
@@ -199,6 +201,12 @@ const JobCategories = () => {
     window.open('https://chat.whatsapp.com/CGguruZu2nEJfjNPT0trdm', '_blank');
   };
 
+  // Function to determine if WhatsApp button should be shown for a specific subcategory
+  const shouldShowWhatsAppButton = (subcategoryName: string) => {
+    // Don't show for Software Development subcategory
+    return subcategoryName !== 'Software Development';
+  };
+
   return (
     <>
       <Navbar />
@@ -228,11 +236,12 @@ const JobCategories = () => {
               <div className="mt-6">
                 <Button 
                   size="lg" 
-                  className="bg-green-500 hover:bg-green-600 text-white"
+                  className="bg-green-500 hover:bg-green-600 text-white group transition-all duration-300 transform hover:scale-105"
                   onClick={handleJoinWhatsApp}
                 >
-                  <MessageSquare size={18} className="mr-2" />
-                  Join Our WhatsApp Community
+                  <MessageSquare size={18} className="mr-2 group-hover:animate-pulse" />
+                  <span>Join Our WhatsApp Community</span>
+                  <ArrowRightCircle size={18} className="ml-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                 </Button>
               </div>
             </div>
@@ -269,11 +278,12 @@ const JobCategories = () => {
                       </div>
                       
                       <Button 
-                        className="bg-green-500 hover:bg-green-600 text-white"
+                        className="bg-green-500 hover:bg-green-600 text-white group transition-all duration-300 transform hover:scale-105"
                         onClick={handleJoinWhatsApp}
                       >
-                        <MessageSquare size={16} className="mr-2" />
-                        Join WhatsApp
+                        <MessageSquare size={16} className="mr-2 group-hover:animate-pulse" />
+                        <span>Join WhatsApp</span>
+                        <ArrowRightCircle size={16} className="ml-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                       </Button>
                     </div>
                     
@@ -305,13 +315,17 @@ const JobCategories = () => {
                                 >
                                   View Jobs <ArrowRight size={16} className="ml-2" />
                                 </Button>
-                                <Button 
-                                  onClick={handleJoinWhatsApp}
-                                  className="bg-green-500 hover:bg-green-600 text-white"
-                                >
-                                  <MessageSquare size={16} className="mr-2" />
-                                  Join WhatsApp
-                                </Button>
+                                
+                                {/* Only show WhatsApp button for non-Software Development subcategories */}
+                                {shouldShowWhatsAppButton(subcategory.name) && (
+                                  <Button 
+                                    onClick={handleJoinWhatsApp}
+                                    className="bg-green-500 hover:bg-green-600 text-white group transition-all duration-300 transform hover:scale-105"
+                                  >
+                                    <MessageSquare size={16} className="mr-2 group-hover:animate-pulse" />
+                                    <span>Join WhatsApp</span>
+                                  </Button>
+                                )}
                               </div>
                             </div>
                           </AccordionContent>
@@ -345,11 +359,12 @@ const JobCategories = () => {
                 </Button>
                 <Button 
                   size="lg" 
-                  className="bg-green-500 hover:bg-green-600 text-white border-none"
+                  className="bg-green-500 hover:bg-green-600 text-white border-none group transition-all duration-300 transform hover:scale-105"
                   onClick={handleJoinWhatsApp}
                 >
-                  <MessageSquare size={18} className="mr-2" />
-                  Join WhatsApp Group
+                  <MessageSquare size={18} className="mr-2 group-hover:animate-pulse" />
+                  <span>Join WhatsApp Group</span>
+                  <ArrowRightCircle size={18} className="ml-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                 </Button>
               </div>
             </div>
