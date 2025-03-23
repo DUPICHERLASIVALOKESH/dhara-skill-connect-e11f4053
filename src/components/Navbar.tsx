@@ -1,16 +1,14 @@
 
 import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Menu, X, User } from 'lucide-react';
+import { Menu, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
-import { useAuth } from '@/context/AuthContext';
 
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const location = useLocation();
-  const { currentUser, signInWithGoogle, signOut } = useAuth();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -56,47 +54,6 @@ const Navbar = () => {
             <Link to="/contact" className="nav-link">Contact</Link>
           </nav>
 
-          {/* Auth Button - Desktop */}
-          <div className="hidden md:block">
-            {currentUser ? (
-              <div className="flex items-center gap-4">
-                <div className="flex items-center gap-2">
-                  {currentUser.photoURL ? (
-                    <img src={currentUser.photoURL} alt="User" className="h-8 w-8 rounded-full" />
-                  ) : (
-                    <div className="h-8 w-8 rounded-full bg-dhara-blue/10 flex items-center justify-center">
-                      <User size={18} className="text-dhara-blue" />
-                    </div>
-                  )}
-                  <span className="text-sm font-medium">{currentUser.displayName || currentUser.email}</span>
-                </div>
-                <Button 
-                  variant="outline" 
-                  className="border-dhara-blue text-dhara-blue hover:bg-dhara-blue hover:text-white" 
-                  onClick={signOut}
-                >
-                  Sign Out
-                </Button>
-              </div>
-            ) : (
-              <div className="flex items-center gap-2">
-                <Button 
-                  variant="outline" 
-                  className="border-dhara-blue text-dhara-blue hover:bg-dhara-blue hover:text-white"
-                  asChild
-                >
-                  <Link to="/login">Sign In</Link>
-                </Button>
-                <Button 
-                  className="bg-dhara-blue hover:bg-dhara-blue/90 text-white"
-                  asChild
-                >
-                  <Link to="/register">Sign Up</Link>
-                </Button>
-              </div>
-            )}
-          </div>
-
           {/* Mobile Menu Button */}
           <button 
             className="md:hidden text-foreground p-2" 
@@ -123,46 +80,6 @@ const Navbar = () => {
             <Link to="/job-categories" className="w-full text-center py-2">Jobs</Link>
             <Link to="/contact" className="w-full text-center py-2">Contact</Link>
           </nav>
-          
-          <div className="mt-auto w-full space-y-2">
-            {currentUser ? (
-              <>
-                <div className="flex items-center justify-center gap-2 py-3">
-                  {currentUser.photoURL ? (
-                    <img src={currentUser.photoURL} alt="User" className="h-8 w-8 rounded-full" />
-                  ) : (
-                    <div className="h-8 w-8 rounded-full bg-dhara-blue/10 flex items-center justify-center">
-                      <User size={18} className="text-dhara-blue" />
-                    </div>
-                  )}
-                  <span className="text-sm font-medium">{currentUser.displayName || currentUser.email}</span>
-                </div>
-                <Button 
-                  variant="outline" 
-                  className="w-full border-dhara-blue text-dhara-blue hover:bg-dhara-blue hover:text-white" 
-                  onClick={signOut}
-                >
-                  Sign Out
-                </Button>
-              </>
-            ) : (
-              <>
-                <Button 
-                  variant="outline" 
-                  className="w-full border-dhara-blue text-dhara-blue hover:bg-dhara-blue hover:text-white"
-                  asChild
-                >
-                  <Link to="/login">Sign In</Link>
-                </Button>
-                <Button 
-                  className="w-full bg-dhara-blue hover:bg-dhara-blue/90 text-white"
-                  asChild
-                >
-                  <Link to="/register">Sign Up</Link>
-                </Button>
-              </>
-            )}
-          </div>
         </div>
       </div>
     </header>
