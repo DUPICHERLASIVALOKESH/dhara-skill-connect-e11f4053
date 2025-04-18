@@ -1,3 +1,4 @@
+
 import React, { useState, useRef, useEffect } from 'react';
 import { useChat } from '@/context/ChatContext';
 import { QuickReply } from '@/types/chat';
@@ -9,7 +10,6 @@ import {
   User, Bot, Loader2, ArrowDown,
   SunMoon, FileUp, PanelLeft, Bell
 } from 'lucide-react';
-import { useAuth } from '@/context/AuthContext';
 import { cn } from '@/lib/utils';
 import { useChatToggle } from '@/hooks/use-chat-toggle';
 import ResumeUploader from './ResumeUploader';
@@ -22,7 +22,6 @@ const ChatBot: React.FC = () => {
   const [showUploader, setShowUploader] = useState(false);
   const [hasNotifications, setHasNotifications] = useState(false);
   const { toast } = useToast();
-  const { currentUser } = useAuth();
   const { 
     messages, 
     isTyping, 
@@ -156,7 +155,7 @@ const ChatBot: React.FC = () => {
     else if (hour < 18) greeting = "Good afternoon";
     else greeting = "Good evening";
     
-    return currentUser?.displayName ? `${greeting}, ${currentUser.displayName}!` : `${greeting}!`;
+    return `${greeting}!`;
   };
 
   return (
@@ -277,7 +276,7 @@ const ChatBot: React.FC = () => {
                     "text-xs",
                     isDarkMode ? "text-gray-400" : "text-gray-500"
                   )}>
-                    {msg.role === "user" ? (currentUser?.displayName || "You") : "Assistant"} • {formatMessageTime(msg.timestamp)}
+                    {msg.role === "user" ? "You" : "Assistant"} • {formatMessageTime(msg.timestamp)}
                   </span>
                 </div>
                 <div 

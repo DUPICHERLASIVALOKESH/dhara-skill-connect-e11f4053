@@ -1,7 +1,6 @@
 
 import React, { createContext, useContext, useState, useEffect } from 'react';
-import { useAuth } from '@/context/AuthContext';
-import { ChatMessage, QuickReply, ResumeAnalysisResult, JobAlert, MessageRole, User } from '@/types/chat';
+import { ChatMessage, QuickReply, ResumeAnalysisResult, JobAlert, MessageRole } from '@/types/chat';
 import { useToast } from '@/hooks/use-toast';
 
 // Define chat context type
@@ -31,19 +30,16 @@ export const ChatProvider = ({ children }: { children: React.ReactNode }) => {
   const [darkMode, setDarkMode] = useState(false);
   const [resumeAnalysis, setResumeAnalysis] = useState<ResumeAnalysisResult | null>(null);
   const [jobAlerts, setJobAlerts] = useState<JobAlert[]>([]);
-  const { currentUser } = useAuth();
   const { toast } = useToast();
 
   // Initialize chat with a welcome message
   useEffect(() => {
     resetChat();
-  }, [currentUser]);
+  }, []);
 
   // Reset chat to initial state
   const resetChat = () => {
-    const welcomeMessage = currentUser 
-      ? `Welcome back, ${currentUser.displayName || 'there'}! How can I help you today with your job search?` 
-      : "Welcome! How can I help you today? I can help you find jobs, improve your resume, or prepare for interviews.";
+    const welcomeMessage = "Welcome! How can I help you today? I can help you find jobs, improve your resume, or prepare for interviews.";
     
     setMessages([{
       id: 'welcome',
@@ -111,7 +107,12 @@ export const ChatProvider = ({ children }: { children: React.ReactNode }) => {
           "Include more quantifiable results",
           "Add a professional summary"
         ],
-        improvement: "Your resume needs more targeted keywords related to the jobs you're applying for. Quantify your achievements with numbers and metrics where possible."
+        improvement: "Your resume needs more targeted keywords related to the jobs you're applying for. Quantify your achievements with numbers and metrics where possible.",
+        improvements: [
+          "Add more industry-specific keywords",
+          "Include more technical skills",
+          "Quantify your achievements"
+        ]
       };
       
       setResumeAnalysis(analysis);
@@ -172,7 +173,7 @@ export const ChatProvider = ({ children }: { children: React.ReactNode }) => {
     
     try {
       // Process the message to determine intent
-      const response = await processMessage(content, currentUser);
+      const response = await processMessage(content);
       
       // Add a small delay to simulate typing
       await simulateTyping(response.message);
@@ -239,7 +240,7 @@ interface ProcessedResponse {
   quickReplies?: QuickReply[];
 }
 
-async function processMessage(message: string, user: User | null): Promise<ProcessedResponse> {
+async function processMessage(message: string): Promise<ProcessedResponse> {
   // Convert message to lowercase for easier matching
   const lowerMessage = message.toLowerCase();
   
@@ -289,9 +290,9 @@ async function processMessage(message: string, user: User | null): Promise<Proce
     return handleServiceQuery();
   }
   
-  // Application status (for logged-in users)
+  // Application status
   if (containsAny(lowerMessage, ['status', 'application', 'applied', 'progress', 'track'])) {
-    return handleApplicationStatusQuery(user);
+    return handleApplicationStatusQuery();
   }
   
   // Fallback response with general help
@@ -501,29 +502,13 @@ function handleServiceQuery(): ProcessedResponse {
   };
 }
 
-function handleApplicationStatusQuery(user: User | null): ProcessedResponse {
-  if (!user) {
-    return {
-      message: "To check your application status, please sign in to your account. Once signed in, I'll be able to provide updates on your job applications.",
-      quickReplies: [
-        { id: 'sign-in', text: 'Sign In', action: 'signIn' },
-        { id: 'create-account', text: 'Create Account', action: 'createAccount' },
-        { id: 'help', text: 'Help', action: 'help' }
-      ]
-    };
-  }
-  
-  // Mock data for demonstration - in a real implementation, this would come from a database
+function handleApplicationStatusQuery(): ProcessedResponse {
   return {
-    message: "Here's the status of your recent applications:\n\n" +
-      "1. Senior Software Engineer at TechGlobe Solutions - Under Review\n" +
-      "2. Product Manager at InnovateTech - Interview Scheduled (May 15, 2023)\n" +
-      "3. Data Analyst at Global Finance Corp - Application Received\n\n" +
-      "Would you like to see more details about any of these applications?",
+    message: "To check your application status, you can view your application dashboard on our website. For specific updates on applications, please provide the application ID or contact our support team.",
     quickReplies: [
-      { id: 'app-details-1', text: 'TechGlobe Details', action: 'applicationDetails1' },
-      { id: 'app-details-2', text: 'InnovateTech Details', action: 'applicationDetails2' },
-      { id: 'all-applications', text: 'View All Applications', action: 'viewAllApplications' }
+      { id: 'track-application', text: 'Track Application', action: 'trackApplication' },
+      { id: 'contact-support', text: 'Contact Support', action: 'contactSupport' },
+      { id: 'help', text: 'Help', action: 'help' }
     ]
   };
 }
