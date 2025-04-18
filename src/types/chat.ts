@@ -65,7 +65,9 @@ export type QuickReplyAction =
   | 'viewAllApplications'
   | 'showResumeDetails'
   | 'improveTips'
-  | 'findMatchingJobs';
+  | 'findMatchingJobs'
+  | 'trackApplication'   // Adding the missing action
+  | 'contactSupport';    // Adding the missing action
 
 export interface ResumeAnalysisData {
   overallScore: number;
