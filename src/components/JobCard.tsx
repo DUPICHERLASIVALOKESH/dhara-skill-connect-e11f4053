@@ -128,6 +128,13 @@ const JobCard = ({ job }: { job: JobProps }) => {
             </Button>
           )}
           
+          <Button asChild variant="outline" className="bg-green-500 hover:bg-green-600 text-white border-none self-start whitespace-nowrap">
+            <a href="https://chat.whatsapp.com/CGguruZu2nEJfjNPT0trdm" target="_blank" rel="noopener noreferrer">
+              <MessageSquare size={16} className="mr-2" />
+              Join WhatsApp
+            </a>
+          </Button>
+
           <Button 
             variant="outline" 
             className="bg-white hover:bg-gray-50 text-dhara-blue border-dhara-blue/20 self-start whitespace-nowrap"
@@ -136,18 +143,42 @@ const JobCard = ({ job }: { job: JobProps }) => {
             <Share2 size={16} className="mr-2" />
             Share Job
           </Button>
-          
-          <Button asChild variant="outline" className="bg-green-500 hover:bg-green-600 text-white border-none self-start whitespace-nowrap">
-            <a href="https://chat.whatsapp.com/CGguruZu2nEJfjNPT0trdm" target="_blank" rel="noopener noreferrer">
-              <MessageSquare size={16} className="mr-2" />
-              Join WhatsApp
-            </a>
-          </Button>
         </div>
       </div>
 
       <div className="mt-4 pt-4 border-t border-border">
         <p className="text-dhara-gray line-clamp-2">{job.description}</p>
+        <div className="flex flex-col sm:flex-row gap-3 mt-4">
+          {job.applyLink ? (
+            <Button asChild className="bg-dhara-blue hover:bg-dhara-blue/90">
+              <a href={job.applyLink} target="_blank" rel="noopener noreferrer">
+                Apply Now
+              </a>
+            </Button>
+          ) : (
+            <Button asChild className="bg-dhara-blue hover:bg-dhara-blue/90">
+              <Link to={`/jobs/software-development/${job.id}`}>
+                View Details
+              </Link>
+            </Button>
+          )}
+
+          <Button asChild variant="outline" className="bg-green-500 hover:bg-green-600 text-white border-none">
+            <a href="https://chat.whatsapp.com/CGguruZu2nEJfjNPT0trdm" target="_blank" rel="noopener noreferrer">
+              <MessageSquare size={16} className="mr-2" />
+              Join WhatsApp
+            </a>
+          </Button>
+
+          <Button 
+            variant="outline" 
+            className="bg-white hover:bg-gray-50 text-dhara-blue border-dhara-blue/20"
+            onClick={handleShare}
+          >
+            <Share2 size={16} className="mr-2" />
+            Share Job
+          </Button>
+        </div>
       </div>
     </div>
   );
