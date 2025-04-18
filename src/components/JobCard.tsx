@@ -1,4 +1,3 @@
-
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Link } from 'react-router-dom';
@@ -18,11 +17,19 @@ export interface JobProps {
   source?: 'LinkedIn' | 'Indeed' | 'Naukri' | 'Google Jobs' | 'Glassdoor' | string;
   education?: string;
   applyLink?: string;
+  isNew?: boolean; // Add this line
 }
 
 const JobCard = ({ job }: { job: JobProps }) => {
   return (
-    <div className="bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow p-6 border border-border">
+    <div className="bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow p-6 border border-border relative">
+      {job.isNew && (
+        <div className="absolute -top-2 -right-2 animate-bounce">
+          <Badge className="bg-green-500 text-white">
+            NEW
+          </Badge>
+        </div>
+      )}
       <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-4">
         <div className="space-y-2">
           <div className="flex items-start gap-3">

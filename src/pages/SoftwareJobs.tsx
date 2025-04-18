@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { Link } from 'react-router-dom';
@@ -41,7 +40,60 @@ import {
 } from "@/components/ui/card";
 
 const softwareJobs: JobProps[] = [
-  // New jobs added at the top
+  {
+    id: "pitneybowes1",
+    title: "Software Engineer",
+    company: "Pitney Bowes",
+    location: "Pune",
+    type: "Full-Time",
+    level: "Entry-Level",
+    postedDate: "Today",
+    description: "Pitney Bowes is hiring for Software Engineer position in Pune.",
+    source: "Pitney Bowes Careers",
+    applyLink: "https://careers.pitneybowes.com/global/en/job/R19357/Software-Engineer",
+    isNew: true
+  },
+  {
+    id: "candela1",
+    title: "Wireless Systems Engineering Intern",
+    company: "Candela Technologies",
+    location: "Bengaluru, Vizag, Chennai",
+    type: "Internship",
+    level: "Entry-Level",
+    education: "2025 Batch",
+    postedDate: "Today",
+    description: "Candela Technologies is hiring final year students (2025) for Wireless Systems Engineering Internship. Last date: 20-April-2025",
+    source: "Google Forms",
+    applyLink: "https://docs.google.com/forms/d/e/1FAIpQLSezD6gW-3pmqAArkhCJPc5yLTnqugxqVvBC73T2_YGskWoRAg/viewform",
+    isNew: true
+  },
+  {
+    id: "payoneer1",
+    title: "Software Engineer Intern",
+    company: "Payoneer",
+    location: "Gurugram",
+    type: "Internship",
+    level: "Entry-Level",
+    postedDate: "Today",
+    description: "Payoneer is hiring Software Engineer Interns for their Gurugram office.",
+    source: "Payoneer Careers",
+    applyLink: "https://www.payoneer.com/careers/position/6585884/?gh_jid=6585884",
+    isNew: true
+  },
+  {
+    id: "accenture1",
+    title: "Application Tech Support Practitioner",
+    company: "Accenture",
+    location: "Bengaluru",
+    type: "Full-Time",
+    level: "Entry-Level",
+    education: "0-2 years experience",
+    postedDate: "Today",
+    description: "Accenture is hiring Application Tech Support Practitioners with 0-2 years of experience.",
+    source: "Accenture Careers",
+    applyLink: "https://www.accenture.com/in-en/careers/jobdetails?id=ATCI-4629553-S1791058_en",
+    isNew: true
+  },
   {
     id: "goldmansachs1",
     title: "Analyst",
@@ -168,7 +220,6 @@ const softwareJobs: JobProps[] = [
     source: "Citi Careers",
     applyLink: "https://jobs.citi.com/job/-/-/287/79037940272?source=APPLICANT_SOURCE-3-354&utm_source=linkedin.com&utm_medium=job_posting&utm_campaign=apac_experienced&utm_content=social_media&utm_term=393693070&ss=paid"
   },
-  // Original jobs
   {
     id: "united1",
     title: "Associate Engineer",
