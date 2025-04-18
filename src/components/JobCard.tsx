@@ -1,7 +1,8 @@
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Link } from 'react-router-dom';
-import { Calendar, MapPin, Briefcase, DollarSign, GraduationCap, MessageSquare } from 'lucide-react';
+import { Calendar, MapPin, Briefcase, DollarSign, GraduationCap, MessageSquare, Share2 } from 'lucide-react';
+import { toast } from '@/hooks/use-toast';
 
 export interface JobProps {
   id: string;
@@ -17,10 +18,35 @@ export interface JobProps {
   source?: 'LinkedIn' | 'Indeed' | 'Naukri' | 'Google Jobs' | 'Glassdoor' | string;
   education?: string;
   applyLink?: string;
-  isNew?: boolean; // Add this line
+  isNew?: boolean;
 }
 
 const JobCard = ({ job }: { job: JobProps }) => {
+  const handleShare = async () => {
+    try {
+      if (navigator.share) {
+        await navigator.share({
+          title: `${job.title} at ${job.company}`,
+          text: `Check out this job opportunity: ${job.title} at ${job.company}`,
+          url: job.applyLink || window.location.href
+        });
+      } else {
+        await navigator.clipboard.writeText(job.applyLink || window.location.href);
+        toast({
+          title: "Link copied!",
+          description: "The job link has been copied to your clipboard."
+        });
+      }
+    } catch (error) {
+      console.error('Error sharing:', error);
+      toast({
+        title: "Couldn't share",
+        description: "Please try copying the link manually.",
+        variant: "destructive"
+      });
+    }
+  };
+
   return (
     <div className="bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow p-6 border border-border relative">
       {job.isNew && (
@@ -101,6 +127,15 @@ const JobCard = ({ job }: { job: JobProps }) => {
               </Link>
             </Button>
           )}
+          
+          <Button 
+            variant="outline" 
+            className="bg-white hover:bg-gray-50 text-dhara-blue border-dhara-blue/20 self-start whitespace-nowrap"
+            onClick={handleShare}
+          >
+            <Share2 size={16} className="mr-2" />
+            Share Job
+          </Button>
           
           <Button asChild variant="outline" className="bg-green-500 hover:bg-green-600 text-white border-none self-start whitespace-nowrap">
             <a href="https://chat.whatsapp.com/CGguruZu2nEJfjNPT0trdm" target="_blank" rel="noopener noreferrer">
