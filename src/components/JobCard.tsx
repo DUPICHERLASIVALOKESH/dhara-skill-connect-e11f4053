@@ -51,8 +51,8 @@ const JobCard = ({ job }: { job: JobProps }) => {
   return (
     <div className="bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow p-6 border border-border relative">
       {job.isNew && (
-        <div className="absolute -top-2 -right-2 animate-bounce">
-          <Badge className="bg-green-500 text-white">
+        <div className="absolute -top-2 -right-2">
+          <Badge className="bg-green-500 text-white animate-[bounce_1s_ease-in-out_infinite]">
             NEW
           </Badge>
         </div>

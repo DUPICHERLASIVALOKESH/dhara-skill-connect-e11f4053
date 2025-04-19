@@ -1,10 +1,5 @@
-
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useQuery } from '@tanstack/react-query';
-import { Link } from 'react-router-dom';
-import Navbar from '@/components/Navbar';
-import Footer from '@/components/Footer';
-import JobCard, { JobProps } from '@/components/JobCard';
 import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
@@ -43,29 +38,30 @@ import {
 const softwareJobs: JobProps[] = [
   {
     id: "sw1",
-    title: "Senior React Developer",
-    company: "TechSolutions India",
-    location: "Bengaluru, India",
+    title: "Analyst",
+    company: "Goldman Sachs",
+    location: "Bangalore",
     type: "Full-Time",
-    level: "Senior",
-    salary: "₹25-35 LPA",
-    postedDate: "2 days ago",
-    description: "We are looking for an experienced React developer with 5+ years of experience who can build scalable frontend applications. Knowledge of TypeScript, Redux, and testing frameworks is required.",
-    source: "LinkedIn",
-    applyLink: "https://techsolutions.com/careers"
+    level: "Entry Level",
+    salary: "23 LPA",
+    postedDate: "1 day ago",
+    description: "Goldman Sachs Engineering Analyst Hiring Program for 2025 passouts.",
+    education: "BE/B.Tech",
+    applyLink: "https://www.goldmansachs.com/careers/students/programs-and-internships/india/engineering-analyst-campus-hiring-program",
+    isNew: true
   },
   {
     id: "sw2",
-    title: "Full Stack Developer",
-    company: "GlobalTech Systems",
-    location: "Hyderabad, India",
-    type: "Full-Time",
-    level: "Mid-Level",
-    salary: "₹18-24 LPA",
-    postedDate: "1 week ago",
-    description: "Join our engineering team to develop and maintain web applications using React, Node.js, and MongoDB. Experience with cloud services (AWS/Azure) is a plus.",
-    source: "Naukri",
-    applyLink: "https://globaltech.com/careers"
+    title: "ML Internship",
+    company: "Latentforce.ai",
+    location: "Remote",
+    type: "Internship",
+    level: "Entry Level",
+    postedDate: "1 day ago",
+    description: "6 months ML Internship opportunity for 2025 passouts.",
+    education: "BE/B.Tech",
+    applyLink: "https://docs.google.com/forms/d/e/1FAIpQLSdBEd2oz9TNb6ZVyZ8rpB4xTq7zRvZ7WOQKy_dOeFpR7gD3xQ/viewform",
+    isNew: true
   },
   {
     id: "sw3",
@@ -172,6 +168,19 @@ const softwareJobs: JobProps[] = [
     description: "Looking for a UI/UX designer who also has hands-on experience with React component development. Portfolio of previous work required.",
     source: "Naukri",
     applyLink: "https://designtech.com/careers"
+  },
+  {
+    id: "sw21",
+    title: "WILP Program",
+    company: "Wipro",
+    location: "India",
+    type: "Full-Time",
+    level: "Entry Level",
+    postedDate: "1 day ago",
+    description: "Wipro's Work Integrated Learning Program (WILP) for BCA and BSc graduates (2024, 2025 batch).",
+    education: "BCA/BSc",
+    applyLink: "https://app.joinsuperset.com/join/#/signup/student/jobprofiles/a8e5c3ce-cddc-45d4-b8d2-48b5176ce30f",
+    isNew: true
   }
 ];
 
@@ -446,158 +455,42 @@ const SoftwareJobs = () => {
               )}
             </div>
             
-            <Card className="mb-8 bg-green-50 border-green-200">
-              <CardHeader>
-                <CardTitle className="text-green-800">Join Our Job Community</CardTitle>
-                <CardDescription className="text-green-700">
-                  Get regular updates on latest job opportunities across India
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <p className="text-green-700 mb-4">
-                  Stay updated with the latest job openings, recruitment drives, and career opportunities by joining our WhatsApp community group.
-                </p>
-              </CardContent>
-              <CardFooter>
-                <a 
-                  href="https://chat.whatsapp.com/CGguruZu2nEJfjNPT0trdm" 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 bg-green-600 hover:bg-green-700 text-white py-2 px-4 rounded-md transition-colors"
-                >
-                  <MessageSquare size={16} />
-                  Join WhatsApp Group
-                </a>
-              </CardFooter>
-            </Card>
-            
             <div className="space-y-6">
-              {isLoading ? (
-                <div className="text-center py-12">
-                  <div className="inline-block h-12 w-12 animate-spin rounded-full border-4 border-solid border-dhara-blue border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]"></div>
-                  <p className="mt-4 text-dhara-gray">Loading software jobs...</p>
-                </div>
-              ) : error ? (
-                <div className="bg-red-50 text-red-700 p-4 rounded-lg">
-                  <p className="font-medium">Error loading jobs</p>
-                  <p>Please try again later.</p>
-                </div>
-              ) : currentJobs?.length === 0 ? (
-                <div className="text-center py-12 bg-gray-50 rounded-lg">
-                  <Briefcase size={48} className="mx-auto text-dhara-gray opacity-50 mb-4" />
-                  <h3 className="text-xl font-semibold mb-2">No jobs found</h3>
-                  <p className="text-dhara-gray">Try adjusting your search criteria.</p>
-                </div>
-              ) : (
-                currentJobs?.map((job) => (
-                  <div key={job.id} className="bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow p-6 border border-border">
-                    <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-4">
-                      <div className="space-y-2">
-                        <div className="flex items-start gap-3">
-                          <div className="w-12 h-12 rounded-md flex-shrink-0 bg-dhara-blue/10 text-dhara-blue flex items-center justify-center">
-                            <Briefcase size={20} />
-                          </div>
-                          <div>
-                            <h3 className="text-xl font-semibold text-dhara-blue">{job.title}</h3>
-                            <p className="text-dhara-dark font-medium">{job.company}</p>
-                          </div>
-                        </div>
-                        
-                        <div className="flex flex-wrap items-center gap-3 text-sm text-dhara-gray">
-                          <div className="flex items-center">
-                            <MapPin size={16} className="mr-1" />
-                            {job.location}
-                          </div>
-                          <div className="flex items-center">
-                            <Briefcase size={16} className="mr-1" />
-                            {job.type}
-                          </div>
-                          {job.education && (
-                            <div className="flex items-center">
-                              <MapPin size={16} className="mr-1" />
-                              {job.education}
-                            </div>
-                          )}
-                        </div>
-
-                        <div className="flex flex-wrap gap-2 pt-2">
-                          <Badge variant="outline" className="bg-dhara-light-gray/50 hover:bg-dhara-light-gray/75 text-dhara-dark">
-                            {job.level}
-                          </Badge>
-                          {job.source && (
-                            <Badge variant="secondary" className="bg-dhara-blue/10 hover:bg-dhara-blue/20 text-dhara-blue border-none">
-                              via {job.source}
-                            </Badge>
-                          )}
-                        </div>
-                      </div>
-                    </div>
-
-                    <div className="mt-4 pt-4 border-t border-border">
-                      <p className="text-dhara-gray mb-4">{job.description}</p>
-                      <div className="flex flex-col sm:flex-row gap-3 mt-4">
-                        <Button 
-                          asChild 
-                          className="bg-dhara-blue hover:bg-dhara-blue/90"
-                        >
-                          <a href={job.applyLink} target="_blank" rel="noopener noreferrer">
-                            Apply Now
-                          </a>
-                        </Button>
-                        <Button 
-                          asChild 
-                          className="bg-green-500 hover:bg-green-600"
-                        >
-                          <a href="https://chat.whatsapp.com/CGguruZu2nEJfjNPT0trdm" target="_blank" rel="noopener noreferrer">
-                            <MessageSquare size={16} className="mr-2" />
-                            Join WhatsApp Group
-                          </a>
-                        </Button>
-                        <Button 
-                          variant="outline" 
-                          className="bg-white hover:bg-gray-50 text-dhara-blue border-dhara-blue/20"
-                          onClick={() => handleShare(job)}
-                        >
-                          <Share2 size={16} className="mr-2" />
-                          Share Job
-                        </Button>
-                      </div>
-                    </div>
-                  </div>
-                ))
-              )}
-              
-              {totalPages > 1 && (
-                <Pagination className="my-8">
-                  <PaginationContent>
-                    <PaginationItem>
-                      <PaginationPrevious 
-                        onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
-                        className={currentPage === 1 ? "pointer-events-none opacity-50" : ""}
-                      />
-                    </PaginationItem>
-                    
-                    {Array.from({ length: totalPages }).map((_, index) => (
-                      <PaginationItem key={index}>
-                        <PaginationLink 
-                          onClick={() => setCurrentPage(index + 1)}
-                          isActive={currentPage === index + 1}
-                        >
-                          {index + 1}
-                        </PaginationLink>
-                      </PaginationItem>
-                    ))}
-                    
-                    <PaginationItem>
-                      <PaginationNext 
-                        onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
-                        className={currentPage === totalPages ? "pointer-events-none opacity-50" : ""}
-                      />
-                    </PaginationItem>
-                  </PaginationContent>
-                </Pagination>
-              )}
+              {currentJobs?.map((job) => (
+                <JobCard key={job.id} job={job} />
+              ))}
             </div>
+            
+            {totalPages > 1 && (
+              <Pagination className="my-8">
+                <PaginationContent>
+                  <PaginationItem>
+                    <PaginationPrevious 
+                      onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
+                      className={currentPage === 1 ? "pointer-events-none opacity-50" : ""}
+                    />
+                  </PaginationItem>
+                  
+                  {Array.from({ length: totalPages }).map((_, index) => (
+                    <PaginationItem key={index}>
+                      <PaginationLink 
+                        onClick={() => setCurrentPage(index + 1)}
+                        isActive={currentPage === index + 1}
+                      >
+                        {index + 1}
+                      </PaginationLink>
+                    </PaginationItem>
+                  ))}
+                  
+                  <PaginationItem>
+                    <PaginationNext 
+                      onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
+                      className={currentPage === totalPages ? "pointer-events-none opacity-50" : ""}
+                    />
+                  </PaginationItem>
+                </PaginationContent>
+              </Pagination>
+            )}
           </div>
         </section>
         
