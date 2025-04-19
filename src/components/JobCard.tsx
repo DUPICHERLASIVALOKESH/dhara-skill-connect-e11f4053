@@ -1,9 +1,13 @@
-
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Link } from 'react-router-dom';
-import { Calendar, MapPin, Briefcase, DollarSign, GraduationCap, MessageSquare, Share2 } from 'lucide-react';
+import { Calendar, MapPin, Briefcase, DollarSign, GraduationCap, MessageSquare, Share2, Copy, Mail, Link as LinkIcon } from 'lucide-react';
 import { toast } from '@/hooks/use-toast';
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
 
 export interface JobProps {
   id: string;
@@ -23,26 +27,56 @@ export interface JobProps {
 }
 
 const JobCard = ({ job }: { job: JobProps }) => {
-  const handleShare = async () => {
+  const handleCopyLink = async () => {
     try {
-      if (navigator.share) {
-        await navigator.share({
-          title: `${job.title} at ${job.company}`,
-          text: `Check out this job opportunity: ${job.title} at ${job.company}`,
-          url: job.applyLink || window.location.href
-        });
-      } else {
-        await navigator.clipboard.writeText(job.applyLink || window.location.href);
-        toast({
-          title: "Link copied!",
-          description: "The job link has been copied to your clipboard."
-        });
+      await navigator.clipboard.writeText(job.applyLink || window.location.href);
+      toast({
+        title: "Link copied!",
+        description: "The job link has been copied to your clipboard."
+      });
+    } catch (error) {
+      toast({
+        title: "Couldn't copy",
+        description: "Please try copying the link manually.",
+        variant: "destructive"
+      });
+    }
+  };
+
+  const handleShare = async (platform: 'native' | 'whatsapp' | 'email') => {
+    const shareText = `Check out this job opportunity: ${job.title} at ${job.company}`;
+    const shareUrl = job.applyLink || window.location.href;
+
+    try {
+      switch (platform) {
+        case 'native':
+          if (navigator.share) {
+            await navigator.share({
+              title: `${job.title} at ${job.company}`,
+              text: shareText,
+              url: shareUrl
+            });
+          } else {
+            throw new Error('Native sharing not supported');
+          }
+          break;
+
+        case 'whatsapp':
+          window.open(`https://wa.me/?text=${encodeURIComponent(shareText + '\n' + shareUrl)}`, '_blank');
+          break;
+
+        case 'email':
+          window.location.href = `mailto:?subject=${encodeURIComponent(`Job Opportunity: ${job.title} at ${job.company}`)}&body=${encodeURIComponent(shareText + '\n\n' + shareUrl)}`;
+          break;
+
+        default:
+          break;
       }
     } catch (error) {
       console.error('Error sharing:', error);
       toast({
         title: "Couldn't share",
-        description: "Please try copying the link manually.",
+        description: "Please try another sharing method.",
         variant: "destructive"
       });
     }
@@ -140,14 +174,55 @@ const JobCard = ({ job }: { job: JobProps }) => {
             </a>
           </Button>
 
-          <Button 
-            variant="outline" 
-            className="bg-white hover:bg-gray-50 text-dhara-blue border-dhara-blue/20"
-            onClick={handleShare}
-          >
-            <Share2 size={16} className="mr-2" />
-            Share Job
-          </Button>
+          <Popover>
+            <PopoverTrigger asChild>
+              <Button 
+                variant="outline" 
+                className="bg-white hover:bg-gray-50 text-dhara-blue border-dhara-blue/20"
+              >
+                <Share2 size={16} className="mr-2" />
+                Share Job
+              </Button>
+            </PopoverTrigger>
+            <PopoverContent className="w-48 p-2">
+              <div className="flex flex-col gap-2">
+                {navigator.share && (
+                  <Button
+                    variant="ghost"
+                    className="w-full justify-start"
+                    onClick={() => handleShare('native')}
+                  >
+                    <Share2 size={16} className="mr-2" />
+                    Share
+                  </Button>
+                )}
+                <Button
+                  variant="ghost"
+                  className="w-full justify-start"
+                  onClick={handleCopyLink}
+                >
+                  <Copy size={16} className="mr-2" />
+                  Copy Link
+                </Button>
+                <Button
+                  variant="ghost"
+                  className="w-full justify-start"
+                  onClick={() => handleShare('whatsapp')}
+                >
+                  <MessageSquare size={16} className="mr-2" />
+                  WhatsApp
+                </Button>
+                <Button
+                  variant="ghost"
+                  className="w-full justify-start"
+                  onClick={() => handleShare('email')}
+                >
+                  <Mail size={16} className="mr-2" />
+                  Email
+                </Button>
+              </div>
+            </PopoverContent>
+          </Popover>
         </div>
       </div>
     </div>
