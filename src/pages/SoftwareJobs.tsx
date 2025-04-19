@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { Link } from 'react-router-dom';
@@ -40,7 +41,138 @@ import {
 } from "@/components/ui/card";
 
 const softwareJobs: JobProps[] = [
-  // ... keep existing job data
+  {
+    id: "sw1",
+    title: "Senior React Developer",
+    company: "TechSolutions India",
+    location: "Bengaluru, India",
+    type: "Full-Time",
+    level: "Senior",
+    salary: "₹25-35 LPA",
+    postedDate: "2 days ago",
+    description: "We are looking for an experienced React developer with 5+ years of experience who can build scalable frontend applications. Knowledge of TypeScript, Redux, and testing frameworks is required.",
+    source: "LinkedIn",
+    applyLink: "https://techsolutions.com/careers"
+  },
+  {
+    id: "sw2",
+    title: "Full Stack Developer",
+    company: "GlobalTech Systems",
+    location: "Hyderabad, India",
+    type: "Full-Time",
+    level: "Mid-Level",
+    salary: "₹18-24 LPA",
+    postedDate: "1 week ago",
+    description: "Join our engineering team to develop and maintain web applications using React, Node.js, and MongoDB. Experience with cloud services (AWS/Azure) is a plus.",
+    source: "Naukri",
+    applyLink: "https://globaltech.com/careers"
+  },
+  {
+    id: "sw3",
+    title: "Frontend Developer",
+    company: "InnovateSoft",
+    location: "Mumbai, India",
+    type: "Contract",
+    level: "Junior",
+    salary: "₹10-15 LPA",
+    postedDate: "3 days ago",
+    description: "Looking for a frontend developer with experience in React, HTML, CSS, and JavaScript to work on our client-facing applications.",
+    source: "Indeed",
+    applyLink: "https://innovatesoft.com/careers",
+    isNew: true
+  },
+  {
+    id: "sw4",
+    title: "Node.js Backend Developer",
+    company: "DataFlow Systems",
+    location: "Pune, India",
+    type: "Full-Time",
+    level: "Mid-Level",
+    salary: "₹15-22 LPA",
+    postedDate: "5 days ago",
+    description: "Seeking a backend developer with strong Node.js skills and experience with REST APIs, SQL databases, and microservices architecture.",
+    source: "Google Jobs",
+    applyLink: "https://dataflow.com/careers"
+  },
+  {
+    id: "sw5",
+    title: "Software Architect",
+    company: "EnterpriseApp Solutions",
+    location: "Delhi, India",
+    type: "Full-Time",
+    level: "Senior",
+    salary: "₹35-50 LPA",
+    postedDate: "1 day ago",
+    description: "Leading position for an experienced software architect to design scalable, maintainable system architectures for our enterprise clients.",
+    source: "LinkedIn",
+    applyLink: "https://enterpriseapp.com/careers",
+    isNew: true
+  },
+  {
+    id: "sw6",
+    title: "Mobile App Developer (React Native)",
+    company: "MobiTech",
+    location: "Chennai, India",
+    type: "Full-Time",
+    level: "Mid-Level",
+    salary: "₹18-25 LPA",
+    postedDate: "1 week ago",
+    description: "Join our mobile team to develop cross-platform applications using React Native. Experience with native module integration and app store deployment required.",
+    source: "Indeed",
+    applyLink: "https://mobitech.com/careers"
+  },
+  {
+    id: "sw7",
+    title: "DevOps Engineer",
+    company: "CloudScale Systems",
+    location: "Bengaluru, India",
+    type: "Full-Time",
+    level: "Senior",
+    salary: "₹28-40 LPA",
+    postedDate: "3 days ago",
+    description: "Looking for a DevOps engineer to build and manage CI/CD pipelines, containerization, and cloud infrastructure using AWS and Kubernetes.",
+    source: "Naukri",
+    applyLink: "https://cloudscale.com/careers"
+  },
+  {
+    id: "sw8",
+    title: "QA Automation Engineer",
+    company: "QualityFirst",
+    location: "Hyderabad, India",
+    type: "Full-Time",
+    level: "Mid-Level",
+    salary: "₹15-25 LPA",
+    postedDate: "4 days ago",
+    description: "Join our QA team to develop and maintain automated test suites using Selenium, Cypress, or similar frameworks. Experience with CI/CD integration is required.",
+    source: "LinkedIn",
+    applyLink: "https://qualityfirst.com/careers"
+  },
+  {
+    id: "sw9",
+    title: "Python Developer",
+    company: "DataAnalytics Pro",
+    location: "Remote, India",
+    type: "Full-Time",
+    level: "Mid-Level",
+    salary: "₹15-22 LPA",
+    postedDate: "2 weeks ago",
+    description: "Seeking a Python developer with experience in data analysis, API development, and database management for our analytics platform.",
+    source: "Indeed",
+    applyLink: "https://dataanalyticspro.com/careers"
+  },
+  {
+    id: "sw10",
+    title: "UI/UX Designer with React Skills",
+    company: "DesignTech Solutions",
+    location: "Pune, India",
+    type: "Full-Time",
+    level: "Junior",
+    salary: "₹10-18 LPA",
+    postedDate: "6 days ago",
+    description: "Looking for a UI/UX designer who also has hands-on experience with React component development. Portfolio of previous work required.",
+    source: "Naukri",
+    applyLink: "https://designtech.com/careers"
+  }
 ];
 
 const fetchSoftwareJobs = async (): Promise<JobProps[]> => {
