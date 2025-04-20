@@ -24,6 +24,8 @@ const handler = async (req: Request): Promise<Response> => {
 
   try {
     const { name, email, message }: ContactEmailRequest = await req.json();
+    
+    console.log("Received request to send email to:", email);
 
     // Send confirmation email to the user
     const emailResponse = await resend.emails.send({
