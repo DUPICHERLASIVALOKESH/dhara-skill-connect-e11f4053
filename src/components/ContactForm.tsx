@@ -48,10 +48,14 @@ const ContactForm = () => {
   const onSubmit = async (data: FormValues) => {
     setIsSubmitting(true);
     try {
-      // Store in Supabase
+      // Store in Supabase - ensure data matches the expected schema
       const { error: dbError } = await supabase
         .from('contacts')
-        .insert([data]);
+        .insert({
+          name: data.name,
+          email: data.email,
+          message: data.message
+        });
 
       if (dbError) throw dbError;
 
