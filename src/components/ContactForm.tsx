@@ -17,6 +17,7 @@ import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { toast } from '@/hooks/use-toast';
 import { Send } from 'lucide-react';
+import { supabase } from '@/integrations/supabase/client';
 
 const formSchema = z.object({
   name: z.string().min(2, {
@@ -46,19 +47,43 @@ const ContactForm = () => {
 
   const onSubmit = async (data: FormValues) => {
     setIsSubmitting(true);
-    
-    // Simulate API call
-    await new Promise(resolve => setTimeout(resolve, 1000));
-    
-    console.log('Form submitted:', data);
-    
-    toast({
-      title: 'Message Sent!',
-      description: 'We\'ve received your message and will get back to you soon.',
-    });
-    
-    form.reset();
-    setIsSubmitting(false);
+    try {
+      // Store in Supabase
+      const { error: dbError } = await supabase
+        .from('contacts')
+        .insert([data]);
+
+      if (dbError) throw dbError;
+
+      // Send confirmation email
+      const response = await fetch('https://flluxylfscixfeyonxsf.supabase.co/functions/v1/send-confirmation', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to send confirmation email');
+      }
+
+      toast({
+        title: 'Message Sent!',
+        description: 'We\'ve received your message and will get back to you soon.',
+      });
+      
+      form.reset();
+    } catch (error) {
+      console.error('Error:', error);
+      toast({
+        title: 'Error',
+        description: 'There was a problem sending your message. Please try again.',
+        variant: 'destructive',
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
