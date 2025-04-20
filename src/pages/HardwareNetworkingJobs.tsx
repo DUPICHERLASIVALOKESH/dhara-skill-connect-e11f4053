@@ -1,4 +1,3 @@
-
 import { useEffect, useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { Link } from 'react-router-dom';
@@ -23,7 +22,6 @@ import {
 } from "@/components/ui/collapsible";
 import { toast } from '@/hooks/use-toast';
 
-// Hardware job listings
 const hardwareJobs: JobProps[] = [
   {
     id: "hw1",
@@ -32,11 +30,12 @@ const hardwareJobs: JobProps[] = [
     location: "Bengaluru, India",
     type: "Full-Time",
     level: "Senior",
-    salary: "₹20-30 LPA",
-    postedDate: "2 days ago",
+    salary: "Not Disclosed",
+    postedDate: "Just now",
     description: "Design and develop cutting-edge hardware solutions for Intel processors.",
     source: "LinkedIn",
-    applyLink: "https://jobs.intel.com/job/bengaluru/hardware-engineer/411/12345678"
+    applyLink: "https://jobs.intel.com/job/bengaluru/hardware-engineer/411/12345678",
+    isNew: true
   },
   {
     id: "hw2",
@@ -45,11 +44,12 @@ const hardwareJobs: JobProps[] = [
     location: "Pune, India",
     type: "Full-Time",
     level: "Entry-Level",
-    salary: "₹8-12 LPA",
-    postedDate: "5 days ago",
+    salary: "Not Disclosed",
+    postedDate: "2 days ago",
     description: "Assist in GPU hardware design and testing.",
-    source: "Naukri",
-    applyLink: "https://www.nvidia.com/en-us/about-nvidia/careers/"
+    source: "Indeed",
+    applyLink: "https://www.nvidia.com/en-us/about-nvidia/careers/",
+    isNew: true
   },
   {
     id: "hw3",
@@ -58,11 +58,12 @@ const hardwareJobs: JobProps[] = [
     location: "Hyderabad, India",
     type: "Full-Time",
     level: "Mid-Level",
-    salary: "₹15-20 LPA",
-    postedDate: "1 week ago",
+    salary: "Not Disclosed",
+    postedDate: "3 days ago",
     description: "Validate hardware performance for mobile chipsets.",
     source: "Indeed",
-    applyLink: "https://qualcomm.wd5.myworkdayjobs.com/External/job/Hyderabad"
+    applyLink: "https://qualcomm.wd5.myworkdayjobs.com/External/job/Hyderabad",
+    isNew: true
   },
   {
     id: "hw4",
@@ -71,11 +72,12 @@ const hardwareJobs: JobProps[] = [
     location: "Cupertino, CA, USA",
     type: "Full-Time",
     level: "Senior",
-    salary: "$120-150K",
-    postedDate: "3 days ago",
+    salary: "Not Disclosed",
+    postedDate: "Just now",
     description: "Work on next-gen Apple hardware products.",
-    source: "Google Jobs",
-    applyLink: "https://jobs.apple.com/en-us/details/200123456"
+    source: "LinkedIn",
+    applyLink: "https://jobs.apple.com/en-us/details/200123456",
+    isNew: true
   },
   {
     id: "hw5",
@@ -84,11 +86,12 @@ const hardwareJobs: JobProps[] = [
     location: "Chennai, India",
     type: "Full-Time",
     level: "Entry-Level",
-    salary: "₹6-10 LPA",
-    postedDate: "Just now",
+    salary: "Not Disclosed",
+    postedDate: "1 week ago",
     description: "Support server hardware design and troubleshooting.",
     source: "LinkedIn",
-    applyLink: "https://jobs.dell.com/job/chennai/hardware-engineer-i/375/78901234"
+    applyLink: "https://jobs.dell.com/job/chennai/hardware-engineer-i/375/78901234",
+    isNew: true
   },
   {
     id: "hw6",
@@ -97,11 +100,12 @@ const hardwareJobs: JobProps[] = [
     location: "Bengaluru, India",
     type: "Full-Time",
     level: "Mid-Level",
-    salary: "₹18-25 LPA",
-    postedDate: "2 weeks ago",
+    salary: "Not Disclosed",
+    postedDate: "5 days ago",
     description: "Develop networking hardware solutions.",
-    source: "Indeed",
-    applyLink: "https://jobs.cisco.com/jobs/1234567"
+    source: "LinkedIn",
+    applyLink: "https://jobs.cisco.com/jobs/1234567",
+    isNew: true
   },
   {
     id: "hw7",
@@ -110,11 +114,12 @@ const hardwareJobs: JobProps[] = [
     location: "Hyderabad, India",
     type: "Full-Time",
     level: "Entry-Level",
-    salary: "₹7-12 LPA",
-    postedDate: "3 days ago",
+    salary: "Not Disclosed",
+    postedDate: "Just now",
     description: "Entry-level role in CPU/GPU silicon design.",
-    source: "Naukri",
-    applyLink: "https://www.amd.com/en/corporate/careers"
+    source: "Indeed",
+    applyLink: "https://www.amd.com/en/corporate/careers",
+    isNew: true
   },
   {
     id: "hw8",
@@ -123,11 +128,12 @@ const hardwareJobs: JobProps[] = [
     location: "Dallas, TX, USA",
     type: "Full-Time",
     level: "Senior",
-    salary: "$110-140K",
-    postedDate: "1 day ago",
+    salary: "Not Disclosed",
+    postedDate: "4 days ago",
     description: "Design analog circuits for industrial applications.",
     source: "LinkedIn",
-    applyLink: "https://careers.ti.com/job/123456"
+    applyLink: "https://careers.ti.com/job/123456",
+    isNew: true
   },
   {
     id: "hw9",
@@ -136,11 +142,12 @@ const hardwareJobs: JobProps[] = [
     location: "Noida, India",
     type: "Full-Time",
     level: "Entry-Level",
-    salary: "₹5-8 LPA",
+    salary: "Not Disclosed",
     postedDate: "1 week ago",
     description: "Provide hardware troubleshooting and support.",
-    source: "Indeed",
-    applyLink: "https://www.hcltech.com/careers"
+    source: "Naukri",
+    applyLink: "https://www.hcltech.com/careers",
+    isNew: true
   },
   {
     id: "hw10",
@@ -149,11 +156,12 @@ const hardwareJobs: JobProps[] = [
     location: "Suwon, South Korea",
     type: "Full-Time",
     level: "Senior",
-    salary: "₩70-90M",
-    postedDate: "5 days ago",
+    salary: "Not Disclosed",
+    postedDate: "2 days ago",
     description: "Innovate hardware for consumer electronics.",
     source: "LinkedIn",
-    applyLink: "https://www.samsung.com/global/careers"
+    applyLink: "https://www.samsung.com/global/careers",
+    isNew: true
   },
   {
     id: "hw11",
@@ -162,11 +170,12 @@ const hardwareJobs: JobProps[] = [
     location: "Hyderabad, India",
     type: "Full-Time",
     level: "Entry-Level",
-    salary: "₹6-9 LPA",
-    postedDate: "3 days ago",
+    salary: "Not Disclosed",
+    postedDate: "Just now",
     description: "Test and validate memory hardware.",
     source: "Naukri",
-    applyLink: "https://www.micron.com/careers"
+    applyLink: "https://www.micron.com/careers",
+    isNew: true
   },
   {
     id: "hw12",
@@ -175,11 +184,12 @@ const hardwareJobs: JobProps[] = [
     location: "Bengaluru, India",
     type: "Full-Time",
     level: "Mid-Level",
-    salary: "₹15-22 LPA",
-    postedDate: "1 day ago",
+    salary: "Not Disclosed",
+    postedDate: "3 days ago",
     description: "Design hardware for printers and PCs.",
     source: "LinkedIn",
-    applyLink: "https://jobs.hp.com/job/bengaluru/hardware-design-engineer/12345"
+    applyLink: "https://jobs.hp.com/job/bengaluru/hardware-design-engineer/12345",
+    isNew: true
   },
   {
     id: "hw13",
@@ -188,11 +198,12 @@ const hardwareJobs: JobProps[] = [
     location: "Mumbai, India",
     type: "Full-Time",
     level: "Entry-Level",
-    salary: "₹4-7 LPA",
-    postedDate: "2 weeks ago",
+    salary: "Not Disclosed",
+    postedDate: "1 week ago",
     description: "Assemble and test hardware components.",
     source: "Indeed",
-    applyLink: "https://www.lenovo.com/in/en/jobs"
+    applyLink: "https://www.lenovo.com/in/en/jobs",
+    isNew: true
   },
   {
     id: "hw14",
@@ -201,11 +212,12 @@ const hardwareJobs: JobProps[] = [
     location: "San Jose, CA, USA",
     type: "Full-Time",
     level: "Senior",
-    salary: "$130-160K",
-    postedDate: "5 days ago",
+    salary: "Not Disclosed",
+    postedDate: "Just now",
     description: "Lead hardware development for networking chips.",
-    source: "Google Jobs",
-    applyLink: "https://www.broadcom.com/company/careers"
+    source: "LinkedIn",
+    applyLink: "https://www.broadcom.com/company/careers",
+    isNew: true
   },
   {
     id: "hw15",
@@ -214,77 +226,12 @@ const hardwareJobs: JobProps[] = [
     location: "Pune, India",
     type: "Full-Time",
     level: "Entry-Level",
-    salary: "₹5-8 LPA",
-    postedDate: "1 week ago",
+    salary: "Not Disclosed",
+    postedDate: "5 days ago",
     description: "Assist in hardware integration and testing.",
     source: "Naukri",
-    applyLink: "https://careers.wipro.com/careers-home"
-  },
-  // VLSI jobs
-  {
-    id: "vlsi1",
-    title: "VLSI Design Engineer (Experienced)",
-    company: "Intel",
-    location: "Bengaluru, India",
-    type: "Full-Time",
-    level: "Senior",
-    salary: "₹22-32 LPA",
-    postedDate: "3 days ago",
-    description: "Design and verify VLSI circuits for Intel's next-gen processors.",
-    source: "LinkedIn",
-    applyLink: "https://jobs.intel.com/job/bengaluru/vlsi-engineer/411/12345678"
-  },
-  {
-    id: "vlsi2",
-    title: "Embedded Systems Engineer (Fresher)",
-    company: "NVIDIA",
-    location: "Pune, India",
-    type: "Full-Time",
-    level: "Entry-Level",
-    salary: "₹9-13 LPA",
-    postedDate: "1 week ago",
-    description: "Develop embedded solutions for GPU-based systems.",
-    source: "Naukri",
-    applyLink: "https://www.nvidia.com/en-us/about-nvidia/careers/"
-  },
-  {
-    id: "vlsi3",
-    title: "Microcontroller Firmware Engineer (Experienced)",
-    company: "Qualcomm",
-    location: "Hyderabad, India",
-    type: "Full-Time",
-    level: "Mid-Level",
-    salary: "₹16-22 LPA",
-    postedDate: "2 days ago",
-    description: "Write firmware for Snapdragon chipsets.",
-    source: "Indeed",
-    applyLink: "https://qualcomm.wd5.myworkdayjobs.com/External/job/Hyderabad"
-  },
-  {
-    id: "vlsi4",
-    title: "Analog VLSI Engineer (Experienced)",
-    company: "Texas Instruments",
-    location: "Dallas, TX, USA",
-    type: "Full-Time",
-    level: "Senior",
-    salary: "$115-145K",
-    postedDate: "5 days ago",
-    description: "Design analog circuits for MCU applications.",
-    source: "Google Jobs",
-    applyLink: "https://careers.ti.com/job/123456"
-  },
-  {
-    id: "vlsi5",
-    title: "Embedded Engineer (Fresher)",
-    company: "Microchip Technology",
-    location: "Chennai, India",
-    type: "Full-Time",
-    level: "Entry-Level",
-    salary: "₹6-9 LPA",
-    postedDate: "Just now",
-    description: "Work on microcontroller-based IoT solutions.",
-    source: "LinkedIn",
-    applyLink: "https://www.microchip.com/en-us/about/careers"
+    applyLink: "https://careers.wipro.com/careers-home",
+    isNew: true
   }
 ];
 
