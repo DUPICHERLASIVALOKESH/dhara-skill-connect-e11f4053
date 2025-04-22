@@ -82,16 +82,26 @@ const ContactForm = () => {
         }),
       });
 
+      const responseData = await response.json();
+
       if (!response.ok) {
-        const errorData = await response.json();
-        console.error('Edge function error:', errorData);
+        console.error('Edge function error:', responseData);
         throw new Error('Failed to send confirmation email');
       }
 
-      toast({
-        title: 'Message Sent!',
-        description: 'We\'ve received your message and will get back to you soon.',
-      });
+      // Special handling for Resend test mode limitations
+      if (responseData.emailError) {
+        console.log('Email sending limitation:', responseData.emailError);
+        toast({
+          title: 'Message Received!',
+          description: 'Your information has been stored successfully. However, in test mode, confirmation emails can only be sent to the owner\'s email address.',
+        });
+      } else {
+        toast({
+          title: 'Message Sent!',
+          description: 'We\'ve received your message and will get back to you soon.',
+        });
+      }
       
       form.reset();
     } catch (error) {
