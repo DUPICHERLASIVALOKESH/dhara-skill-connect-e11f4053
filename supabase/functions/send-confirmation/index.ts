@@ -14,6 +14,7 @@ interface ContactEmailRequest {
   name: string;
   email: string;
   message: string;
+  phone_number: string;
 }
 
 const handler = async (req: Request): Promise<Response> => {
@@ -23,7 +24,7 @@ const handler = async (req: Request): Promise<Response> => {
   }
 
   try {
-    const { name, email, message }: ContactEmailRequest = await req.json();
+    const { name, email, message, phone_number }: ContactEmailRequest = await req.json();
     
     console.log("Received request to send email to:", email);
 
@@ -38,6 +39,12 @@ const handler = async (req: Request): Promise<Response> => {
         <blockquote style="background: #f9f9f9; padding: 15px; border-left: 5px solid #ccc;">
           ${message}
         </blockquote>
+        <p>Contact Information:</p>
+        <ul>
+          <li>Name: ${name}</li>
+          <li>Email: ${email}</li>
+          <li>Phone: ${phone_number}</li>
+        </ul>
         <p>Our team will review your message and get back to you as soon as possible.</p>
         <p>Best regards,<br>The Dhara Consultants Team</p>
       `,

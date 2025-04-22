@@ -26,6 +26,9 @@ const formSchema = z.object({
   email: z.string().email({
     message: 'Please enter a valid email address.',
   }),
+  phone_number: z.string().min(10, {
+    message: 'Please enter a valid phone number.',
+  }),
   message: z.string().min(10, {
     message: 'Message must be at least 10 characters.',
   }),
@@ -41,6 +44,7 @@ const ContactForm = () => {
     defaultValues: {
       name: '',
       email: '',
+      phone_number: '',
       message: '',
     },
   });
@@ -48,12 +52,13 @@ const ContactForm = () => {
   const onSubmit = async (data: FormValues) => {
     setIsSubmitting(true);
     try {
-      // Store in Supabase - ensure data matches the expected schema
+      // Store in Supabase
       const { error: dbError } = await supabase
         .from('contacts')
         .insert({
           name: data.name,
           email: data.email,
+          phone_number: data.phone_number,
           message: data.message
         });
 
@@ -64,12 +69,12 @@ const ContactForm = () => {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${supabase.auth.getSession()}`
         },
         body: JSON.stringify({
           name: data.name,
           email: data.email,
-          message: data.message
+          message: data.message,
+          phone_number: data.phone_number
         }),
       });
 
@@ -120,6 +125,20 @@ const ContactForm = () => {
               <FormLabel>Email</FormLabel>
               <FormControl>
                 <Input placeholder="john@example.com" type="email" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <FormField
+          control={form.control}
+          name="phone_number"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Phone Number</FormLabel>
+              <FormControl>
+                <Input placeholder="+1 (555) 123-4567" type="tel" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
