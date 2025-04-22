@@ -64,11 +64,15 @@ const ContactForm = () => {
 
       if (dbError) throw dbError;
 
-      // Send confirmation email
+      // Get auth token for calling the edge function
+      const { data: authData } = await supabase.auth.getSession();
+      
+      // Send confirmation email with authentication
       const response = await fetch('https://flluxylfscixfeyonxsf.supabase.co/functions/v1/send-confirmation', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          'Authorization': `Bearer ${authData.session?.access_token || ''}`,
         },
         body: JSON.stringify({
           name: data.name,
@@ -79,6 +83,8 @@ const ContactForm = () => {
       });
 
       if (!response.ok) {
+        const errorData = await response.json();
+        console.error('Edge function error:', errorData);
         throw new Error('Failed to send confirmation email');
       }
 

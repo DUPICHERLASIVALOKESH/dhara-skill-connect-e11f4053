@@ -1,6 +1,7 @@
 
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 import { Resend } from "npm:resend@2.0.0";
+import { createClient } from "https://esm.sh/@supabase/supabase-js@2.38.4";
 
 const resend = new Resend(Deno.env.get("RESEND_API_KEY"));
 
@@ -24,6 +25,15 @@ const handler = async (req: Request): Promise<Response> => {
   }
 
   try {
+    // Get the authorization header
+    const authHeader = req.headers.get("Authorization");
+    const apiKey = req.headers.get("apikey");
+    
+    if (!authHeader && !apiKey) {
+      // Allow anonymous access for now, but log it
+      console.log("Warning: No authorization provided");
+    }
+    
     const { name, email, message, phone_number }: ContactEmailRequest = await req.json();
     
     console.log("Received request to send email to:", email);
