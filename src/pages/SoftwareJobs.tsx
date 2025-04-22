@@ -303,6 +303,20 @@ const softwareJobs: JobProps[] = [
     education: "BCA/BSc",
     applyLink: "https://app.joinsuperset.com/join/#/signup/student/jobprofiles/a8e5c3ce-cddc-45d4-b8d2-48b5176ce30f",
     isNew: true
+  },
+  {
+    id: "google1",
+    title: "Business Analyst, Supply Chain",
+    company: "Google",
+    location: "Bangalore, India",
+    type: "Full-Time",
+    level: "Entry Level",
+    salary: "₹6-12 LPA",
+    postedDate: "Just now",
+    description: "Business Systems Analyst role in Supply Chain for university graduates from 2022-2025 batches. Seeking candidates with a Bachelor's or Master's degree.",
+    education: "Bachelor's/Master's Degree",
+    applyLink: "https://www.google.com/about/careers/applications/jobs/results/98570921232474822-business-systems-analyst-supply-chain-university-graduate-2025",
+    isNew: true
   }
 ];
 
