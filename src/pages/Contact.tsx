@@ -1,12 +1,10 @@
-
 import { useEffect } from 'react';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import ContactForm from '@/components/ContactForm';
-import { MapPin, Phone, Mail, Clock, MessageSquare } from 'lucide-react';
+import { MapPin, Phone, Mail, Clock } from 'lucide-react';
 
 const Contact = () => {
-  // Scroll to top on page load
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
@@ -15,8 +13,7 @@ const Contact = () => {
     <>
       <Navbar />
       
-      <main className="pt-16 md:pt-20"> {/* Add padding to account for fixed navbar */}
-        {/* Hero Section */}
+      <main className="pt-16 md:pt-20">
         <section className="bg-dhara-blue py-16 md:py-24">
           <div className="container mx-auto px-4 md:px-6">
             <div className="max-w-4xl mx-auto text-center text-white">
@@ -28,11 +25,9 @@ const Contact = () => {
           </div>
         </section>
         
-        {/* Contact Information and Form */}
         <section className="py-16 md:py-24">
           <div className="container mx-auto px-4 md:px-6">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
-              {/* Contact Form */}
               <div className="order-2 lg:order-1">
                 <div className="mb-8">
                   <h2 className="heading-md text-dhara-blue mb-4">Send Us a Message</h2>
@@ -46,7 +41,6 @@ const Contact = () => {
                 </div>
               </div>
               
-              {/* Contact Information */}
               <div className="order-1 lg:order-2">
                 <div className="mb-8">
                   <h2 className="heading-md text-dhara-blue mb-4">Get in Touch</h2>
@@ -66,9 +60,9 @@ const Contact = () => {
                       <div>
                         <h3 className="font-semibold text-lg mb-2">Our Office</h3>
                         <p className="text-dhara-gray">
-                          123 Recruitment Plaza, Corporate Park<br />
-                          Mumbai, Maharashtra 400001<br />
-                          India
+                          R C, 19-7-87k3 585, Road, <br />
+                          beside Vinayaka Temple, Royal Nagar, <br />
+                          Tirupati, Andhra Pradesh 517501
                         </p>
                       </div>
                     </div>
@@ -84,11 +78,40 @@ const Contact = () => {
                       <div>
                         <h3 className="font-semibold text-lg mb-2">Phone</h3>
                         <p className="text-dhara-blue hover:underline">
-                          <a href="tel:+911234567890">+91 123 456 7890</a>
+                          <a href="tel:+919030995777">+91 90309 95777</a>
                         </p>
                         <p className="text-dhara-gray text-sm mt-1">
-                          Monday to Friday, 9am to 6pm IST
+                          Business Hours
                         </p>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <div className="bg-white p-6 rounded-lg shadow-sm border border-border">
+                    <div className="flex">
+                      <div className="mr-4">
+                        <div className="p-3 bg-blue-50 rounded-full w-12 h-12 flex items-center justify-center">
+                          <Clock className="text-dhara-blue" size={22} />
+                        </div>
+                      </div>
+                      <div>
+                        <h3 className="font-semibold text-lg mb-2">Business Hours</h3>
+                        <div className="text-dhara-gray grid grid-cols-2 gap-x-4 gap-y-1">
+                          <span>Wednesday:</span>
+                          <span>10:00 AM - 7:00 PM</span>
+                          <span>Thursday:</span>
+                          <span>10:00 AM - 7:00 PM</span>
+                          <span>Friday:</span>
+                          <span>10:00 AM - 7:00 PM</span>
+                          <span>Saturday:</span>
+                          <span>10:00 AM - 7:00 PM</span>
+                          <span>Sunday:</span>
+                          <span>Closed</span>
+                          <span>Monday:</span>
+                          <span>10:00 AM - 7:00 PM</span>
+                          <span>Tuesday:</span>
+                          <span>10:00 AM - 7:00 PM</span>
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -111,34 +134,12 @@ const Contact = () => {
                       </div>
                     </div>
                   </div>
-                  
-                  <div className="bg-white p-6 rounded-lg shadow-sm border border-border">
-                    <div className="flex">
-                      <div className="mr-4">
-                        <div className="p-3 bg-blue-50 rounded-full w-12 h-12 flex items-center justify-center">
-                          <Clock className="text-dhara-blue" size={22} />
-                        </div>
-                      </div>
-                      <div>
-                        <h3 className="font-semibold text-lg mb-2">Business Hours</h3>
-                        <div className="text-dhara-gray grid grid-cols-2 gap-x-4 gap-y-1">
-                          <span>Monday - Friday:</span>
-                          <span>9:00 AM - 6:00 PM</span>
-                          <span>Saturday:</span>
-                          <span>10:00 AM - 2:00 PM</span>
-                          <span>Sunday:</span>
-                          <span>Closed</span>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
                 </div>
               </div>
             </div>
           </div>
         </section>
         
-        {/* Map Section */}
         <section className="py-12 bg-gray-50">
           <div className="container mx-auto px-4 md:px-6">
             <div className="text-center mb-12">
@@ -147,7 +148,7 @@ const Contact = () => {
             
             <div className="aspect-w-16 aspect-h-9 max-w-5xl mx-auto rounded-lg overflow-hidden shadow-md">
               <iframe 
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d241316.6433214451!2d72.74109780863925!3d19.082522310207147!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3be7c6306644edc1%3A0x5da4ed8f8d648c69!2sMumbai%2C%20Maharashtra!5e0!3m2!1sen!2sin!4v1654688825148!5m2!1sen!2sin" 
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d241316.6433214451!2d72.74109780863925!3d19.082522310207147!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3be7c6306644edc1%3A0x5da4ed8f8d648c69!2sMumbai%2C%20Maharashtra!5e0!3m2!1sen!2sin!4v1654688825148!5m2!1sen!2sin!4v1654688825148!5m2!1sen!2sin" 
                 width="100%" 
                 height="450" 
                 style={{ border: 0 }} 
@@ -161,7 +162,6 @@ const Contact = () => {
           </div>
         </section>
         
-        {/* FAQ Section */}
         <section className="py-16 md:py-24">
           <div className="container mx-auto px-4 md:px-6">
             <div className="text-center max-w-3xl mx-auto mb-12">
