@@ -1,3 +1,4 @@
+
 import { useEffect, useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import Navbar from '@/components/Navbar';
@@ -40,7 +41,22 @@ import {
 } from 'lucide-react';
 import { toast } from '@/hooks/use-toast';
 import { JobProps } from "@/components/JobCard";
-import { softwareJobs } from "./SoftwareJobs";
+import { 
+  softwareJobs, 
+  hardwareNetworkingJobs, 
+  jobCounts,
+  bpoCustomerSupportJobs,
+  financeJobs,
+  marketingJobs,
+  hrJobs,
+  legalJobs,
+  healthcareJobs,
+  warehouseJobs,
+  retailJobs,
+  digitalMarketingJobs,
+  productManagementJobs,
+  operationsJobs
+} from "@/data/softwareJobs";
 
 interface CategoryData {
   title: string;
@@ -70,9 +86,54 @@ const JobCategories = () => {
   }, []);
 
   function getJobCountForSubcategory(tabKey: string, subcategoryName: string) {
-    if (tabKey === 'it' && subcategoryName === 'Software Development') {
-      return softwareJobs.length;
+    if (tabKey === 'it') {
+      if (subcategoryName === 'Software Development') {
+        return jobCounts.softwareDevelopment;
+      } else if (subcategoryName === 'Hardware & Networking') {
+        return jobCounts.hardwareNetworking;
+      } else if (subcategoryName === 'Cybersecurity') {
+        return jobCounts.cybersecurity;
+      } else if (subcategoryName === 'Data Science & AI') {
+        return jobCounts.dataScience;
+      } else if (subcategoryName === 'Cloud Computing') {
+        return jobCounts.cloudComputing;
+      } else if (subcategoryName === 'IT Support & Helpdesk') {
+        return jobCounts.itSupport;
+      }
     }
+    
+    // Non-IT categories
+    if (tabKey === 'nonit') {
+      if (subcategoryName === 'BPO & Customer Support') {
+        return jobCounts.bpoCustomerSupport;
+      } else if (subcategoryName === 'Finance & Banking') {
+        return jobCounts.finance;
+      } else if (subcategoryName === 'Marketing & Sales') {
+        return jobCounts.marketing;
+      } else if (subcategoryName === 'Human Resources (HR)') {
+        return jobCounts.hr;
+      } else if (subcategoryName === 'Legal & Compliance') {
+        return jobCounts.legal;
+      } else if (subcategoryName === 'Healthcare & Pharma') {
+        return jobCounts.healthcare;
+      }
+    }
+    
+    // E-commerce categories
+    if (tabKey === 'ecommerce') {
+      if (subcategoryName === 'Warehouse & Logistics') {
+        return jobCounts.warehouse;
+      } else if (subcategoryName === 'Retail & Sales') {
+        return jobCounts.retail;
+      } else if (subcategoryName === 'Digital Marketing') {
+        return jobCounts.digitalMarketing;
+      } else if (subcategoryName === 'Product Management') {
+        return jobCounts.productManagement;
+      } else if (subcategoryName === 'Operations & Fulfillment') {
+        return jobCounts.operations;
+      }
+    }
+    
     return (
       categories[tabKey]?.subcategories.find((sub) => sub.name === subcategoryName)
         ?.jobCount ?? 0
@@ -94,31 +155,31 @@ const JobCategories = () => {
           name: 'Hardware & Networking', 
           icon: <Wifi size={20} />,
           description: 'Network Engineer, System Administrator, IoT specialist roles',
-          jobCount: 12
+          jobCount: hardwareNetworkingJobs.length
         },
         { 
           name: 'Cybersecurity', 
           icon: <Shield size={20} />,
           description: 'Security Analyst, Ethical Hacker, Compliance specialist roles',
-          jobCount: 9
+          jobCount: jobCounts.cybersecurity
         },
         { 
           name: 'Data Science & AI', 
           icon: <Database size={20} />,
           description: 'Machine Learning, AI Engineer, Data Scientist roles',
-          jobCount: 15
+          jobCount: jobCounts.dataScience
         },
         { 
           name: 'Cloud Computing', 
           icon: <Cloud size={20} />,
           description: 'AWS, Azure, DevOps Engineer roles',
-          jobCount: 18
+          jobCount: jobCounts.cloudComputing
         },
         { 
           name: 'IT Support & Helpdesk', 
           icon: <Headphones size={20} />,
           description: 'Technical Support, IT Admin roles',
-          jobCount: 14
+          jobCount: jobCounts.itSupport
         }
       ]
     },
@@ -130,37 +191,37 @@ const JobCategories = () => {
           name: 'BPO & Customer Support', 
           icon: <Headphones size={20} />,
           description: 'Call Center, Voice/Non-Voice, Chat Support roles',
-          jobCount: 23
+          jobCount: jobCounts.bpoCustomerSupport
         },
         { 
           name: 'Finance & Banking', 
           icon: <Building size={20} />,
           description: 'Accountant, Investment Analyst, Banking jobs',
-          jobCount: 17
+          jobCount: jobCounts.finance
         },
         { 
           name: 'Marketing & Sales', 
           icon: <TrendingUp size={20} />,
           description: 'Digital Marketing, Sales Executive, SEO roles',
-          jobCount: 20
+          jobCount: jobCounts.marketing
         },
         { 
           name: 'Human Resources (HR)', 
           icon: <Users size={20} />,
           description: 'Recruiter, HR Manager, Payroll specialist roles',
-          jobCount: 15
+          jobCount: jobCounts.hr
         },
         { 
           name: 'Legal & Compliance', 
           icon: <Scale size={20} />,
           description: 'Corporate Lawyer, Legal Advisor, Compliance officer roles',
-          jobCount: 8
+          jobCount: jobCounts.legal
         },
         { 
           name: 'Healthcare & Pharma', 
           icon: <Stethoscope size={20} />,
           description: 'Medical Representative, Nursing, Lab Tech roles',
-          jobCount: 14
+          jobCount: jobCounts.healthcare
         }
       ]
     },
@@ -172,31 +233,31 @@ const JobCategories = () => {
           name: 'Warehouse & Logistics', 
           icon: <Warehouse size={20} />,
           description: 'Inventory Manager, Supply Chain, Courier roles',
-          jobCount: 12
+          jobCount: jobCounts.warehouse
         },
         { 
           name: 'Retail & Sales', 
           icon: <ShoppingBag size={20} />,
           description: 'E-commerce Sales, Customer Support, Vendor Manager roles',
-          jobCount: 15
+          jobCount: jobCounts.retail
         },
         { 
           name: 'Digital Marketing', 
           icon: <Share2 size={20} />,
           description: 'SEO, PPC, Social Media Manager roles',
-          jobCount: 14
+          jobCount: jobCounts.digitalMarketing
         },
         { 
           name: 'Product Management', 
           icon: <Layout size={20} />,
           description: 'Product Owner, E-commerce Analyst roles',
-          jobCount: 9
+          jobCount: jobCounts.productManagement
         },
         { 
           name: 'Operations & Fulfillment', 
           icon: <Package size={20} />,
           description: 'Order Processing, Returns Management roles',
-          jobCount: 11
+          jobCount: jobCounts.operations
         }
       ]
     }
@@ -354,11 +415,7 @@ const JobCategories = () => {
                         </div>
                         <div className="text-dhara-gray font-medium">
                           {category.subcategories.reduce(
-                            (total, sub) =>
-                              total +
-                              (key === 'it' && sub.name === 'Software Development'
-                                ? softwareJobs.length
-                                : sub.jobCount),
+                            (total, sub) => total + getJobCountForSubcategory(key, sub.name),
                             0
                           )}{" "}
                           available positions
@@ -376,9 +433,7 @@ const JobCategories = () => {
                                 <div className="text-left">
                                   <h3 className="font-semibold">{subcategory.name}</h3>
                                   <p className="text-sm text-muted-foreground">
-                                    {(key === "it" && subcategory.name === "Software Development"
-                                      ? softwareJobs.length
-                                      : subcategory.jobCount)}{" "}
+                                    {getJobCountForSubcategory(key, subcategory.name)}{" "}
                                     available positions
                                   </p>
                                 </div>
