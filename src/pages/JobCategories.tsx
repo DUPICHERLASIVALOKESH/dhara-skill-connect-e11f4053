@@ -1,4 +1,3 @@
-
 import { useEffect, useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import Navbar from '@/components/Navbar';
@@ -40,6 +39,8 @@ import {
   Send
 } from 'lucide-react';
 import { toast } from '@/hooks/use-toast';
+import { JobProps } from "@/components/JobCard";
+import { softwareJobs } from "./SoftwareJobs";
 
 interface CategoryData {
   title: string;
@@ -52,6 +53,13 @@ interface CategoryData {
   }[];
 }
 
+const JOBS_MAP: Record<string, { name: string; jobs: JobProps[] }> = {
+  it: {
+    name: 'Software Development',
+    jobs: softwareJobs,
+  },
+};
+
 const JobCategories = () => {
   const [activeTab, setActiveTab] = useState('it');
   const [searchTerm, setSearchTerm] = useState('');
@@ -61,16 +69,26 @@ const JobCategories = () => {
     window.scrollTo(0, 0);
   }, []);
 
+  function getJobCountForSubcategory(tabKey: string, subcategoryName: string) {
+    if (tabKey === 'it' && subcategoryName === 'Software Development') {
+      return softwareJobs.length;
+    }
+    return (
+      categories[tabKey]?.subcategories.find((sub) => sub.name === subcategoryName)
+        ?.jobCount ?? 0
+    );
+  }
+
   const categories: Record<string, CategoryData> = {
     it: {
       title: 'IT Jobs',
       icon: <Code size={24} />,
       subcategories: [
-        { 
-          name: 'Software Development', 
+        {
+          name: 'Software Development',
           icon: <Code size={20} />,
           description: 'Full Stack, Frontend, Backend, Mobile, Web development roles',
-          jobCount: 21
+          jobCount: softwareJobs.length
         },
         { 
           name: 'Hardware & Networking', 
@@ -222,7 +240,6 @@ const JobCategories = () => {
     window.open('https://chat.whatsapp.com/CGguruZu2nEJfjNPT0trdm', '_blank');
   };
 
-  // Filter categories based on search term
   const getFilteredCategories = () => {
     if (!searchTerm.trim()) return categories;
     
@@ -336,7 +353,15 @@ const JobCategories = () => {
                           <h2 className="text-2xl font-bold">{category.title}</h2>
                         </div>
                         <div className="text-dhara-gray font-medium">
-                          {category.subcategories.reduce((total, sub) => total + sub.jobCount, 0)} available positions
+                          {category.subcategories.reduce(
+                            (total, sub) =>
+                              total +
+                              (key === 'it' && sub.name === 'Software Development'
+                                ? softwareJobs.length
+                                : sub.jobCount),
+                            0
+                          )}{" "}
+                          available positions
                         </div>
                       </div>
                       
@@ -350,7 +375,12 @@ const JobCategories = () => {
                                 </div>
                                 <div className="text-left">
                                   <h3 className="font-semibold">{subcategory.name}</h3>
-                                  <p className="text-sm text-muted-foreground">{subcategory.jobCount} available positions</p>
+                                  <p className="text-sm text-muted-foreground">
+                                    {(key === "it" && subcategory.name === "Software Development"
+                                      ? softwareJobs.length
+                                      : subcategory.jobCount)}{" "}
+                                    available positions
+                                  </p>
                                 </div>
                               </div>
                             </AccordionTrigger>

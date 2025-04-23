@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { Link, useLocation } from 'react-router-dom';
@@ -318,6 +317,158 @@ const softwareJobs: JobProps[] = [
     education: "Bachelor's/Master's Degree",
     applyLink: "https://www.google.com/about/careers/applications/jobs/results/98570921232474822-business-systems-analyst-supply-chain-university-graduate-2025",
     isNew: true
+  },
+  {
+    id: "capco-intern",
+    title: "Intern - L&D",
+    company: "Capco",
+    location: "Bangalore, India",
+    type: "Internship",
+    level: "Entry Level",
+    salary: "₹28K - ₹40K/month (Expected)",
+    postedDate: "Just now",
+    description: "Capco Internship for Bachelor's/Master’s Degree freshers. Batch: 2024/2025/2026/2027. L&D role.",
+    education: "Bachelor’s/Master’s Degree",
+    applyLink: "https://job-boards.greenhouse.io/capco/jobs/6775153",
+    isNew: true
+  },
+  {
+    id: "barclays-fullstack",
+    title: "Full Stack Developer",
+    company: "Barclays",
+    location: "Pune",
+    type: "Full-Time",
+    level: "Entry Level",
+    postedDate: "Just now",
+    description: "Barclays hiring Full Stack Developer in Pune.",
+    applyLink: "https://search.jobs.barclays/job/-/-/13015/70723257088?src=JB-12860",
+    isNew: true
+  },
+  {
+    id: "meesho-se",
+    title: "Software Engineer",
+    company: "Meesho",
+    location: "India",
+    type: "Full-Time",
+    level: "Entry Level",
+    postedDate: "Just now",
+    description: "Meesho hiring Software Engineer (Frontend).",
+    applyLink: "https://meesho.io/jobs/software-development-engineer---i-frontend?id=6eb2f2ab-4eda-4bc2-8da2-865e2e4335f7",
+    isNew: true
+  },
+  {
+    id: "blooreach-se",
+    title: "Software Engineer",
+    company: "Bloomreach",
+    location: "India",
+    type: "Full-Time",
+    level: "Entry Level",
+    postedDate: "Just now",
+    description: "Blooreach hiring Software Engineer.",
+    applyLink: "https://job-boards.greenhouse.io/bloomreach/jobs/4748830?gh_src=f6a758901us",
+    isNew: true
+  },
+  {
+    id: "microsoft-se",
+    title: "Software Engineer II",
+    company: "Microsoft",
+    location: "India",
+    type: "Full-Time",
+    level: "Mid-Level",
+    postedDate: "Just now",
+    description: "Microsoft hiring Software Engineer II.",
+    applyLink: "https://careers.microsoft.com/us/en/job/1817872/Software-Engineer-II?jobsource=linkedin&utm_source=Job%20Board&utm_campaign=linkedin-feed",
+    isNew: true
+  },
+  {
+    id: "microsoft-data",
+    title: "Software Engineer (Data Engineer)",
+    company: "Microsoft",
+    location: "Hyderabad",
+    type: "Full-Time",
+    level: "Entry Level",
+    postedDate: "Just now",
+    description: "Microsoft hiring Software Engineer (Data Engineer) at Hyderabad.",
+    applyLink: "https://careers.microsoft.com/us/en/job/1817872/Software-Engineer-II?jobsource=linkedin&utm_source=Job%20Board&utm_campaign=linkedin-feed",
+    isNew: true
+  },
+  {
+    id: "akamai-se",
+    title: "Software Engineer",
+    company: "Akamai Technologies",
+    location: "Remote",
+    type: "Full-Time",
+    level: "Entry Level",
+    postedDate: "Just now",
+    description: "Akamai Technology hiring Software Engineer (Remote).",
+    applyLink: "https://fa-extu-saasfaprod1.fa.ocs.oraclecloud.com/hcmUI/CandidateExperience/en/job/036484/?utm_medium=jobboard&utm_source=linkedin",
+    isNew: true
+  },
+  {
+    id: "bloomberg-senior-se",
+    title: "Senior Software Engineer",
+    company: "Bloomberg",
+    location: "Pune",
+    type: "Full-Time",
+    level: "Senior",
+    postedDate: "Just now",
+    description: "Bloomberg hiring Senior Software Engineer in Pune.",
+    applyLink: "https://bloomberg.avature.net/careers/JobDetail?jobId=10265",
+    isNew: true
+  },
+  {
+    id: "autodesk-qa",
+    title: "Software QA Engineer",
+    company: "Autodesk",
+    location: "Bengaluru, India",
+    type: "Full-Time",
+    level: "Entry Level",
+    salary: "₹8 - ₹14 LPA (Expected)",
+    postedDate: "Just now",
+    description:
+      "Autodesk hiring Software QA Engineer (Coo Get Systems/Apps Eng). Batch: Freshers/Experienced. Bachelor’s Degree.",
+    education: "Bachelor’s Degree",
+    applyLink: "https://autodesk.wd1.myworkdayjobs.com/en-US/Ext/job/Software-QA-Engineer--Coo-Get-Systems---Apps-Engineering-_24WD82306-1",
+    isNew: true
+  },
+  {
+    id: "teikametrics-data",
+    title: "Software Engineer (Data Engineering)",
+    company: "Teikametrics",
+    location: "Remote",
+    type: "Full-Time",
+    level: "Entry Level",
+    postedDate: "Just now",
+    description: "Teikametrics hiring Software Engineer (Data Engineering).",
+    applyLink: "https://jobs.lever.co/teikametrics/b260f8a0-c47d-4304-b87e-0c5c1fd8c160/apply?source=LinkedIn",
+    isNew: true
+  },
+  {
+    id: "metlife-jr-se",
+    title: "Jr Software Platform Engineer",
+    company: "MetLife",
+    location: "India",
+    type: "Full-Time",
+    level: "Entry Level",
+    salary: "₹6-14 LPA (Expected)",
+    postedDate: "Just now",
+    description: "MetLife is hiring for Jr Software Engineer. Experience: 0-2 years.",
+    applyLink: "https://www.metlifecareers.com/en_US/ml/JobDetail/Jr-Software-Platform-Engineer/7797",
+    isNew: true
+  },
+  {
+    id: "powerschool-assoc-se",
+    title: "Associate Software Engineer",
+    company: "PowerSchool",
+    location: "Bangalore, India",
+    type: "Full-Time",
+    level: "Entry Level",
+    salary: "₹5-8 LPA (Expected)",
+    postedDate: "Just now",
+    description: "PowerSchool hiring Associate Software Engineer. Bachelor’s Degree or recent graduate, 0-2 years.",
+    education: "Bachelor’s Degree",
+    applyLink: "https://www.powerschool.com/company/careers/job/?referencenumber=2025-49716&location=IN-KA-Bengaluru",
+    isNew: true
   }
 ];
 
@@ -336,7 +487,6 @@ const SoftwareJobs = () => {
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const jobsPerPage = 5;
   
-  // Get search term from location state if it exists
   useEffect(() => {
     if (location.state?.searchTerm) {
       setSearchTerm(location.state.searchTerm);
