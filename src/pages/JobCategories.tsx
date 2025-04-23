@@ -1,3 +1,4 @@
+
 import { useEffect, useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import Navbar from '@/components/Navbar';
@@ -38,6 +39,7 @@ import {
   ArrowRightCircle,
   Send
 } from 'lucide-react';
+import { toast } from '@/hooks/use-toast';
 
 interface CategoryData {
   title: string;
@@ -52,6 +54,7 @@ interface CategoryData {
 
 const JobCategories = () => {
   const [activeTab, setActiveTab] = useState('it');
+  const [searchTerm, setSearchTerm] = useState('');
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -67,37 +70,37 @@ const JobCategories = () => {
           name: 'Software Development', 
           icon: <Code size={20} />,
           description: 'Full Stack, Frontend, Backend, Mobile, Web development roles',
-          jobCount: 342
+          jobCount: 21
         },
         { 
           name: 'Hardware & Networking', 
           icon: <Wifi size={20} />,
           description: 'Network Engineer, System Administrator, IoT specialist roles',
-          jobCount: 156
+          jobCount: 12
         },
         { 
           name: 'Cybersecurity', 
           icon: <Shield size={20} />,
           description: 'Security Analyst, Ethical Hacker, Compliance specialist roles',
-          jobCount: 98
+          jobCount: 9
         },
         { 
           name: 'Data Science & AI', 
           icon: <Database size={20} />,
           description: 'Machine Learning, AI Engineer, Data Scientist roles',
-          jobCount: 224
+          jobCount: 15
         },
         { 
           name: 'Cloud Computing', 
           icon: <Cloud size={20} />,
           description: 'AWS, Azure, DevOps Engineer roles',
-          jobCount: 187
+          jobCount: 18
         },
         { 
           name: 'IT Support & Helpdesk', 
           icon: <Headphones size={20} />,
           description: 'Technical Support, IT Admin roles',
-          jobCount: 128
+          jobCount: 14
         }
       ]
     },
@@ -109,37 +112,37 @@ const JobCategories = () => {
           name: 'BPO & Customer Support', 
           icon: <Headphones size={20} />,
           description: 'Call Center, Voice/Non-Voice, Chat Support roles',
-          jobCount: 231
+          jobCount: 23
         },
         { 
           name: 'Finance & Banking', 
           icon: <Building size={20} />,
           description: 'Accountant, Investment Analyst, Banking jobs',
-          jobCount: 176
+          jobCount: 17
         },
         { 
           name: 'Marketing & Sales', 
           icon: <TrendingUp size={20} />,
           description: 'Digital Marketing, Sales Executive, SEO roles',
-          jobCount: 204
+          jobCount: 20
         },
         { 
           name: 'Human Resources (HR)', 
           icon: <Users size={20} />,
           description: 'Recruiter, HR Manager, Payroll specialist roles',
-          jobCount: 152
+          jobCount: 15
         },
         { 
           name: 'Legal & Compliance', 
           icon: <Scale size={20} />,
           description: 'Corporate Lawyer, Legal Advisor, Compliance officer roles',
-          jobCount: 87
+          jobCount: 8
         },
         { 
           name: 'Healthcare & Pharma', 
           icon: <Stethoscope size={20} />,
           description: 'Medical Representative, Nursing, Lab Tech roles',
-          jobCount: 143
+          jobCount: 14
         }
       ]
     },
@@ -151,31 +154,31 @@ const JobCategories = () => {
           name: 'Warehouse & Logistics', 
           icon: <Warehouse size={20} />,
           description: 'Inventory Manager, Supply Chain, Courier roles',
-          jobCount: 126
+          jobCount: 12
         },
         { 
           name: 'Retail & Sales', 
           icon: <ShoppingBag size={20} />,
           description: 'E-commerce Sales, Customer Support, Vendor Manager roles',
-          jobCount: 158
+          jobCount: 15
         },
         { 
           name: 'Digital Marketing', 
           icon: <Share2 size={20} />,
           description: 'SEO, PPC, Social Media Manager roles',
-          jobCount: 143
+          jobCount: 14
         },
         { 
           name: 'Product Management', 
           icon: <Layout size={20} />,
           description: 'Product Owner, E-commerce Analyst roles',
-          jobCount: 97
+          jobCount: 9
         },
         { 
           name: 'Operations & Fulfillment', 
           icon: <Package size={20} />,
           description: 'Order Processing, Returns Management roles',
-          jobCount: 114
+          jobCount: 11
         }
       ]
     }
@@ -196,10 +199,55 @@ const JobCategories = () => {
     navigate('/jobs', { state: { category: activeTab, subcategory: formattedSubcategory } });
   };
 
+  const handleSearchSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (searchTerm.trim() === '') {
+      toast({
+        title: "Please enter a search term",
+        description: "Enter a job title, skill or company name to search",
+        variant: "destructive"
+      });
+      return;
+    }
+    
+    navigate('/jobs', { state: { searchTerm } });
+    toast({
+      title: "Search initiated",
+      description: `Showing results for "${searchTerm}"`
+    });
+  };
+
   const handleJoinWhatsApp = (e: React.MouseEvent) => {
     e.stopPropagation();
     window.open('https://chat.whatsapp.com/CGguruZu2nEJfjNPT0trdm', '_blank');
   };
+
+  // Filter categories based on search term
+  const getFilteredCategories = () => {
+    if (!searchTerm.trim()) return categories;
+    
+    const filtered: Record<string, CategoryData> = {};
+    
+    Object.entries(categories).forEach(([key, category]) => {
+      const matchingSubcategories = category.subcategories.filter(
+        subcategory => 
+          subcategory.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          subcategory.description.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+      
+      if (matchingSubcategories.length > 0) {
+        filtered[key] = {
+          ...category,
+          subcategories: matchingSubcategories
+        };
+      }
+    });
+    
+    return filtered;
+  };
+
+  const filteredCategories = getFilteredCategories();
+  const hasSearchResults = Object.keys(filteredCategories).length > 0;
 
   return (
     <>
@@ -214,17 +262,19 @@ const JobCategories = () => {
                 Explore our curated collection of job categories tailored to your professional interests.
               </p>
               <div className="mt-8 flex justify-center">
-                <div className="relative max-w-md w-full">
+                <form onSubmit={handleSearchSubmit} className="relative max-w-md w-full">
                   <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-dhara-blue/70" size={20} />
                   <input
                     type="text"
                     placeholder="Search for jobs, skills, or companies"
                     className="w-full py-3 px-10 rounded-full bg-white text-gray-800 focus:outline-none focus:ring-2 focus:ring-dhara-light-blue"
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
                   />
-                  <Button className="absolute right-1 top-1/2 -translate-y-1/2 rounded-full py-1.5 px-4 bg-dhara-blue hover:bg-dhara-blue/90">
+                  <Button type="submit" className="absolute right-1 top-1/2 -translate-y-1/2 rounded-full py-1.5 px-4 bg-dhara-blue hover:bg-dhara-blue/90">
                     Search
                   </Button>
-                </div>
+                </form>
               </div>
               
               <div className="mt-6">
@@ -246,70 +296,88 @@ const JobCategories = () => {
         <section className="py-16">
           <div className="container mx-auto px-4 md:px-6">
             <div className="max-w-5xl mx-auto">
-              <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-                <TabsList className="w-full flex justify-between mb-8 bg-muted/50">
-                  <TabsTrigger value="it" className="flex-1 py-3 data-[state=active]:bg-dhara-blue data-[state=active]:text-white">
-                    <Code size={18} className="mr-2" />
-                    IT Jobs
-                  </TabsTrigger>
-                  <TabsTrigger value="nonit" className="flex-1 py-3 data-[state=active]:bg-dhara-blue data-[state=active]:text-white">
-                    <Briefcase size={18} className="mr-2" />
-                    Non-IT Jobs
-                  </TabsTrigger>
-                  <TabsTrigger value="ecommerce" className="flex-1 py-3 data-[state=active]:bg-dhara-blue data-[state=active]:text-white">
-                    <ShoppingCart size={18} className="mr-2" />
-                    E-commerce Jobs
-                  </TabsTrigger>
-                </TabsList>
-                
-                {Object.entries(categories).map(([key, category]) => (
-                  <TabsContent key={key} value={key} className="space-y-6">
-                    <div className="flex items-center justify-between mb-6">
-                      <div className="flex items-center">
-                        <div className="p-2 rounded-full bg-dhara-blue/10 text-dhara-blue mr-3">
-                          {category.icon}
+              {!hasSearchResults && searchTerm.trim() !== '' ? (
+                <div className="text-center py-12 bg-gray-50 rounded-lg">
+                  <Search size={48} className="mx-auto text-dhara-gray opacity-50 mb-4" />
+                  <h3 className="text-xl font-semibold mb-2">No matching job categories found</h3>
+                  <p className="text-dhara-gray mb-6">Try different keywords or browse all categories below</p>
+                  <Button 
+                    variant="outline" 
+                    onClick={() => setSearchTerm('')}
+                    className="border-dhara-blue text-dhara-blue hover:bg-dhara-blue/10"
+                  >
+                    Clear Search
+                  </Button>
+                </div>
+              ) : (
+                <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
+                  <TabsList className="w-full flex justify-between mb-8 bg-muted/50">
+                    <TabsTrigger value="it" className="flex-1 py-3 data-[state=active]:bg-dhara-blue data-[state=active]:text-white">
+                      <Code size={18} className="mr-2" />
+                      IT Jobs
+                    </TabsTrigger>
+                    <TabsTrigger value="nonit" className="flex-1 py-3 data-[state=active]:bg-dhara-blue data-[state=active]:text-white">
+                      <Briefcase size={18} className="mr-2" />
+                      Non-IT Jobs
+                    </TabsTrigger>
+                    <TabsTrigger value="ecommerce" className="flex-1 py-3 data-[state=active]:bg-dhara-blue data-[state=active]:text-white">
+                      <ShoppingCart size={18} className="mr-2" />
+                      E-commerce Jobs
+                    </TabsTrigger>
+                  </TabsList>
+                  
+                  {Object.entries(filteredCategories).map(([key, category]) => (
+                    <TabsContent key={key} value={key} className="space-y-6">
+                      <div className="flex items-center justify-between mb-6">
+                        <div className="flex items-center">
+                          <div className="p-2 rounded-full bg-dhara-blue/10 text-dhara-blue mr-3">
+                            {category.icon}
+                          </div>
+                          <h2 className="text-2xl font-bold">{category.title}</h2>
                         </div>
-                        <h2 className="text-2xl font-bold">{category.title}</h2>
+                        <div className="text-dhara-gray font-medium">
+                          {category.subcategories.reduce((total, sub) => total + sub.jobCount, 0)} available positions
+                        </div>
                       </div>
-                    </div>
-                    
-                    <Accordion type="multiple" className="w-full">
-                      {category.subcategories.map((subcategory, index) => (
-                        <AccordionItem key={index} value={subcategory.name} className="border rounded-lg mb-4 overflow-hidden hover:shadow-md transition-shadow">
-                          <AccordionTrigger className="px-6 py-4 hover:no-underline hover:bg-dhara-blue/5">
-                            <div className="flex items-center">
-                              <div className="p-2 rounded-full bg-dhara-blue/10 text-dhara-blue mr-3">
-                                {subcategory.icon}
+                      
+                      <Accordion type="multiple" className="w-full">
+                        {category.subcategories.map((subcategory, index) => (
+                          <AccordionItem key={index} value={subcategory.name} className="border rounded-lg mb-4 overflow-hidden hover:shadow-md transition-shadow">
+                            <AccordionTrigger className="px-6 py-4 hover:no-underline hover:bg-dhara-blue/5">
+                              <div className="flex items-center">
+                                <div className="p-2 rounded-full bg-dhara-blue/10 text-dhara-blue mr-3">
+                                  {subcategory.icon}
+                                </div>
+                                <div className="text-left">
+                                  <h3 className="font-semibold">{subcategory.name}</h3>
+                                  <p className="text-sm text-muted-foreground">{subcategory.jobCount} available positions</p>
+                                </div>
                               </div>
-                              <div className="text-left">
-                                <h3 className="font-semibold">{subcategory.name}</h3>
-                                <p className="text-sm text-muted-foreground">{subcategory.jobCount} available positions</p>
+                            </AccordionTrigger>
+                            <AccordionContent className="px-6 py-4 bg-muted/30">
+                              <p className="mb-4 text-muted-foreground">{subcategory.description}</p>
+                              <div className="flex justify-between items-center">
+                                <div className="flex items-center text-sm text-muted-foreground">
+                                  <MapPin size={16} className="mr-1" />
+                                  <span>Multiple locations available</span>
+                                </div>
+                                <div>
+                                  <Button 
+                                    onClick={() => handleSubcategoryClick(subcategory.name)}
+                                    className="bg-dhara-blue hover:bg-dhara-blue/90"
+                                  >
+                                    View Jobs <ArrowRight size={16} className="ml-2" />
+                                  </Button>
+                                </div>
                               </div>
-                            </div>
-                          </AccordionTrigger>
-                          <AccordionContent className="px-6 py-4 bg-muted/30">
-                            <p className="mb-4 text-muted-foreground">{subcategory.description}</p>
-                            <div className="flex justify-between items-center">
-                              <div className="flex items-center text-sm text-muted-foreground">
-                                <MapPin size={16} className="mr-1" />
-                                <span>Multiple locations available</span>
-                              </div>
-                              <div>
-                                <Button 
-                                  onClick={() => handleSubcategoryClick(subcategory.name)}
-                                  className="bg-dhara-blue hover:bg-dhara-blue/90"
-                                >
-                                  View Jobs <ArrowRight size={16} className="ml-2" />
-                                </Button>
-                              </div>
-                            </div>
-                          </AccordionContent>
-                        </AccordionItem>
-                      ))}
-                    </Accordion>
-                  </TabsContent>
-                ))}
-              </Tabs>
+                            </AccordionContent>
+                          </AccordionItem>
+                        ))}
+                      </Accordion>
+                    </TabsContent>
+                  ))}
+                </Tabs>
+              )}
             </div>
           </div>
         </section>

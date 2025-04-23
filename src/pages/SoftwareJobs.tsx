@@ -1,6 +1,7 @@
+
 import React, { useState, useEffect } from 'react';
 import { useQuery } from '@tanstack/react-query';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
@@ -326,6 +327,7 @@ const fetchSoftwareJobs = async (): Promise<JobProps[]> => {
 };
 
 const SoftwareJobs = () => {
+  const location = useLocation();
   const [searchTerm, setSearchTerm] = useState('');
   const [locationFilter, setLocationFilter] = useState('');
   const [typeFilter, setTypeFilter] = useState('');
@@ -333,6 +335,13 @@ const SoftwareJobs = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const jobsPerPage = 5;
+  
+  // Get search term from location state if it exists
+  useEffect(() => {
+    if (location.state?.searchTerm) {
+      setSearchTerm(location.state.searchTerm);
+    }
+  }, [location.state]);
   
   const { data: jobs, isLoading, error } = useQuery({
     queryKey: ['softwareJobs'],
@@ -378,14 +387,23 @@ const SoftwareJobs = () => {
   };
 
   const filteredJobs = jobs?.filter(job => {
-    const matchesSearch = 
-      job.title.toLowerCase().includes(searchTerm.toLowerCase()) || 
-      job.company.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      job.description.toLowerCase().includes(searchTerm.toLowerCase());
+    const matchesSearch = searchTerm 
+      ? job.title.toLowerCase().includes(searchTerm.toLowerCase()) || 
+        job.company.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        job.description.toLowerCase().includes(searchTerm.toLowerCase())
+      : true;
     
-    const matchesLocation = locationFilter ? job.location.includes(locationFilter) : true;
-    const matchesType = typeFilter ? job.type === typeFilter : true;
-    const matchesLevel = levelFilter ? job.level === levelFilter : true;
+    const matchesLocation = locationFilter && locationFilter !== 'all-locations' 
+      ? job.location.includes(locationFilter) 
+      : true;
+      
+    const matchesType = typeFilter && typeFilter !== 'all-types' 
+      ? job.type === typeFilter 
+      : true;
+      
+    const matchesLevel = levelFilter && levelFilter !== 'all-levels' 
+      ? job.level === levelFilter 
+      : true;
     
     return matchesSearch && matchesLocation && matchesType && matchesLevel;
   });
@@ -420,7 +438,7 @@ const SoftwareJobs = () => {
               </p>
               
               <div className="mt-8 flex justify-center">
-                <div className="relative max-w-md w-full">
+                <form onSubmit={handleSearch} className="relative max-w-md w-full">
                   <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-dhara-blue/70" size={20} />
                   <input
                     type="text"
@@ -429,10 +447,10 @@ const SoftwareJobs = () => {
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
                   />
-                  <Button className="absolute right-1 top-1/2 -translate-y-1/2 rounded-full py-1.5 px-4 bg-dhara-blue hover:bg-dhara-blue/90">
+                  <Button type="submit" className="absolute right-1 top-1/2 -translate-y-1/2 rounded-full py-1.5 px-4 bg-dhara-blue hover:bg-dhara-blue/90">
                     Search
                   </Button>
-                </div>
+                </form>
               </div>
               
               <div className="mt-6">
@@ -518,7 +536,7 @@ const SoftwareJobs = () => {
                         <SelectItem value="Full-Time">Full-Time</SelectItem>
                         <SelectItem value="Part-Time">Part-Time</SelectItem>
                         <SelectItem value="Internship">Internship</SelectItem>
-                        <SelectItem value="Remote">Remote</SelectItem>
+                        <SelectItem value="Contract">Contract</SelectItem>
                       </SelectGroup>
                     </SelectContent>
                   </Select>
@@ -530,7 +548,7 @@ const SoftwareJobs = () => {
                     <SelectContent>
                       <SelectGroup>
                         <SelectItem value="all-levels">All Levels</SelectItem>
-                        <SelectItem value="Entry-Level">Entry-Level</SelectItem>
+                        <SelectItem value="Entry Level">Entry-Level</SelectItem>
                         <SelectItem value="Junior">Junior</SelectItem>
                         <SelectItem value="Mid-Level">Mid-Level</SelectItem>
                         <SelectItem value="Senior">Senior</SelectItem>
@@ -555,7 +573,7 @@ const SoftwareJobs = () => {
                     <SelectItem value="Full-Time">Full-Time</SelectItem>
                     <SelectItem value="Part-Time">Part-Time</SelectItem>
                     <SelectItem value="Internship">Internship</SelectItem>
-                    <SelectItem value="Remote">Remote</SelectItem>
+                    <SelectItem value="Contract">Contract</SelectItem>
                   </SelectGroup>
                 </SelectContent>
               </Select>
@@ -567,7 +585,7 @@ const SoftwareJobs = () => {
                 <SelectContent>
                   <SelectGroup>
                     <SelectItem value="all-levels">All Levels</SelectItem>
-                    <SelectItem value="Entry-Level">Entry-Level</SelectItem>
+                    <SelectItem value="Entry Level">Entry-Level</SelectItem>
                     <SelectItem value="Junior">Junior</SelectItem>
                     <SelectItem value="Mid-Level">Mid-Level</SelectItem>
                     <SelectItem value="Senior">Senior</SelectItem>
@@ -584,17 +602,46 @@ const SoftwareJobs = () => {
               <h2 className="heading-md text-dhara-blue mb-4">
                 Software Development Opportunities
               </h2>
-              {filteredJobs && (
+              {isLoading ? (
+                <p className="text-dhara-gray">Loading job data...</p>
+              ) : filteredJobs ? (
                 <p className="text-dhara-gray">
-                  Showing {currentJobs?.length} of {filteredJobs.length} job opportunities
+                  Showing {currentJobs?.length} of {filteredJobs.length} job opportunities (Total: {jobs?.length || 0} positions)
                 </p>
-              )}
+              ) : null}
             </div>
             
             <div className="space-y-6">
-              {currentJobs?.map((job) => (
-                <JobCard key={job.id} job={job} />
-              ))}
+              {isLoading ? (
+                <div className="text-center py-12">
+                  <div className="inline-block h-12 w-12 animate-spin rounded-full border-4 border-solid border-dhara-blue border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]"></div>
+                  <p className="mt-4 text-dhara-gray">Loading job opportunities...</p>
+                </div>
+              ) : error ? (
+                <div className="bg-red-50 text-red-700 p-4 rounded-lg">
+                  <p className="font-medium">Error loading jobs</p>
+                  <p>Please try again later.</p>
+                </div>
+              ) : filteredJobs?.length === 0 ? (
+                <div className="text-center py-12 bg-gray-50 rounded-lg">
+                  <Search size={48} className="mx-auto text-dhara-gray opacity-50 mb-4" />
+                  <h3 className="text-xl font-semibold mb-2">No matching jobs found</h3>
+                  <p className="text-dhara-gray">Try adjusting your search or filter criteria.</p>
+                  {searchTerm && (
+                    <Button 
+                      variant="outline" 
+                      onClick={() => setSearchTerm('')} 
+                      className="mt-4"
+                    >
+                      Clear Search
+                    </Button>
+                  )}
+                </div>
+              ) : (
+                currentJobs?.map((job) => (
+                  <JobCard key={job.id} job={job} onShare={() => handleShare(job)} />
+                ))
+              )}
             </div>
             
             {totalPages > 1 && (
@@ -603,7 +650,7 @@ const SoftwareJobs = () => {
                   <PaginationItem>
                     <PaginationPrevious 
                       onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
-                      className={currentPage === 1 ? "pointer-events-none opacity-50" : ""}
+                      className={currentPage === 1 ? "pointer-events-none opacity-50" : "cursor-pointer"}
                     />
                   </PaginationItem>
                   
@@ -612,6 +659,7 @@ const SoftwareJobs = () => {
                       <PaginationLink 
                         onClick={() => setCurrentPage(index + 1)}
                         isActive={currentPage === index + 1}
+                        className="cursor-pointer"
                       >
                         {index + 1}
                       </PaginationLink>
@@ -621,7 +669,7 @@ const SoftwareJobs = () => {
                   <PaginationItem>
                     <PaginationNext 
                       onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
-                      className={currentPage === totalPages ? "pointer-events-none opacity-50" : ""}
+                      className={currentPage === totalPages ? "pointer-events-none opacity-50" : "cursor-pointer"}
                     />
                   </PaginationItem>
                 </PaginationContent>

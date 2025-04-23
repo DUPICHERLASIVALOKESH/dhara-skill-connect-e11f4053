@@ -137,7 +137,7 @@ const mockJobs: JobProps[] = [
   }
 ];
 
-const fetchJobs = async (category?: string, subcategory?: string): Promise<JobProps[]> => {
+const fetchJobs = async (category?: string, subcategory?: string, searchTerm?: string): Promise<JobProps[]> => {
   await new Promise(resolve => setTimeout(resolve, 1000));
   return mockJobs;
 };
@@ -149,13 +149,22 @@ const Jobs = () => {
   const [typeFilter, setTypeFilter] = useState('');
   const [levelFilter, setLevelFilter] = useState('');
   const [isFilterOpen, setIsFilterOpen] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+  const jobsPerPage = 5;
   
   const categoryFromState = location.state?.category || '';
   const subcategoryFromState = location.state?.subcategory || '';
+  const searchTermFromState = location.state?.searchTerm || '';
+  
+  useEffect(() => {
+    if (searchTermFromState) {
+      setSearchTerm(searchTermFromState);
+    }
+  }, [searchTermFromState]);
   
   const { data: jobs, isLoading, error } = useQuery({
-    queryKey: ['jobs', categoryFromState, subcategoryFromState],
-    queryFn: () => fetchJobs(categoryFromState, subcategoryFromState)
+    queryKey: ['jobs', categoryFromState, subcategoryFromState, searchTermFromState],
+    queryFn: () => fetchJobs(categoryFromState, subcategoryFromState, searchTermFromState)
   });
 
   useEffect(() => {
@@ -164,6 +173,7 @@ const Jobs = () => {
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
+    setCurrentPage(1);
     toast({
       title: "Search Applied",
       description: `Searching for "${searchTerm}" jobs`,
@@ -171,17 +181,31 @@ const Jobs = () => {
   };
 
   const filteredJobs = jobs?.filter(job => {
-    const matchesSearch = 
-      job.title.toLowerCase().includes(searchTerm.toLowerCase()) || 
-      job.company.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      job.description.toLowerCase().includes(searchTerm.toLowerCase());
+    const matchesSearch = searchTerm
+      ? job.title.toLowerCase().includes(searchTerm.toLowerCase()) || 
+        job.company.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        job.description.toLowerCase().includes(searchTerm.toLowerCase())
+      : true;
     
-    const matchesLocation = locationFilter ? job.location.includes(locationFilter) : true;
-    const matchesType = typeFilter ? job.type === typeFilter : true;
-    const matchesLevel = levelFilter ? job.level === levelFilter : true;
+    const matchesLocation = locationFilter && locationFilter !== 'all'
+      ? job.location.includes(locationFilter) 
+      : true;
+      
+    const matchesType = typeFilter && typeFilter !== 'all-types'
+      ? job.type === typeFilter 
+      : true;
+      
+    const matchesLevel = levelFilter && levelFilter !== 'all-levels'
+      ? job.level === levelFilter 
+      : true;
     
     return matchesSearch && matchesLocation && matchesType && matchesLevel;
   });
+
+  const indexOfLastJob = currentPage * jobsPerPage;
+  const indexOfFirstJob = indexOfLastJob - jobsPerPage;
+  const currentJobs = filteredJobs?.slice(indexOfFirstJob, indexOfLastJob);
+  const totalPages = filteredJobs ? Math.ceil(filteredJobs.length / jobsPerPage) : 0;
 
   const formatSubcategory = (subcategory: string) => {
     return subcategory
@@ -211,6 +235,21 @@ const Jobs = () => {
                   </div>
                   <h1 className="heading-xl mb-6 animate-fade-in">
                     {formatSubcategory(subcategoryFromState)} Jobs
+                  </h1>
+                </>
+              ) : searchTermFromState ? (
+                <>
+                  <div className="mb-4">
+                    <Link 
+                      to="/job-categories" 
+                      className="inline-flex items-center text-white/80 hover:text-white transition-colors"
+                    >
+                      <ArrowLeft size={16} className="mr-1" />
+                      Back to Categories
+                    </Link>
+                  </div>
+                  <h1 className="heading-xl mb-6 animate-fade-in">
+                    Search Results: "{searchTermFromState}"
                   </h1>
                 </>
               ) : (
@@ -364,11 +403,13 @@ const Jobs = () => {
               <h2 className="heading-md text-dhara-blue mb-4">
                 {subcategoryFromState 
                   ? `${formatSubcategory(subcategoryFromState)} Opportunities` 
-                  : "Available Positions"}
+                  : searchTermFromState
+                    ? "Search Results"
+                    : "Available Positions"}
               </h2>
               {filteredJobs && (
                 <p className="text-dhara-gray">
-                  Showing {filteredJobs.length} job opportunities
+                  Showing {currentJobs?.length} of {filteredJobs.length} job opportunities
                 </p>
               )}
             </div>
@@ -389,13 +430,54 @@ const Jobs = () => {
                   <Briefcase size={48} className="mx-auto text-dhara-gray opacity-50 mb-4" />
                   <h3 className="text-xl font-semibold mb-2">No jobs found</h3>
                   <p className="text-dhara-gray">Try adjusting your search criteria.</p>
+                  {searchTerm && (
+                    <Button 
+                      variant="outline" 
+                      onClick={() => setSearchTerm('')} 
+                      className="mt-4"
+                    >
+                      Clear Search
+                    </Button>
+                  )}
                 </div>
               ) : (
-                filteredJobs?.map((job) => (
+                currentJobs?.map((job) => (
                   <JobCard key={job.id} job={job} />
                 ))
               )}
             </div>
+            
+            {totalPages > 1 && (
+              <Pagination className="my-8">
+                <PaginationContent>
+                  <PaginationItem>
+                    <PaginationPrevious 
+                      onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
+                      className={currentPage === 1 ? "pointer-events-none opacity-50" : "cursor-pointer"}
+                    />
+                  </PaginationItem>
+                  
+                  {Array.from({ length: totalPages }).map((_, index) => (
+                    <PaginationItem key={index}>
+                      <PaginationLink 
+                        onClick={() => setCurrentPage(index + 1)}
+                        isActive={currentPage === index + 1}
+                        className="cursor-pointer"
+                      >
+                        {index + 1}
+                      </PaginationLink>
+                    </PaginationItem>
+                  ))}
+                  
+                  <PaginationItem>
+                    <PaginationNext 
+                      onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
+                      className={currentPage === totalPages ? "pointer-events-none opacity-50" : "cursor-pointer"}
+                    />
+                  </PaginationItem>
+                </PaginationContent>
+              </Pagination>
+            )}
           </div>
         </section>
         
