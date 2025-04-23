@@ -1,4 +1,3 @@
-
 import { Link } from 'react-router-dom';
 import { Facebook, Instagram, Linkedin, Twitter, Mail, Phone, MapPin } from 'lucide-react';
 
@@ -72,14 +71,14 @@ const Footer = () => {
               <div className="flex items-start">
                 <MapPin size={20} className="mr-2 mt-1 text-white/70" />
                 <p className="text-white/70">
-                  123 Recruitment Avenue, <br />
-                  Talent District, <br />
-                  New Delhi, 110001
+                  R C, 19-7-87k3 585, Road, <br />
+                  beside Vinayaka Temple, Royal Nagar, <br />
+                  Tirupati, Andhra Pradesh 517501
                 </p>
               </div>
               <div className="flex items-center">
                 <Phone size={20} className="mr-2 text-white/70" />
-                <p className="text-white/70">+91 98765 43210</p>
+                <p className="text-white/70">+91 90309 95777</p>
               </div>
               <div className="flex items-center">
                 <Mail size={20} className="mr-2 text-white/70" />
