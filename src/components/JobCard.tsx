@@ -26,7 +26,12 @@ export interface JobProps {
   isNew?: boolean;
 }
 
-const JobCard = ({ job }: { job: JobProps }) => {
+interface JobCardProps {
+  job: JobProps;
+  onShare?: () => void;
+}
+
+const JobCard = ({ job, onShare }: JobCardProps) => {
   const handleCopyLink = async () => {
     try {
       await navigator.clipboard.writeText(job.applyLink || window.location.href);
@@ -71,6 +76,10 @@ const JobCard = ({ job }: { job: JobProps }) => {
 
         default:
           break;
+      }
+
+      if (onShare) {
+        onShare();
       }
     } catch (error) {
       console.error('Error sharing:', error);
