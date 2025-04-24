@@ -36,6 +36,9 @@ const formSchema = z.object({
 
 type FormValues = z.infer<typeof formSchema>;
 
+// Define the Supabase anon key as a constant since we can't use process.env in the browser
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZsbHV4eWxmc2NpeGZleW9ueHNmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDUxMzcxNzYsImV4cCI6MjA2MDcxMzE3Nn0.e50WWaRU7Pmwgycf1Xnk4FMweqJKJ4MTFCht8qquCEc';
+
 const ContactForm = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -82,8 +85,8 @@ const ContactForm = () => {
           headers: {
             'Content-Type': 'application/json',
             'Authorization': `Bearer ${authData.session?.access_token || ''}`,
-            // Use the constant from the client file instead of accessing protected property
-            'apikey': process.env.SUPABASE_ANON_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZsbHV4eWxmc2NpeGZleW9ueHNmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDUxMzcxNzYsImV4cCI6MjA2MDcxMzE3Nn0.e50WWaRU7Pmwgycf1Xnk4FMweqJKJ4MTFCht8qquCEc',
+            // Use the constant defined at the top instead of process.env
+            'apikey': SUPABASE_ANON_KEY,
           },
           body: JSON.stringify({
             name: data.name,
