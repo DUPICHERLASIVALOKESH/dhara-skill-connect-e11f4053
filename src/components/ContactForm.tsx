@@ -82,7 +82,8 @@ const ContactForm = () => {
           headers: {
             'Content-Type': 'application/json',
             'Authorization': `Bearer ${authData.session?.access_token || ''}`,
-            'apikey': supabase.supabaseKey, // Add API key for anonymous access
+            // Use the constant from the client file instead of accessing protected property
+            'apikey': process.env.SUPABASE_ANON_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZsbHV4eWxmc2NpeGZleW9ueHNmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDUxMzcxNzYsImV4cCI6MjA2MDcxMzE3Nn0.e50WWaRU7Pmwgycf1Xnk4FMweqJKJ4MTFCht8qquCEc',
           },
           body: JSON.stringify({
             name: data.name,
