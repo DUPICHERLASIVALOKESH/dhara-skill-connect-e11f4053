@@ -62,50 +62,70 @@ const ContactForm = () => {
           message: data.message
         });
 
-      if (dbError) throw dbError;
-
-      // Get auth token for calling the edge function
-      const { data: authData } = await supabase.auth.getSession();
-      
-      // Send confirmation email with authentication
-      const response = await fetch('https://flluxylfscixfeyonxsf.supabase.co/functions/v1/send-confirmation', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${authData.session?.access_token || ''}`,
-        },
-        body: JSON.stringify({
-          name: data.name,
-          email: data.email,
-          message: data.message,
-          phone_number: data.phone_number
-        }),
-      });
-
-      const responseData = await response.json();
-
-      if (!response.ok) {
-        console.error('Edge function error:', responseData);
-        throw new Error('Failed to send confirmation email');
+      if (dbError) {
+        console.error('Database error:', dbError);
+        throw dbError;
       }
 
-      // Special handling for Resend test mode limitations
-      if (responseData.emailError) {
-        console.log('Email sending limitation:', responseData.emailError);
-        toast({
-          title: 'Message Received!',
-          description: 'Your information has been stored successfully. However, in test mode, confirmation emails can only be sent to the owner\'s email address.',
+      console.log('Contact data stored successfully');
+      
+      // Send confirmation email with improved error handling
+      try {
+        // Get auth token for calling the edge function
+        const { data: authData } = await supabase.auth.getSession();
+        
+        // Clear API key tracking from URL if present to prevent CORS issues
+        const functionURL = 'https://flluxylfscixfeyonxsf.supabase.co/functions/v1/send-confirmation';
+        
+        const response = await fetch(functionURL, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${authData.session?.access_token || ''}`,
+            'apikey': supabase.supabaseKey, // Add API key for anonymous access
+          },
+          body: JSON.stringify({
+            name: data.name,
+            email: data.email,
+            message: data.message,
+            phone_number: data.phone_number
+          }),
         });
-      } else {
+
+        if (!response.ok) {
+          const errorData = await response.json();
+          console.error('Edge function error response:', errorData);
+          throw new Error(`Failed to send confirmation email: ${errorData.error || response.statusText}`);
+        }
+
+        const responseData = await response.json();
+        console.log('Email function response:', responseData);
+
+        // Special handling for Resend test mode limitations
+        if (responseData.emailError) {
+          console.log('Email sending limitation:', responseData.emailError);
+          toast({
+            title: 'Message Received!',
+            description: 'Your information has been stored successfully. However, in test mode, confirmation emails can only be sent to verified email addresses.',
+          });
+        } else {
+          toast({
+            title: 'Message Sent!',
+            description: 'We\'ve received your message and will get back to you soon.',
+          });
+        }
+      } catch (emailError) {
+        console.error('Email sending error:', emailError);
+        // Even if email fails, we've stored the contact info
         toast({
-          title: 'Message Sent!',
-          description: 'We\'ve received your message and will get back to you soon.',
+          title: 'Message Received',
+          description: 'Your information has been stored, but there was a problem sending the confirmation email. Our team will contact you soon.',
         });
       }
       
       form.reset();
     } catch (error) {
-      console.error('Error:', error);
+      console.error('Error during form submission:', error);
       toast({
         title: 'Error',
         description: 'There was a problem sending your message. Please try again.',

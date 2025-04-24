@@ -25,21 +25,23 @@ const handler = async (req: Request): Promise<Response> => {
   }
 
   try {
-    // Get the authorization header
-    const authHeader = req.headers.get("Authorization");
-    const apiKey = req.headers.get("apikey");
-    
-    if (!authHeader && !apiKey) {
-      // Allow anonymous access for now, but log it
-      console.log("Warning: No authorization provided");
-    }
-    
+    // Get the request body
     const { name, email, message, phone_number }: ContactEmailRequest = await req.json();
     
+    if (!name || !email || !message) {
+      return new Response(
+        JSON.stringify({ error: "Missing required fields" }),
+        {
+          status: 400,
+          headers: { "Content-Type": "application/json", ...corsHeaders },
+        }
+      );
+    }
+
     console.log("Received request to send email to:", email);
 
     try {
-      // Send confirmation email to the user
+      // Send confirmation email to the user with improved error handling
       const emailResponse = await resend.emails.send({
         from: "Dhara Consultants <onboarding@resend.dev>",
         to: [email],
@@ -54,7 +56,7 @@ const handler = async (req: Request): Promise<Response> => {
           <ul>
             <li>Name: ${name}</li>
             <li>Email: ${email}</li>
-            <li>Phone: ${phone_number}</li>
+            <li>Phone: ${phone_number || 'Not provided'}</li>
           </ul>
           <p>Our team will review your message and get back to you as soon as possible.</p>
           <p>Best regards,<br>The Dhara Consultants Team</p>
@@ -71,11 +73,12 @@ const handler = async (req: Request): Promise<Response> => {
         },
       });
     } catch (emailError: any) {
-      // If there's a validation error (common in test mode)
+      console.error("Email sending error:", emailError);
+      
+      // Try with a fallback approach for test mode or other errors
       if (emailError.name === "validation_error" || emailError.statusCode === 403) {
         console.log("Email validation error:", emailError.message);
         
-        // We'll store the contact in the database but return a special message about the email
         return new Response(
           JSON.stringify({ 
             data: { 
@@ -85,19 +88,21 @@ const handler = async (req: Request): Promise<Response> => {
             emailError: emailError.message
           }),
           {
-            status: 200, // Return 200 as the contact was still stored
+            status: 200,
             headers: { "Content-Type": "application/json", ...corsHeaders },
           }
         );
       }
       
-      // For other email errors, throw them to be caught by the outer catch
       throw emailError;
     }
   } catch (error: any) {
     console.error("Error in send-confirmation function:", error);
     return new Response(
-      JSON.stringify({ error: error.message }),
+      JSON.stringify({ 
+        error: error.message,
+        details: "There was a problem processing your request."
+      }),
       {
         status: 500,
         headers: { "Content-Type": "application/json", ...corsHeaders },
