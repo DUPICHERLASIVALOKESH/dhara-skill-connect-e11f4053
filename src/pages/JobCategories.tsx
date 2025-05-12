@@ -1,4 +1,3 @@
-
 import { useEffect, useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import Navbar from '@/components/Navbar';
@@ -298,7 +297,7 @@ const JobCategories = () => {
 
   const handleJoinWhatsApp = (e: React.MouseEvent) => {
     e.stopPropagation();
-    window.open('https://chat.whatsapp.com/CGguruZu2nEJfjNPT0trdm', '_blank');
+    // WhatsApp link removed, button is now non-functional
   };
 
   const getFilteredCategories = () => {

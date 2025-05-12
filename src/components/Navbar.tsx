@@ -41,7 +41,7 @@ const Navbar = () => {
           {/* Logo */}
           <Link to="/" className="flex items-center">
             <span className="text-2xl font-display font-bold bg-gradient-to-r from-dhara-blue to-dhara-light-blue bg-clip-text text-transparent">
-              DHARA
+              SKILL CONNECT
             </span>
           </Link>
 

@@ -172,17 +172,14 @@ const SoftwareJobs = () => {
               </div>
               
               <div className="mt-6">
-                <a 
-                  href="https://chat.whatsapp.com/CGguruZu2nEJfjNPT0trdm" 
-                  target="_blank" 
-                  rel="noopener noreferrer"
+                <button 
                   className="inline-flex items-center gap-2 bg-green-500 hover:bg-green-600 text-white group transition-all duration-300 transform hover:scale-105 hover:shadow-lg px-6 py-3 rounded-full relative overflow-hidden"
                 >
                   <div className="absolute inset-0 bg-white/20 transform -skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-700 ease-in-out"></div>
                   <MessageSquare size={20} className="group-hover:animate-pulse" />
                   <span className="relative z-10">Join Our WhatsApp Community</span>
                   <Send size={18} className="ml-2 opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all duration-300" />
-                </a>
+                </button>
               </div>
             </div>
           </div>

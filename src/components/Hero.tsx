@@ -2,7 +2,7 @@
 import { useEffect, useRef } from 'react';
 import { Button } from '@/components/ui/button';
 import { Link } from 'react-router-dom';
-import { ArrowRight } from 'lucide-react';
+import { ArrowRight, MessageSquare, Send } from 'lucide-react';
 import { 
   Carousel,
   CarouselContent,
@@ -97,7 +97,7 @@ const Hero = () => {
         <div className="text-center max-w-4xl mx-auto">
           <div className="space-y-6 animate-fade-in">
             <h1 className="heading-xl">
-              Welcome to <span className="text-white font-bold">DHARA</span>
+              Welcome to <span className="text-white font-bold">SKILL CONNECT</span>
             </h1>
             <p className="text-xl md:text-2xl font-light max-w-2xl mx-auto text-white/85">
               Your Trusted Hiring Partner for Finding Exceptional Talent and Advancing Careers

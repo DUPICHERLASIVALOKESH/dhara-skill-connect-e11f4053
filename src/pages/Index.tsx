@@ -95,7 +95,7 @@ const Index = () => {
               <div className="animate-fade-in-left lg:order-1 order-2">
                 <h2 className="heading-lg mb-4 text-dhara-blue">Who We Are</h2>
                 <p className="text-dhara-gray mb-4">
-                  DHARA Consultant Solution is a premier recruitment agency dedicated to connecting exceptional talent with leading organizations. With our deep industry knowledge and vast network, we've been a trusted hiring partner for businesses of all sizes.
+                  SKILL CONNECT Consultant Solution is a premier recruitment agency dedicated to connecting exceptional talent with leading organizations. With our deep industry knowledge and vast network, we've been a trusted hiring partner for businesses of all sizes.
                 </p>
                 <p className="text-dhara-gray mb-6">
                   Our team of experienced recruiters understands the unique challenges of modern hiring and works closely with both clients and candidates to ensure the perfect match. 

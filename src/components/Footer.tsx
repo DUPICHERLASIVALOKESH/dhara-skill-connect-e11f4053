@@ -1,3 +1,4 @@
+
 import { Link } from 'react-router-dom';
 import { Facebook, Instagram, Linkedin, Twitter, Mail, Phone, MapPin } from 'lucide-react';
 
@@ -10,7 +11,7 @@ const Footer = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {/* Company Info */}
           <div>
-            <h3 className="text-xl font-display font-bold mb-4">DHARA</h3>
+            <h3 className="text-xl font-display font-bold mb-4">SKILL CONNECT</h3>
             <p className="text-white/80 mb-4">
               Your trusted hiring partner for finding exceptional talent and advancing careers.
             </p>
@@ -82,14 +83,14 @@ const Footer = () => {
               </div>
               <div className="flex items-center">
                 <Mail size={20} className="mr-2 text-white/70" />
-                <p className="text-white/70">info@dharaconsultant.com</p>
+                <p className="text-white/70">info@skillconnect.com</p>
               </div>
             </div>
           </div>
         </div>
         
         <div className="mt-12 pt-8 border-t border-white/10 text-center text-white/60">
-          <p>&copy; {year} DHARA Consultant Solution. All rights reserved.</p>
+          <p>&copy; {year} SKILL CONNECT Consultant Solution. All rights reserved.</p>
         </div>
       </div>
     </footer>
