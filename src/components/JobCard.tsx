@@ -1,3 +1,4 @@
+
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Link } from 'react-router-dom';
@@ -176,11 +177,13 @@ const JobCard = ({ job, onShare }: JobCardProps) => {
             </Button>
           )}
 
-          <Button asChild variant="whatsapp">
-            <a href="https://chat.whatsapp.com/CGguruZu2nEJfjNPT0trdm" target="_blank" rel="noopener noreferrer">
-              <MessageSquare size={16} className="mr-2" />
-              Join WhatsApp
-            </a>
+          <Button 
+            variant="whatsapp"
+            className="bg-green-500 hover:bg-green-600 text-white"
+            onClick={(e) => e.preventDefault()}
+          >
+            <MessageSquare size={16} className="mr-2" />
+            Join WhatsApp
           </Button>
 
           <Popover>

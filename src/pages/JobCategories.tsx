@@ -297,7 +297,7 @@ const JobCategories = () => {
 
   const handleJoinWhatsApp = (e: React.MouseEvent) => {
     e.stopPropagation();
-    // WhatsApp link removed, button is now non-functional
+    // Button is now non-functional
   };
 
   const getFilteredCategories = () => {
