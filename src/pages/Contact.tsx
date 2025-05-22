@@ -1,3 +1,4 @@
+
 import { useEffect } from 'react';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
@@ -60,9 +61,9 @@ const Contact = () => {
                       <div>
                         <h3 className="font-semibold text-lg mb-2">Our Office</h3>
                         <p className="text-dhara-gray">
-                          R C, 19-7-87k3 585, Road, <br />
-                          beside Vinayaka Temple, Royal Nagar, <br />
-                          Tirupati, Andhra Pradesh 517501
+                          148 Technology Park, <br />
+                          Whitefield Main Road, <br />
+                          Bangalore, Karnataka 560066
                         </p>
                       </div>
                     </div>
@@ -78,7 +79,7 @@ const Contact = () => {
                       <div>
                         <h3 className="font-semibold text-lg mb-2">Phone</h3>
                         <p className="text-dhara-blue hover:underline">
-                          <a href="tel:+919030995777">+91 90309 95777</a>
+                          <a href="tel:+918247035912">+91 82470 35912</a>
                         </p>
                         <p className="text-dhara-gray text-sm mt-1">
                           Business Hours
@@ -126,7 +127,7 @@ const Contact = () => {
                       <div>
                         <h3 className="font-semibold text-lg mb-2">Email</h3>
                         <p className="text-dhara-blue hover:underline">
-                          <a href="mailto:info@dharaconsultant.com">info@dharaconsultant.com</a>
+                          <a href="mailto:contact@skillconnect.com">contact@skillconnect.com</a>
                         </p>
                         <p className="text-dhara-gray text-sm mt-1">
                           We typically respond within 24 hours

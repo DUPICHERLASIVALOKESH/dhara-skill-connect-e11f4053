@@ -72,18 +72,18 @@ const Footer = () => {
               <div className="flex items-start">
                 <MapPin size={20} className="mr-2 mt-1 text-white/70" />
                 <p className="text-white/70">
-                  R C, 19-7-87k3 585, Road, <br />
-                  beside Vinayaka Temple, Royal Nagar, <br />
-                  Tirupati, Andhra Pradesh 517501
+                  148 Technology Park, <br />
+                  Whitefield Main Road, <br />
+                  Bangalore, Karnataka 560066
                 </p>
               </div>
               <div className="flex items-center">
                 <Phone size={20} className="mr-2 text-white/70" />
-                <p className="text-white/70">+91 90309 95777</p>
+                <p className="text-white/70">+91 82470 35912</p>
               </div>
               <div className="flex items-center">
                 <Mail size={20} className="mr-2 text-white/70" />
-                <p className="text-white/70">info@skillconnect.com</p>
+                <p className="text-white/70">contact@skillconnect.com</p>
               </div>
             </div>
           </div>
